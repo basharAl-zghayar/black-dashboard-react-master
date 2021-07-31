@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Row, Modal, Button, Form, Input, Col, Tabs, InputNumber } from 'antd';
 const { TabPane } = Tabs;
 
-const AddTrainerModal = ({ isVisible, setVisible, addTrainer }) => {
+const AddTrainerModal = ({ isVisible, setVisible, addTrainer, formValues }) => {
     const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
 
@@ -14,7 +14,25 @@ const AddTrainerModal = ({ isVisible, setVisible, addTrainer }) => {
             setLoading(false);
         })();
     };
+    useEffect(() => {
+        if (formValues) {
+            console.log(formValues);
 
+            form.setFieldsValue({
+                firstName: formValues.firstName,
+                lastName: formValues.lastName,
+                user_name: formValues?.user?.name,
+                email: formValues?.user?.email,
+                phone: formValues.phone,
+                age: formValues.age,
+                description: formValues.description,
+                location: formValues.location,
+                specialization: formValues.specialization,
+
+            });
+        }
+
+    }, [formValues, form]);
     return (
         <>
             <Modal
@@ -206,8 +224,8 @@ const AddTrainerModal = ({ isVisible, setVisible, addTrainer }) => {
                     <Row justify='end'>
                         <Col style={{ margin: '0 8px 0 0' }}>
                             <Form.Item >
-                                <Button htmlType="button" onClick={() => { setVisible(false); form.resetFields(); }}>
-                                    Reset
+                                <Button htmlType="button" onClick={() => { setVisible(false); }}>
+                                    Close
                                 </Button>
                             </Form.Item>
                         </Col>

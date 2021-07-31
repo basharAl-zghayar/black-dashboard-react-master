@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { Table, Row, Modal, Button, Form, Input, Col, Spin, Tooltip, Typography, Card, InputNumber } from 'antd';
-import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { columns } from './columns';
 import * as companiesServices from '../../services/companies/index';
 
@@ -14,10 +14,26 @@ function Companies(props) {
     const [companies, setCompanies] = useState([]);
     const [form] = Form.useForm();
 
+
     useEffect(() => {
         getData();
     }, []);
 
+    useEffect(() => {
+        if (record) {
+
+            form.setFieldsValue({
+                name: record.name,
+                Email: record.Email,
+                Location: record.Location,
+                scope: record.scope,
+                PhoneNumber: record.PhoneNumber,
+
+            });
+            console.log(record);
+        }
+
+    }, [record, form]);
     const getData = () => {
         setSpinning(true);
         (async () => {
@@ -62,6 +78,21 @@ function Companies(props) {
                                 }}
                             >
                                 <DeleteOutlined />
+                            </Button>
+                        </Tooltip>
+                    </Col>
+                    <Col>
+                        <Tooltip title={'EditCompany'}>
+                            <Button
+                                type='link'
+                                size="small"
+                                shape="circle"
+                                onClick={() => {
+                                    setRecord(record);
+                                    setModalVisible(true);
+                                }}
+                            >
+                                <EditOutlined />
                             </Button>
                         </Tooltip>
                     </Col>
@@ -177,7 +208,7 @@ function Companies(props) {
                                                 },
                                             ]}
                                         >
-                                            <InputNumber />
+                                            <InputNumber style={{ width: '100%' }} />
                                         </Form.Item>
                                     </Col>
                                 </Row>
@@ -185,7 +216,7 @@ function Companies(props) {
                                     <Col style={{ margin: '0 8px 0 0' }}>
                                         <Form.Item >
                                             <Button htmlType="button" onClick={() => { setModalVisible(false); form.resetFields(); }}>
-                                                Reset
+                                                Close
                                             </Button>
                                         </Form.Item>
                                     </Col>

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Row, Modal, Button, Form, Input, Col, Tabs, InputNumber } from 'antd';
 const { TabPane } = Tabs;
 
-const AddVolunteerModal = ({ isVisible, setVisible, addVolunteer }) => {
+const AddVolunteerModal = ({ isVisible, setVisible, addVolunteer, formValues }) => {
     const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
 
@@ -14,7 +14,28 @@ const AddVolunteerModal = ({ isVisible, setVisible, addVolunteer }) => {
             setLoading(false);
         })();
     };
+    useEffect(() => {
+        if (formValues) {
+            console.log(formValues);
 
+            form.setFieldsValue({
+                firstName: formValues.firstName,
+                lastName: formValues.lastName,
+                user_name: formValues?.user?.name,
+                userID: formValues?.userID,
+                email: formValues?.user?.email,
+                phone: formValues.phone,
+                volunteerTitle: formValues.volunteerTitle,
+                location: formValues.location,
+                section: formValues.section,
+                college: formValues.college,
+                age: formValues.age,
+                description: formValues.description,
+                specialization: formValues.specialization,
+
+            });
+        }
+    }, [formValues, form]);
     return (
         <>
             <Modal

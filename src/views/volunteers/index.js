@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { Table, Row, Modal, Button, Col, Spin, Tooltip, Typography, Card } from 'antd';
-import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { columns } from './columns';
 import AddVolunteerModal from './add-modal';
 import * as volunteersServices from '../../services/volunteers/index';
@@ -64,6 +64,21 @@ function Volunteers() {
                             </Button>
                         </Tooltip>
                     </Col>
+                    <Col>
+                        <Tooltip title={'EditCompany'}>
+                            <Button
+                                type='link'
+                                size="small"
+                                shape="circle"
+                                onClick={() => {
+                                    setRecord(record);
+                                    setModalVisible(true);
+                                }}
+                            >
+                                <EditOutlined />
+                            </Button>
+                        </Tooltip>
+                    </Col>
 
                 </Row>
             );
@@ -90,7 +105,11 @@ function Volunteers() {
                                 borderRadius: '7px'
                             }} />
                         </Row>
-                        <AddVolunteerModal isVisible={isModalVisible} setVisible={setModalVisible} addVolunteer={onFinish} />
+                        <AddVolunteerModal
+                            isVisible={isModalVisible}
+                            setVisible={setModalVisible}
+                            addTrainer={onFinish}
+                            formValues={record} />
                         <Modal
                             title='Delete  Volunteer'
                             visible={isDeleteModalVisible}

@@ -5,6 +5,7 @@ import Companies from "views/companies/companies.js";
 import Courses from "views/courses/courses";
 import Volunteers from "views/volunteers/index";
 import Trainers from "views/trainer/index";
+import LoginPage from "views/log-in";
 
 var routes = [
   {
@@ -54,5 +55,12 @@ var routes = [
     component: Icons,
     layout: "/admin",
   },
+  {
+    path: "/login",
+    name: "",
+    component: LoginPage,
+    layout: "/user",
+  },
+
 ];
 export default routes;

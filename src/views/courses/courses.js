@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { Table, Row, Modal, Button, Col, Spin, Tooltip, Typography, Card } from 'antd';
-import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { columns } from './columns';
 import AddCourseModal from './add-modal';
 import * as coursesServices from '../../services/courses/index';
@@ -64,6 +64,21 @@ function Courses(props) {
                             </Button>
                         </Tooltip>
                     </Col>
+                    <Col>
+                        <Tooltip title={'EditCompany'}>
+                            <Button
+                                type='link'
+                                size="small"
+                                shape="circle"
+                                onClick={() => {
+                                    setRecord(record);
+                                    setModalVisible(true);
+                                }}
+                            >
+                                <EditOutlined />
+                            </Button>
+                        </Tooltip>
+                    </Col>
 
                 </Row>
             );
@@ -90,7 +105,11 @@ function Courses(props) {
                                 borderRadius: '7px'
                             }} />
                         </Row>
-                        <AddCourseModal isVisible={isModalVisible} setVisible={setModalVisible} addCourse={onFinish} />
+                        <AddCourseModal
+                            isVisible={isModalVisible}
+                            setVisible={setModalVisible}
+                            addCourse={onFinish}
+                            formValues={record} />
                         <Modal
                             title='Delete  Course'
                             visible={isDeleteModalVisible}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { Table, Row, Modal, Button, Col, Spin, Tooltip, Typography, Card } from 'antd';
-import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { columns } from './columns';
 import AddTrainerModal from './add-modal';
 import * as trainersServices from '../../services/trainers/index';
@@ -64,7 +64,21 @@ function Trainer() {
                             </Button>
                         </Tooltip>
                     </Col>
-
+                    <Col>
+                        <Tooltip title={'EditCompany'}>
+                            <Button
+                                type='link'
+                                size="small"
+                                shape="circle"
+                                onClick={() => {
+                                    setRecord(record);
+                                    setModalVisible(true);
+                                }}
+                            >
+                                <EditOutlined />
+                            </Button>
+                        </Tooltip>
+                    </Col>
                 </Row>
             );
         },
@@ -90,7 +104,11 @@ function Trainer() {
                                 borderRadius: '7px'
                             }} />
                         </Row>
-                        <AddTrainerModal isVisible={isModalVisible} setVisible={setModalVisible} addTrainer={onFinish} />
+                        <AddTrainerModal
+                            isVisible={isModalVisible}
+                            setVisible={setModalVisible}
+                            addTrainer={onFinish}
+                            formValues={record} />
                         <Modal
                             title='Delete  Trainer'
                             visible={isDeleteModalVisible}

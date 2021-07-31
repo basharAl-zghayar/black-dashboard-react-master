@@ -20,8 +20,9 @@ function LoginPage() {
 
         try {
             const data = await login(values.email, values.password);
+            console.log(data);
             if (data) {
-                window.location.href = `http://localhost:3000/dashboard`;
+                window.location.href = `http://localhost:3000/admin/dashboard`;
             }
         } finally {
             setLoading(false);

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Modal, Button, Form, Input, Col, Tabs, DatePicker, TimePicker, Select, InputNumber } from 'antd';
 import moment from 'moment';
 const { TabPane } = Tabs;
 
-const AddCourseModal = ({ isVisible, setVisible, addCourse }) => {
+const AddCourseModal = ({ isVisible, setVisible, addCourse, formValues }) => {
     const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
 
@@ -19,6 +19,27 @@ const AddCourseModal = ({ isVisible, setVisible, addCourse }) => {
             setLoading(false);
         })();
     };
+    useEffect(() => {
+        if (formValues) {
+
+            form.setFieldsValue({
+                title: formValues.title,
+                coachID: formValues.coachID,
+                maxStudents: formValues.maxStudents,
+                CurrentStudents: formValues.CurrentStudents,
+                cost: formValues.cost,
+                state: formValues.state,
+                // startDate: formValues.startDate,
+                // endDate: formValues.endDate,
+                // startTime: formValues.startTime,
+                // endTime: formValues.endTime,
+                Duration: formValues.Duration,
+                location: formValues.location,
+
+            });
+        }
+
+    }, [formValues, form]);
 
     return (
         <>
@@ -248,8 +269,8 @@ const AddCourseModal = ({ isVisible, setVisible, addCourse }) => {
                             <Row justify='end'>
                                 <Col style={{ margin: '0 8px 0 0' }}>
                                     <Form.Item >
-                                        <Button htmlType="button" onClick={() => { setVisible(false); form.resetFields(); }}>
-                                            Reset
+                                        <Button htmlType="button" onClick={() => { setVisible(false); }}>
+                                            Close
                                         </Button>
                                     </Form.Item>
                                 </Col>
