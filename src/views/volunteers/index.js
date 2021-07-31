@@ -65,7 +65,7 @@ function Volunteers() {
                         </Tooltip>
                     </Col>
                     <Col>
-                        <Tooltip title={'EditCompany'}>
+                        <Tooltip title={'EditVolunteer'}>
                             <Button
                                 type='link'
                                 size="small"

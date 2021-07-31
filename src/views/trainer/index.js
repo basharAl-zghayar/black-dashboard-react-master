@@ -65,7 +65,7 @@ function Trainer() {
                         </Tooltip>
                     </Col>
                     <Col>
-                        <Tooltip title={'EditCompany'}>
+                        <Tooltip title={'EditTrainer'}>
                             <Button
                                 type='link'
                                 size="small"

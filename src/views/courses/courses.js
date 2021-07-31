@@ -5,9 +5,12 @@ import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { columns } from './columns';
 import AddCourseModal from './add-modal';
 import * as coursesServices from '../../services/courses/index';
+import * as coursesQuestionsServices from '../../services/courses/question-course/index';
+import AddCourseQuestionModal from "./add-course-question";
 
 function Courses(props) {
     const [isModalVisible, setModalVisible] = useState(false);
+    const [isQuestionModalVisible, setQuestionModalVisible] = useState(false);
     const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
     const [spinning, setSpinning] = useState(true);
     const [record, setRecord] = useState();
@@ -28,8 +31,16 @@ function Courses(props) {
     };
     const handleDelete = () => {
         (async () => {
-            const data = await coursesServices.deleteCourse(record.id);
-            setCourses(data.data.data);
+            await coursesServices.deleteCourse(record.id);
+            setDeleteModalVisible(false);
+            getData();
+            setSpinning(false);
+        })();
+    };
+    const addQuestion = (values) => {
+        (async () => {
+            await coursesQuestionsServices.addQuestion(values);
+            setQuestionModalVisible(false);
             getData();
             setSpinning(false);
         })();
@@ -38,7 +49,9 @@ function Courses(props) {
 
         (async () => {
             await coursesServices.addCourse(values);
+            setModalVisible(false);
             getData();
+
         })();
     };
     const actionColumn = {
@@ -65,7 +78,7 @@ function Courses(props) {
                         </Tooltip>
                     </Col>
                     <Col>
-                        <Tooltip title={'EditCompany'}>
+                        <Tooltip title={'Edit Course'}>
                             <Button
                                 type='link'
                                 size="small"
@@ -76,6 +89,21 @@ function Courses(props) {
                                 }}
                             >
                                 <EditOutlined />
+                            </Button>
+                        </Tooltip>
+                    </Col>
+                    <Col>
+                        <Tooltip title={'Add Question'}>
+                            <Button
+                                type='link'
+                                size="small"
+                                shape="circle"
+                                onClick={() => {
+                                    setRecord(record);
+                                    setQuestionModalVisible(true);
+                                }}
+                            >
+                                <PlusOutlined />
                             </Button>
                         </Tooltip>
                     </Col>
@@ -109,6 +137,11 @@ function Courses(props) {
                             isVisible={isModalVisible}
                             setVisible={setModalVisible}
                             addCourse={onFinish}
+                            formValues={record} />
+                        <AddCourseQuestionModal
+                            isVisible={isQuestionModalVisible}
+                            setVisible={setQuestionModalVisible}
+                            addQuestion={addQuestion}
                             formValues={record} />
                         <Modal
                             title='Delete  Course'
