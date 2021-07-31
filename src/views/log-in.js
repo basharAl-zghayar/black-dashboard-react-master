@@ -40,7 +40,7 @@ function LoginPage() {
                                 <Card className="card-chart" style={{ minHeight: '400px' }}>
                                     <CardHeader>
                                         <CardTitle tag="h3">
-                                            Course Login Requests
+                                            Login
                                         </CardTitle>
                                     </CardHeader>
                                     <CardBody>
