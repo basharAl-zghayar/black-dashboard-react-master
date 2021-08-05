@@ -152,12 +152,19 @@ function Dashboard() {
               <Card className="card-chart">
                 <CardHeader>
                   <CardTitle tag="h3">
-                    Completed Tasks
+                    Trainers
                   </CardTitle>
                 </CardHeader>
                 <CardBody>
                   <div className="chart-area">
-                    <Empty />
+                    <div className="chart-area">
+                      {trainer?.length ? <div>
+                        <h1 style={{ fontWeight: 'bolder', padding: '15%' }}>
+                          {courses?.length + ' Trainers'}
+                        </h1>
+                      </div> : <Empty />}
+
+                    </div>
                   </div>
                 </CardBody>
               </Card>

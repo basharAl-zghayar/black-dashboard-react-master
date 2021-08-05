@@ -4,6 +4,7 @@ import * as coursesServices from '../../../services/courses/index';
 import { useParams } from 'react-router-dom';
 import InfoTab from './info-tab';
 import QuestionsTab from './question-tab/questions-tab';
+import LoginRequestsTab from './login-request-tab/login-request-tab';
 
 const CourseDetails = () => {
     const { id } = useParams();
@@ -30,6 +31,9 @@ const CourseDetails = () => {
                             </Tabs.TabPane>
                             <Tabs.TabPane key='questions' tab="Course Questions">
                                 <QuestionsTab courseID={id} />
+                            </Tabs.TabPane>
+                            <Tabs.TabPane key='questions-login-requests' tab="Course Login Requests">
+                                <LoginRequestsTab courseID={id} />
                             </Tabs.TabPane>
                         </Tabs>
 

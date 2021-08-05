@@ -1,18 +1,5 @@
 import React from 'react';
 import { Row } from "antd";
-import * as trainersServices from '../../services/trainers/index';
-
-let couch = '';
-let couchID = 0;
-
-// async function getCouch() {
-//     couch = await trainersServices.showTrainersById(couchID);
-// }
-
-// function setCouch(id) {
-//     couchID = id;
-//     getCouch();
-// }
 
 export const columns = [
     {

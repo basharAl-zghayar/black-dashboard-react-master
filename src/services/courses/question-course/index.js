@@ -12,7 +12,7 @@ export async function updateQuestion(updateQuestion) {
     return data;
 }
 export async function deleteQuestion(id) {
-    const data = await http.delete(apiEndpoint + 'delete/' + `${id}`);
+    const data = await http.delete((apiEndpoint + 'delete/').concat(`${id}`));
     return data;
 }
 export async function showAllQuestions() {
@@ -20,6 +20,6 @@ export async function showAllQuestions() {
     return data;
 }
 export async function showQuestionById(id) {
-    const data = await http.get(apiEndpoint + 'showByID/' + `${id}`);
+    const data = await http.get((apiEndpoint + 'showByID/').concat(`${id}`));
     return data;
 }
