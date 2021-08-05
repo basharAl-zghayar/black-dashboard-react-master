@@ -24,9 +24,7 @@ export async function showAllCourses() {
     return data;
 }
 export async function showCourseById(id) {
-    const data = await http.get(apiEndpoint + 'showByID', {
-        params: id,
-    });
+    const data = await http.get(apiEndpoint + 'showByID/' + `${id}`);
     return data;
 }
 export async function getCourseQuestionsAndAnswers(id) {

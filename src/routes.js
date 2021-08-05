@@ -3,6 +3,7 @@ import Dashboard from "views/Dashboard.js";
 import Icons from "views/Icons.js";
 import Companies from "views/companies/companies.js";
 import Courses from "views/courses/courses";
+import CourseDetails from "views/courses/course-details";
 import Volunteers from "views/volunteers/index";
 import Trainers from "views/trainer/index";
 import LoginPage from "views/log-in";
@@ -16,6 +17,7 @@ var routes = [
     layout: "/admin",
   },
   {
+    exact: true,
     path: "/companies",
     name: "Companies",
     rtlName: "",
@@ -23,7 +25,17 @@ var routes = [
     component: Companies,
     layout: "/admin",
   },
+
   {
+    exact: true,
+    path: "/courses/:id",
+    name: "",
+    component: CourseDetails,
+    layout: "/admin",
+    hidden: true,
+  },
+  {
+    exact: true,
     path: "/courses",
     name: "Courses",
     rtlName: "",

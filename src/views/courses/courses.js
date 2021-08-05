@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 
 import { Table, Row, Modal, Button, Col, Spin, Tooltip, Typography, Card } from 'antd';
-import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { ArrowRightOutlined, DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { columns } from './columns';
 import AddCourseModal from './add-modal';
 import * as coursesServices from '../../services/courses/index';
 import * as coursesQuestionsServices from '../../services/courses/question-course/index';
 import AddCourseQuestionModal from "./add-course-question";
+import AppConst from "app-consts";
 
 function Courses(props) {
     const [isModalVisible, setModalVisible] = useState(false);
@@ -99,11 +100,10 @@ function Courses(props) {
                                 size="small"
                                 shape="circle"
                                 onClick={() => {
-                                    setRecord(record);
-                                    setQuestionModalVisible(true);
+                                    window.location.href = `${AppConst.baseUrl}/admin/courses/${record.id}`;
                                 }}
                             >
-                                <PlusOutlined />
+                                <ArrowRightOutlined />
                             </Button>
                         </Tooltip>
                     </Col>

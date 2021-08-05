@@ -5,15 +5,14 @@ import * as trainersServices from '../../services/trainers/index';
 let couch = '';
 let couchID = 0;
 
-async function getCouch() {
-    couch = await trainersServices.showTrainersById(couchID);
-    console.log(couch);
-}
+// async function getCouch() {
+//     couch = await trainersServices.showTrainersById(couchID);
+// }
 
-function setCouch(id) {
-    couchID = id;
-    getCouch();
-}
+// function setCouch(id) {
+//     couchID = id;
+//     getCouch();
+// }
 
 export const columns = [
     {
@@ -78,18 +77,9 @@ export const columns = [
         },
     },
     {
-        dataIndex: 'cost',
+        dataIndex: 'couchName',
         title: 'Couch',
-        render: (text, record, index) => {
-            setCouch(record.coachID);
-            return (
-                <>
-                    <Row>
-                        {couch?.data?.data?.firstName + ' ' + couch?.data?.data?.lastName}
-                    </Row>
-                </>
-            );
-        },
+
     },
 
 ];
