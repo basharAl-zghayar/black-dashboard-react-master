@@ -5,8 +5,10 @@ import Companies from "views/companies/companies.js";
 import Courses from "views/courses/courses";
 import CourseDetails from "views/courses/course-details";
 import Volunteers from "views/volunteers/index";
+import ItemCosts from "views/item-costs/index";
 import Trainers from "views/trainer/index";
 import LoginPage from "views/log-in";
+import ItemCostDetails from "views/item-costs/item-cost-details";
 
 var routes = [
   {
@@ -25,12 +27,29 @@ var routes = [
     component: Companies,
     layout: "/admin",
   },
+  {
+    exact: true,
+    path: "/item-costs",
+    name: "Item Costs",
+    rtlName: "",
+    icon: "tim-icons icon-coins",
+    component: ItemCosts,
+    layout: "/admin",
+  },
 
   {
     exact: true,
     path: "/courses/:id",
     name: "",
     component: CourseDetails,
+    layout: "/admin",
+    hidden: true,
+  },
+  {
+    exact: true,
+    path: "/expansive/:code",
+    name: "",
+    component: ItemCostDetails,
     layout: "/admin",
     hidden: true,
   },

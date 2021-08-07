@@ -2,26 +2,34 @@ import React, { useEffect, useState } from 'react';
 import { Row, Modal, Button, Form, Input, Col, Tabs, InputNumber } from 'antd';
 const { TabPane } = Tabs;
 
-const AddTrainerModal = ({ isVisible, setVisible, addTrainer, formValues }) => {
+const AddTrainerModal = ({ isVisible, setVisible, addTrainer, formValues, updateTrainer, isUpdate }) => {
     const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
 
     const onFinish = (values) => {
         const data = values;
         setLoading(true);
-        (async () => {
-            await addTrainer(data);
-            setLoading(false);
-        })();
+        if (isUpdate) {
+            (async () => {
+                await updateTrainer(data);
+                setLoading(false);
+            })();
+        } else {
+            (async () => {
+                await addTrainer(data);
+                setLoading(false);
+            })();
+        }
+        form.resetFields();
     };
-    useEffect(() => {
-        if (formValues) {
-            console.log(formValues);
 
+    useEffect(() => {
+        if (isUpdate) {
             form.setFieldsValue({
                 firstName: formValues.firstName,
                 lastName: formValues.lastName,
                 user_name: formValues?.user?.name,
+                userID: formValues?.user?.id,
                 email: formValues?.user?.email,
                 phone: formValues.phone,
                 age: formValues.age,
@@ -30,9 +38,11 @@ const AddTrainerModal = ({ isVisible, setVisible, addTrainer, formValues }) => {
                 specialization: formValues.specialization,
 
             });
+        } else {
+            form.resetFields();
         }
 
-    }, [formValues, form]);
+    }, [formValues, form, isUpdate]);
     return (
         <>
             <Modal
@@ -114,14 +124,14 @@ const AddTrainerModal = ({ isVisible, setVisible, addTrainer, formValues }) => {
                                 </Col>
 
                             </Row>
-                            <Row gutter={24} justify='space-between'>
+                            {isUpdate && <Row gutter={24} justify='space-between'>
                                 <Col sm={24} lg={12}>
                                     <Form.Item
                                         label="Password"
                                         name="password"
                                         rules={[
                                             {
-                                                required: true,
+                                                required: isUpdate ? false : true,
                                                 message: 'Please Add Password!',
                                             },
                                         ]}
@@ -136,7 +146,7 @@ const AddTrainerModal = ({ isVisible, setVisible, addTrainer, formValues }) => {
                                         name="c_password"
                                         rules={[
                                             {
-                                                required: true,
+                                                required: isUpdate ? false : true,
                                                 message: 'Please Add Password!',
                                             },
                                         ]}
@@ -144,7 +154,7 @@ const AddTrainerModal = ({ isVisible, setVisible, addTrainer, formValues }) => {
                                         <InputNumber style={{ width: '100%' }} min={0} />
                                     </Form.Item>
                                 </Col>
-                            </Row>
+                            </Row>}
                         </TabPane>
                         <TabPane key='details' tab="Details" >
                             <Row gutter={24} justify='space-between'>
@@ -224,7 +234,9 @@ const AddTrainerModal = ({ isVisible, setVisible, addTrainer, formValues }) => {
                     <Row justify='end'>
                         <Col style={{ margin: '0 8px 0 0' }}>
                             <Form.Item >
-                                <Button htmlType="button" onClick={() => { setVisible(false); }}>
+                                <Button htmlType="button" onClick={() => {
+                                    setVisible(false);
+                                }}>
                                     Close
                                 </Button>
                             </Form.Item>
@@ -232,7 +244,7 @@ const AddTrainerModal = ({ isVisible, setVisible, addTrainer, formValues }) => {
                         <Form.Item>
                             <Col>
                                 <Button loading={loading} disabled={loading} type="primary" htmlType="submit">
-                                    Submit
+                                    Add
                                 </Button>
                             </Col>
                         </Form.Item>

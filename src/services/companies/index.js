@@ -8,7 +8,7 @@ export async function addCompany(addCompany) {
     return data;
 }
 export async function updateCompany(updateCompany) {
-    const data = await http.put(apiEndpoint + 'updateCompany', updateCompany);
+    const data = await http.put(apiEndpoint + 'editCompany', updateCompany);
     return data;
 }
 export async function deleteCompany(id) {

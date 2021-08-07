@@ -12,7 +12,7 @@ function Volunteers() {
     const [spinning, setSpinning] = useState(true);
     const [record, setRecord] = useState();
     const [volunteer, setVolunteers] = useState([]);
-
+    const [isUpdate, setIsUpdate] = useState(false);
 
     useEffect(() => {
         getData();
@@ -39,6 +39,16 @@ function Volunteers() {
         (async () => {
             await volunteersServices.addVolunteer(values);
             getData();
+        })();
+    };
+
+    const updateVolunteer = (values) => {
+
+        (async () => {
+            await volunteersServices.updateVolunteer({ ...values, id: record.id });
+            setModalVisible(false);
+            getData();
+
         })();
     };
     const actionColumn = {
@@ -73,6 +83,7 @@ function Volunteers() {
                                 onClick={() => {
                                     setRecord(record);
                                     setModalVisible(true);
+                                    setIsUpdate(true);
                                 }}
                             >
                                 <EditOutlined />
@@ -92,7 +103,10 @@ function Volunteers() {
                 <Card style={{ minHeight: '85vh', borderRadius: '5px' }}>
                     <Spin spinning={spinning} >
                         <Row justify='end' align='middle'>
-                            <Button type='primary' onClick={() => setModalVisible(true)} >
+                            <Button type='primary' onClick={() => {
+                                setModalVisible(true);
+                                setIsUpdate(false);
+                            }} >
                                 <Row align='middle'>
                                     <PlusOutlined /> Add  Volunteer
                                 </Row>
@@ -109,7 +123,10 @@ function Volunteers() {
                             isVisible={isModalVisible}
                             setVisible={setModalVisible}
                             addTrainer={onFinish}
-                            formValues={record} />
+                            formValues={record}
+                            updateVolunteer={updateVolunteer}
+                            isUpdate={isUpdate}
+                        />
                         <Modal
                             title='Delete  Volunteer'
                             visible={isDeleteModalVisible}

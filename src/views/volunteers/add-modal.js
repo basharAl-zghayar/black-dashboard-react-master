@@ -2,22 +2,28 @@ import React, { useEffect, useState } from 'react';
 import { Row, Modal, Button, Form, Input, Col, Tabs, InputNumber } from 'antd';
 const { TabPane } = Tabs;
 
-const AddVolunteerModal = ({ isVisible, setVisible, addVolunteer, formValues }) => {
+const AddVolunteerModal = ({ isVisible, setVisible, addVolunteer, formValues, updateVolunteer, isUpdate }) => {
     const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
 
     const onFinish = (values) => {
         const data = values;
         setLoading(true);
-        (async () => {
-            await addVolunteer(data);
-            setLoading(false);
-        })();
+        if (isUpdate) {
+            (async () => {
+                await updateVolunteer(data);
+                setLoading(false);
+            })();
+        } else {
+            (async () => {
+                await addVolunteer(data);
+                setLoading(false);
+            })();
+        }
+        form.resetFields();
     };
     useEffect(() => {
         if (formValues) {
-            console.log(formValues);
-
             form.setFieldsValue({
                 firstName: formValues.firstName,
                 lastName: formValues.lastName,
@@ -139,19 +145,19 @@ const AddVolunteerModal = ({ isVisible, setVisible, addVolunteer, formValues }) 
                                     </Form.Item>
                                 </Col>
                             </Row>
-                            <Row gutter={24} justify='space-between'>
+                            {isUpdate && <Row gutter={24} justify='space-between'>
                                 <Col sm={24} lg={12}>
                                     <Form.Item
                                         label="Password"
                                         name="password"
                                         rules={[
                                             {
-                                                required: true,
+                                                required: isUpdate ? false : true,
                                                 message: 'Please Add Password!',
                                             },
                                         ]}
                                     >
-                                        <InputNumber />
+                                        <InputNumber style={{ width: '100%' }} min={0} />
                                     </Form.Item>
                                 </Col>
                                 <Col sm={24} lg={12}>
@@ -161,15 +167,15 @@ const AddVolunteerModal = ({ isVisible, setVisible, addVolunteer, formValues }) 
                                         name="c_password"
                                         rules={[
                                             {
-                                                required: true,
+                                                required: isUpdate ? false : true,
                                                 message: 'Please Add Password!',
                                             },
                                         ]}
                                     >
-                                        <InputNumber />
+                                        <InputNumber style={{ width: '100%' }} min={0} />
                                     </Form.Item>
                                 </Col>
-                            </Row>
+                            </Row>}
                         </TabPane>
                         <TabPane key='specialist' tab="Specialist" >
                             <Row gutter={24} justify='space-between'>
@@ -281,7 +287,10 @@ const AddVolunteerModal = ({ isVisible, setVisible, addVolunteer, formValues }) 
                     <Row justify='end'>
                         <Col style={{ margin: '0 8px 0 0' }}>
                             <Form.Item >
-                                <Button htmlType="button" onClick={() => { setVisible(false); form.resetFields(); }}>
+                                <Button htmlType="button" onClick={() => {
+                                    setVisible(false);
+                                    form.resetFields();
+                                }}>
                                     Reset
                                 </Button>
                             </Form.Item>
@@ -289,7 +298,7 @@ const AddVolunteerModal = ({ isVisible, setVisible, addVolunteer, formValues }) 
                         <Form.Item>
                             <Col>
                                 <Button loading={loading} disabled={loading} type="primary" htmlType="submit">
-                                    Submit
+                                    Add
                                 </Button>
                             </Col>
                         </Form.Item>

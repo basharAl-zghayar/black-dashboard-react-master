@@ -20,20 +20,8 @@ export const columns = [
         title: 'Name',
     },
     {
-        dataIndex: 'Email',
-        title: 'Email',
-    },
-    {
-        dataIndex: 'Location',
-        title: 'Location',
-    },
-    {
-        dataIndex: 'scope',
-        title: 'Scope',
-    },
-    {
-        dataIndex: 'PhoneNumber',
-        title: 'PhoneNumber',
+        dataIndex: 'code',
+        title: 'Code',
     },
 
 ];

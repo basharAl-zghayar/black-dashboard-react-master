@@ -103,7 +103,7 @@ const AddCourseQuestionModal = ({ isVisible, setVisible, addQuestion, formValues
                         <Form.Item>
                             <Col>
                                 <Button loading={loading} disabled={loading} type="primary" htmlType="submit">
-                                    Submit
+                                    Add
                                 </Button>
                             </Col>
                         </Form.Item>

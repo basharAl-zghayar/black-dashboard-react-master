@@ -12,7 +12,7 @@ function Trainer() {
     const [spinning, setSpinning] = useState(true);
     const [record, setRecord] = useState();
     const [trainer, setTrainer] = useState([]);
-
+    const [isUpdate, setIsUpdate] = useState(false);
 
     useEffect(() => {
         getData();
@@ -39,6 +39,15 @@ function Trainer() {
         (async () => {
             await trainersServices.addTrainer(values);
             getData();
+        })();
+    };
+    const updateTrainer = (values) => {
+
+        (async () => {
+            await trainersServices.updateTrainer({ ...values, id: record.id });
+            setModalVisible(false);
+            getData();
+
         })();
     };
     const actionColumn = {
@@ -73,6 +82,7 @@ function Trainer() {
                                 onClick={() => {
                                     setRecord(record);
                                     setModalVisible(true);
+                                    setIsUpdate(true);
                                 }}
                             >
                                 <EditOutlined />
@@ -91,7 +101,8 @@ function Trainer() {
                 <Card style={{ minHeight: '85vh', borderRadius: '5px' }}>
                     <Spin spinning={spinning} >
                         <Row justify='end' align='middle'>
-                            <Button type='primary' onClick={() => setModalVisible(true)} >
+
+                            <Button type='primary' onClick={() => { setModalVisible(true); setIsUpdate(false); }} >
                                 <Row align='middle'>
                                     <PlusOutlined /> Add  Trainer
                                 </Row>
@@ -108,7 +119,10 @@ function Trainer() {
                             isVisible={isModalVisible}
                             setVisible={setModalVisible}
                             addTrainer={onFinish}
-                            formValues={record} />
+                            updateTrainer={updateTrainer}
+                            formValues={record}
+                            isUpdate={isUpdate}
+                        />
                         <Modal
                             title='Delete  Trainer'
                             visible={isDeleteModalVisible}

@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 
-import { Table, Row, Modal, Button, Form, Input, Col, Spin, Tooltip, Typography, Card, InputNumber } from 'antd';
+import { Table, Row, Modal, Button, Form, Col, Spin, Tooltip, Typography, Card } from 'antd';
 import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { columns } from './columns';
 import * as companiesServices from '../../services/companies/index';
+import AddCompanyModal from "./add-modal";
 
 function Companies(props) {
     const [isModalVisible, setModalVisible] = useState(false);
     const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
     const [spinning, setSpinning] = useState(true);
-    const [loading, setLoading] = useState(false);
     const [record, setRecord] = useState();
     const [companies, setCompanies] = useState([]);
     const [form] = Form.useForm();
+    const [isUpdate, setIsUpdate] = useState(false);
 
 
     useEffect(() => {
@@ -51,13 +52,23 @@ function Companies(props) {
         })();
     };
     const onFinish = (values) => {
-        setLoading(true);
         (async () => {
             await companiesServices.addCompany(values);
+            setModalVisible(false);
             getData();
-            setLoading(false);
+
         })();
     };
+
+    const handleUpdate = (values) => {
+        (async () => {
+            await companiesServices.updateCompany({ ...values, id: record.id });
+            setModalVisible(false);
+            getData();
+
+        })();
+    };
+
     const actionColumn = {
         key: 'actions',
         width: '13%',
@@ -88,6 +99,7 @@ function Companies(props) {
                                 size="small"
                                 shape="circle"
                                 onClick={() => {
+                                    setIsUpdate(true);
                                     setRecord(record);
                                     setModalVisible(true);
                                 }}
@@ -109,7 +121,7 @@ function Companies(props) {
                 <Card style={{ minHeight: '85vh', borderRadius: '5px' }}>
                     <Spin spinning={spinning} >
                         <Row justify='end' align='middle'>
-                            <Button type='primary' onClick={() => setModalVisible(true)} >
+                            <Button type='primary' onClick={() => { setModalVisible(true); setIsUpdate(false); }} >
                                 <Row align='middle'>
                                     <PlusOutlined /> Add Company
                                 </Row>
@@ -122,114 +134,14 @@ function Companies(props) {
                                 borderRadius: '7px'
                             }} />
                         </Row>
-                        <Modal
-                            title='Add Company'
-
-                            visible={isModalVisible}
-                            onCancel={() => { setModalVisible(false); form.resetFields(); }}
-                            okButtonProps={{ hidden: true }}
-                            cancelButtonProps={{ hidden: true }}
-                            width={675}
-                        >
-                            <Form
-                                form={form}
-                                layout='vertical'
-                                onFinish={onFinish}
-                            >
-                                <Row gutter={24} justify='space-between'>
-                                    <Col sm={24} lg={12}>
-                                        <Form.Item
-                                            label="Name"
-                                            name="name"
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message: 'Please input company Name!',
-                                                },
-                                            ]}
-                                        >
-                                            <Input />
-                                        </Form.Item>
-                                    </Col>
-                                    <Col sm={24} lg={12}>
-
-                                        <Form.Item
-                                            label="Email"
-                                            name="Email"
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message: 'Please input company Email!',
-                                                },
-                                            ]}
-                                        >
-                                            <Input type='email' />
-                                        </Form.Item> </Col>
-                                </Row>
-                                <Row gutter={24} justify='space-between'>
-                                    <Col sm={24} lg={12}>
-                                        <Form.Item
-                                            label="Location"
-                                            name="Location"
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message: 'Please input company Location!',
-                                                },
-                                            ]}
-                                        >
-                                            <Input />
-                                        </Form.Item>
-                                    </Col>
-                                    <Col sm={24} lg={12}>
-
-                                        <Form.Item
-                                            label="Scope"
-                                            name="scope"
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message: 'Please input company Scope!',
-                                                },
-                                            ]}
-                                        >
-                                            <Input />
-                                        </Form.Item> </Col>
-                                </Row>
-                                <Row gutter={24} justify='space-between'>
-                                    <Col sm={24} lg={12}>
-                                        <Form.Item
-                                            label="PhoneNumber"
-                                            name="PhoneNumber"
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message: 'Please input company PhoneNumber!',
-                                                },
-                                            ]}
-                                        >
-                                            <InputNumber style={{ width: '100%' }} />
-                                        </Form.Item>
-                                    </Col>
-                                </Row>
-                                <Row justify='end'>
-                                    <Col style={{ margin: '0 8px 0 0' }}>
-                                        <Form.Item >
-                                            <Button htmlType="button" onClick={() => { setModalVisible(false); form.resetFields(); }}>
-                                                Close
-                                            </Button>
-                                        </Form.Item>
-                                    </Col>
-                                    <Form.Item>
-                                        <Col>
-                                            <Button loading={loading} disabled={loading} type="primary" htmlType="submit">
-                                                Submit
-                                            </Button>
-                                        </Col>
-                                    </Form.Item>
-                                </Row>
-                            </Form>
-                        </Modal>
+                        <AddCompanyModal
+                            isVisible={isModalVisible}
+                            setVisible={setModalVisible}
+                            addCourse={onFinish}
+                            formValues={record}
+                            handleUpdate={handleUpdate}
+                            isUpdate={isUpdate}
+                        />
                         <Modal
                             title='Delete Company'
                             visible={isDeleteModalVisible}

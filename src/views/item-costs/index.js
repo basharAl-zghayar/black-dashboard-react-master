@@ -1,58 +1,72 @@
+/* eslint-disable no-useless-concat */
 import React, { useEffect, useState } from "react";
 
-import { Table, Row, Modal, Button, Col, Spin, Tooltip, Typography, Card } from 'antd';
-import { ArrowRightOutlined, DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { Table, Row, Modal, Button, Form, Col, Spin, Tooltip, Typography, Card } from 'antd';
+import { PlusOutlined, DeleteOutlined, EditOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { columns } from './columns';
-import AddCourseModal from './add-modal';
-import * as coursesServices from '../../services/courses/index';
-import AppConst from "app-consts";
+import * as services from '../../services/costs/item-costs/index';
+import AddItemCostModal from "./add-modal";
+import { useHistory } from "react-router-dom";
+import AppConst from "../../app-consts";
 
-function Courses(props) {
+function ItemCosts(props) {
     const [isModalVisible, setModalVisible] = useState(false);
     const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
     const [spinning, setSpinning] = useState(true);
     const [record, setRecord] = useState();
-    const [courses, setCourses] = useState([]);
+    const [companies, setItemCosts] = useState([]);
+    const [form] = Form.useForm();
     const [isUpdate, setIsUpdate] = useState(false);
+    const history = useHistory();
 
     useEffect(() => {
         getData();
     }, []);
 
+    useEffect(() => {
+        if (record) {
+
+            form.setFieldsValue({
+                name: record.name,
+                code: record.code,
+            });
+        }
+
+    }, [record, form]);
     const getData = () => {
         setSpinning(true);
         (async () => {
-            const data = await coursesServices.showAllCourses();
-            setCourses(data.data.data);
+            const data = await services.showAllItemCosts();
+            setItemCosts(data.data.data);
             setSpinning(false);
         })();
     };
     const handleDelete = () => {
         (async () => {
-            await coursesServices.deleteCourse(record.id);
-            setDeleteModalVisible(false);
+            const data = await services.deleteItemCost(record.code);
+            setItemCosts(data.data.data);
             getData();
             setSpinning(false);
         })();
     };
     const onFinish = (values) => {
-
         (async () => {
-            await coursesServices.addCourse(values);
+            await services.addItemCost(values);
             setModalVisible(false);
             getData();
 
         })();
     };
-    const updateCourse = (values) => {
 
+    const handleUpdate = (values) => {
         (async () => {
-            await coursesServices.updateCourse({ ...values, id: record.id });
+            await services.updateItemCost(values);
             setModalVisible(false);
             getData();
 
         })();
     };
+
     const actionColumn = {
         key: 'actions',
         width: '13%',
@@ -61,7 +75,7 @@ function Courses(props) {
             return (
                 <Row justify="space-between">
                     <Col>
-                        <Tooltip title={'Delete Course'}>
+                        <Tooltip title={'Delete Item Cost'}>
                             <Button
                                 type='link'
                                 danger
@@ -77,15 +91,15 @@ function Courses(props) {
                         </Tooltip>
                     </Col>
                     <Col>
-                        <Tooltip title={'Edit Course'}>
+                        <Tooltip title={'Edit Item Cost'}>
                             <Button
                                 type='link'
                                 size="small"
                                 shape="circle"
                                 onClick={() => {
+                                    setIsUpdate(true);
                                     setRecord(record);
                                     setModalVisible(true);
-                                    setIsUpdate(true);
                                 }}
                             >
                                 <EditOutlined />
@@ -99,7 +113,7 @@ function Courses(props) {
                                 size="small"
                                 shape="circle"
                                 onClick={() => {
-                                    window.location.href = `${AppConst.baseUrl}/admin/courses/${record.id}`;
+                                    history.push('expansive/' + `${record.code}`);
                                 }}
                             >
                                 <ArrowRightOutlined />
@@ -119,42 +133,36 @@ function Courses(props) {
                 <Card style={{ minHeight: '85vh', borderRadius: '5px' }}>
                     <Spin spinning={spinning} >
                         <Row justify='end' align='middle'>
-
-                            <Button type='primary' onClick={() => {
-                                setModalVisible(true);
-                                setIsUpdate(false);
-                            }} >
+                            <Button type='primary' onClick={() => { setModalVisible(true); setIsUpdate(false); }} >
                                 <Row align='middle'>
-                                    <PlusOutlined /> Add  Course
+                                    <PlusOutlined /> Add Item Cost
                                 </Row>
                             </Button>
                         </Row>
                         <Row>
-                            <Table dataSource={courses} columns={[...columns, actionColumn]} style={{
+                            <Table dataSource={companies} columns={[...columns, actionColumn]} style={{
                                 width: '100%',
                                 padding: ' 16px 0 0',
                                 borderRadius: '7px'
                             }} />
                         </Row>
-                        <AddCourseModal
+                        <AddItemCostModal
                             isVisible={isModalVisible}
                             setVisible={setModalVisible}
-                            addCourse={onFinish}
+                            addItemCost={onFinish}
                             formValues={record}
-                            updateCourse={updateCourse}
+                            handleUpdate={handleUpdate}
                             isUpdate={isUpdate}
-
                         />
-
                         <Modal
-                            title='Delete  Course'
+                            title='Delete Item Cost'
                             visible={isDeleteModalVisible}
                             onCancel={() => { setDeleteModalVisible(false); }}
                             onOk={() => handleDelete()}
 
                         >
                             <Typography.Text strong>
-                                Are you Sure You Want To Delete This  Course ?
+                                Are you Sure You Want To Delete This Item Cost ?
                             </Typography.Text>
 
                         </Modal>
@@ -165,4 +173,4 @@ function Courses(props) {
     );
 }
 
-export default Courses;
+export default ItemCosts;

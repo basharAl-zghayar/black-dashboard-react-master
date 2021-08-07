@@ -1,27 +1,40 @@
-import React, { useState } from 'react';
-import { Row, Modal, Button, Form, Input, Col, Select, Checkbox } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Row, Modal, Form, Input, Col, Button } from 'antd';
 
-const AddCourseQuestionModal = ({ isVisible, setVisible, addQuestion }) => {
+const AddItemCostModal = ({ isVisible, setVisible, addItemCost, formValues, handleUpdate, isUpdate }) => {
     const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
 
     const onFinish = (values) => {
-        let data = values;
-        if (!values.required) {
-            data.required = false;
-        }
+        const data = values;
         setLoading(true);
-        (async () => {
-            await addQuestion(data);
-            setLoading(false);
-            setVisible(false);
-        })();
+        if (isUpdate) {
+            (async () => {
+                await handleUpdate(data);
+                setLoading(false);
+            })();
+        } else {
+            (async () => {
+                await addItemCost(data);
+                setLoading(false);
+            })();
+        }
+        form.resetFields();
     };
+    useEffect(() => {
+        if (formValues) {
+            form.setFieldsValue({
+                name: formValues.name,
+                code: formValues.code,
+            });
+        }
+
+    }, [formValues, form]);
 
     return (
         <>
             <Modal
-                title='Add  Question'
+                title={isUpdate ? 'Update Item Cost' : 'Add Item Cost'}
                 visible={isVisible}
                 onCancel={() => { setVisible(false); form.resetFields(); }}
                 okButtonProps={{ hidden: true }}
@@ -33,16 +46,15 @@ const AddCourseQuestionModal = ({ isVisible, setVisible, addQuestion }) => {
                     layout='vertical'
                     onFinish={onFinish}
                 >
-
                     <Row gutter={24} justify='space-between'>
                         <Col sm={24} lg={12}>
                             <Form.Item
-                                label="Question"
-                                name="title"
+                                label="Name"
+                                name="name"
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Please Add Question!',
+                                        message: 'Please input Item Cost Name!',
                                     },
                                 ]}
                             >
@@ -50,44 +62,27 @@ const AddCourseQuestionModal = ({ isVisible, setVisible, addQuestion }) => {
                             </Form.Item>
                         </Col>
                         <Col sm={24} lg={12}>
+
                             <Form.Item
-                                label="Type"
-                                name="type"
+                                label="Code"
+                                name="code"
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Please Select Type!',
+                                        message: 'Please input Item Cost Code!',
                                     },
                                 ]}
                             >
-                                <Select >
-                                    <Select.Option key='free-question' value={1}>
-                                        Free Question
-                                    </Select.Option>
-                                    <Select.Option key='check-box' value={2}>
-                                        Check Box
-                                    </Select.Option>
-                                    <Select.Option key='radio-box' value={3}>
-                                        Radio Box
-                                    </Select.Option>
-
-                                </Select>
-                            </Form.Item>
-                        </Col>
-                    </Row>
-                    <Row gutter={24} justify='space-between'>
-                        <Col sm={24} lg={12}>
-                            <Form.Item
-                                name="required" valuePropName="checked"
-                            >
-                                <Checkbox >Required</Checkbox>
-                            </Form.Item>
-                        </Col>
+                                <Input />
+                            </Form.Item> </Col>
                     </Row>
                     <Row justify='end'>
                         <Col style={{ margin: '0 8px 0 0' }}>
                             <Form.Item >
-                                <Button htmlType="button" onClick={() => { setVisible(false); }}>
+                                <Button htmlType="button" onClick={() => {
+                                    setVisible(false);
+                                    form.resetFields();
+                                }}>
                                     Close
                                 </Button>
                             </Form.Item>
@@ -100,7 +95,6 @@ const AddCourseQuestionModal = ({ isVisible, setVisible, addQuestion }) => {
                             </Col>
                         </Form.Item>
                     </Row>
-
                 </Form>
             </Modal>
         </>
@@ -108,4 +102,4 @@ const AddCourseQuestionModal = ({ isVisible, setVisible, addQuestion }) => {
 
 };
 
-export default AddCourseQuestionModal;
+export default AddItemCostModal;
