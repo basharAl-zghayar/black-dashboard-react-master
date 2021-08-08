@@ -22,14 +22,16 @@ const AddItemCostModal = ({ isVisible, setVisible, addItemCost, formValues, hand
         form.resetFields();
     };
     useEffect(() => {
-        if (formValues) {
+        if (!isUpdate) {
+            form.resetFields();
+        } else {
             form.setFieldsValue({
                 name: formValues.name,
                 code: formValues.code,
             });
         }
 
-    }, [formValues, form]);
+    }, [formValues, form, isUpdate]);
 
     return (
         <>
@@ -66,6 +68,7 @@ const AddItemCostModal = ({ isVisible, setVisible, addItemCost, formValues, hand
                             <Form.Item
                                 label="Code"
                                 name="code"
+
                                 rules={[
                                     {
                                         required: true,
@@ -73,7 +76,7 @@ const AddItemCostModal = ({ isVisible, setVisible, addItemCost, formValues, hand
                                     },
                                 ]}
                             >
-                                <Input />
+                                <Input disabled={isUpdate} />
                             </Form.Item> </Col>
                     </Row>
                     <Row justify='end'>
@@ -81,7 +84,6 @@ const AddItemCostModal = ({ isVisible, setVisible, addItemCost, formValues, hand
                             <Form.Item >
                                 <Button htmlType="button" onClick={() => {
                                     setVisible(false);
-                                    form.resetFields();
                                 }}>
                                     Close
                                 </Button>
@@ -90,7 +92,7 @@ const AddItemCostModal = ({ isVisible, setVisible, addItemCost, formValues, hand
                         <Form.Item>
                             <Col>
                                 <Button loading={loading} disabled={loading} type="primary" htmlType="submit">
-                                    Add
+                                    {isUpdate ? 'Update' : 'Add'}
                                 </Button>
                             </Col>
                         </Form.Item>

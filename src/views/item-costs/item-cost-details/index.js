@@ -6,17 +6,17 @@ import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import * as expensiveServices from '../../../services/costs/expansive-costs/index';
 import { useParams } from 'react-router-dom';
 import { columns } from './columns';
-import AddExpansiveModal from './add-expansive';
-// import InfoTab from './info-tab';
+import AddExpenseModal from './add-expense';
 
 const ItemCostDetails = () => {
     const { code } = useParams();
     const [itemCostInfo, setItemCostInfo] = useState();
     const [spinning, setSpinning] = useState(true);
-    const [isExpansiveModalVisible, setExpansiveModalVisible] = useState(false);
+    const [isExpenseModalVisible, setExpenseModalVisible] = useState(false);
     const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
     const [record, setRecord] = useState();
     const [isUpdate, setIsUpdate] = useState(false);
+
 
     useEffect(() => {
         getData();
@@ -32,20 +32,20 @@ const ItemCostDetails = () => {
             setSpinning(false);
         })();
     };
-    const addExpansive = (values) => {
+    const addExpense = (values) => {
         setSpinning(true);
         (async () => {
-            await expensiveServices.addExpansiveCosts({ ...values, itemCode: record.itemCode });
-            setExpansiveModalVisible(false);
+            await expensiveServices.addExpansiveCosts(values);
+            setExpenseModalVisible(false);
             getData();
             setSpinning(false);
         })();
     };
-    const updateExpansive = (values) => {
+    const updateExpense = (values) => {
         setSpinning(true);
         (async () => {
             await expensiveServices.updateExpansiveCosts({ ...values, itemCode: record.itemCode });
-            setExpansiveModalVisible(false);
+            setExpenseModalVisible(false);
             getData();
             setSpinning(false);
         })();
@@ -67,7 +67,7 @@ const ItemCostDetails = () => {
             return (
                 <Row justify="space-between">
                     <Col>
-                        <Tooltip title={'Delete Expansive'}>
+                        <Tooltip title={'Delete Expense'}>
                             <Button
                                 type='link'
                                 danger
@@ -90,7 +90,7 @@ const ItemCostDetails = () => {
                                 shape="circle"
                                 onClick={() => {
                                     setRecord(record);
-                                    setExpansiveModalVisible(true);
+                                    setExpenseModalVisible(true);
                                     setIsUpdate(true);
                                 }}
                             >
@@ -107,15 +107,15 @@ const ItemCostDetails = () => {
             <div className="content">
                 <Card style={{ minHeight: '85vh', borderRadius: '5px' }}>
                     <Tabs>
-                        <Tabs.TabPane key='info' tab="Expansive Cost Details">
+                        <Tabs.TabPane key='info' tab="Expense Cost Details">
                             <Spin spinning={spinning} >
                                 <Row justify='end' align='middle'>
                                     <Button type='primary' onClick={() => {
-                                        setExpansiveModalVisible(true);
+                                        setExpenseModalVisible(true);
                                         setIsUpdate(false);
                                     }} >
                                         <Row align='middle'>
-                                            <PlusOutlined /> Add  Expansive
+                                            <PlusOutlined /> Add  Expense
                                         </Row>
                                     </Button>
                                 </Row>
@@ -126,24 +126,24 @@ const ItemCostDetails = () => {
                                         borderRadius: '7px'
                                     }} />
                                 </Row>
-                                <AddExpansiveModal
-                                    isVisible={isExpansiveModalVisible}
-                                    setVisible={setExpansiveModalVisible}
-                                    addExpansive={addExpansive}
-                                    updateExpansive={updateExpansive}
+                                <AddExpenseModal
+                                    isVisible={isExpenseModalVisible}
+                                    setVisible={setExpenseModalVisible}
+                                    addExpense={addExpense}
+                                    updateExpense={updateExpense}
                                     formValues={record}
                                     isUpdate={isUpdate}
                                     itemCode={code}
                                 />
                                 <Modal
-                                    title='Delete  Expansive'
+                                    title='Delete  Expense'
                                     visible={isDeleteModalVisible}
                                     onCancel={() => { setDeleteModalVisible(false); }}
                                     onOk={() => handleDelete()}
 
                                 >
                                     <Typography.Text strong>
-                                        Are you Sure You Want To Delete This  Expansive ?
+                                        Are you Sure You Want To Delete This  Expense ?
                                     </Typography.Text>
 
                                 </Modal>

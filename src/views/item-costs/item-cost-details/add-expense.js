@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Row, Modal, Form, Input, Col, Button, InputNumber, DatePicker, Select } from 'antd';
 import moment from 'moment';
 
-const AddExpansiveModal = ({
+const AddExpenseModal = ({
     isVisible,
     setVisible,
-    addExpansive,
+    addExpense,
     formValues,
-    updateExpansive,
+    updateExpense,
     isUpdate,
     itemCode }) => {
 
@@ -20,11 +20,11 @@ const AddExpansiveModal = ({
         setLoading(true);
         if (isUpdate) {
             (async () => {
-                await updateExpansive(data);
+                await updateExpense(data);
             })();
         } else {
             (async () => {
-                await addExpansive(data);
+                await addExpense(data);
             })();
         }
         setLoading(false);
@@ -48,11 +48,17 @@ const AddExpansiveModal = ({
         }
 
     }, [formValues, form, itemCode, isUpdate]);
+    useEffect(() => {
+        form.setFieldsValue({
+            itemCode: itemCode,
+        });
+
+    }, [form, itemCode]);
 
     return (
         <>
             <Modal
-                title={isUpdate ? 'Update Expansive' : 'Add Expansive'}
+                title={isUpdate ? 'Update Expense' : 'Add Expense'}
                 visible={isVisible}
                 onCancel={() => { setVisible(false); }}
                 okButtonProps={{ hidden: true }}
@@ -72,7 +78,7 @@ const AddExpansiveModal = ({
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Please input Expansive Name!',
+                                        message: 'Please input Expense Name!',
                                     },
                                 ]}
                             >
@@ -142,6 +148,9 @@ const AddExpansiveModal = ({
                                 <Button htmlType="button" onClick={() => {
                                     setVisible(false);
                                     form.resetFields();
+                                    form.setFieldsValue({
+                                        itemCode: itemCode,
+                                    });
                                 }}>
                                     Close
                                 </Button>
@@ -162,4 +171,4 @@ const AddExpansiveModal = ({
 
 };
 
-export default AddExpansiveModal;
+export default AddExpenseModal;
