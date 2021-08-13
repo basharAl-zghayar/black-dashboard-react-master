@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row } from "antd";
+import { Row, Tag } from "antd";
 
 export const columns = [
     {
@@ -67,6 +67,45 @@ export const columns = [
         dataIndex: 'couchName',
         title: 'Couch',
 
+    },
+    {
+        dataIndex: 'state',
+        title: 'State',
+        render: (text, record, index) => {
+            if (record.state === 1) {
+                return (
+                    <>
+                        <Row>
+                            <Tag color='green'>
+                                Active
+                            </Tag>
+                        </Row>
+                    </>
+                );
+            } else if (record.state === 2) {
+                return (
+                    <>
+                        <Row>
+                            <Tag color='orange'>
+                                Inactive
+                            </Tag>
+
+                        </Row>
+                    </>
+                );
+            } else if (record.state === 3) {
+                return (
+                    <>
+                        <Row>
+                            <Tag color='red'>
+                                Deleted
+                            </Tag>
+
+                        </Row>
+                    </>
+                );
+            }
+        },
     },
 
 ];

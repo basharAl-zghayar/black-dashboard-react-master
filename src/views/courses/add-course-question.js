@@ -33,7 +33,7 @@ const AddCourseQuestionModal = ({ isVisible, setVisible, addQuestion, formValues
                 >
 
                     <Row gutter={24} justify='space-between'>
-                        <Col sm={24} lg={12}>
+                        <Col sm={24} lg={10}>
                             <Form.Item
                                 label="Question"
                                 name="title"
@@ -47,7 +47,7 @@ const AddCourseQuestionModal = ({ isVisible, setVisible, addQuestion, formValues
                                 <Input />
                             </Form.Item>
                         </Col>
-                        <Col sm={24} lg={12}>
+                        <Col sm={24} lg={10}>
                             <Form.Item
                                 label="Type"
                                 name="type"
@@ -59,25 +59,20 @@ const AddCourseQuestionModal = ({ isVisible, setVisible, addQuestion, formValues
                                 ]}
                             >
                                 <Select >
-                                    <Select.Option key='active' value={1}>
+                                    <Select.Option key='free-question' value={1}>
                                         Free Question
                                     </Select.Option>
-                                    <Select.Option key='active' value={2}>
+                                    <Select.Option key='check-box' value={2}>
                                         Check Box
                                     </Select.Option>
-                                    <Select.Option key='active' value={3}>
+                                    <Select.Option key='radio-box' value={3}>
                                         Radio Box
-                                    </Select.Option>
-                                    <Select.Option key='active' value={4}>
-                                        File
                                     </Select.Option>
 
                                 </Select>
                             </Form.Item>
                         </Col>
-                    </Row>
-                    <Row gutter={24} justify='space-between'>
-                        <Col sm={24} lg={12}>
+                        <Col sm={2} lg={1}>
                             <Form.Item
 
                                 name="required" valuePropName="checked"
@@ -92,6 +87,7 @@ const AddCourseQuestionModal = ({ isVisible, setVisible, addQuestion, formValues
                             </Form.Item>
                         </Col>
                     </Row>
+
                     <Row justify='end'>
                         <Col style={{ margin: '0 8px 0 0' }}>
                             <Form.Item >

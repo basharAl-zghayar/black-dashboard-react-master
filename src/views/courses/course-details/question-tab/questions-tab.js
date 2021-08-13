@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Spin, Row, Typography, Button, Table, Modal, Col, Tooltip } from 'antd';
 import React, { useState, useEffect } from 'react';
-import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { columns } from './columns';
 import AddCourseQuestionModal from "./add-course-question";
 import * as coursesQuestionsServices from '../../../../services/courses/question-course/index';
+import * as coursesQuestionAnswersServices from '../../../../services/courses/course-questino-anwers/index';
 
 const QuestionsTab = ({ courseID }) => {
 
@@ -13,6 +14,9 @@ const QuestionsTab = ({ courseID }) => {
     const [spinning, setSpinning] = useState(true);
     const [record, setRecord] = useState();
     const [courses, setCourses] = useState([]);
+    const [isUpdate, setIsUpdate] = useState(false);
+    const [courseQuestion, setCourseQuestion] = useState();
+
     useEffect(() => {
         getData();
     }, []);
@@ -35,11 +39,37 @@ const QuestionsTab = ({ courseID }) => {
             setSpinning(false);
         })();
     };
+    const updateQuestion = (values) => {
+        (async () => {
+            await coursesQuestionsServices.updateQuestion({ ...values, CourseID: Number(courseID), id: record.id });
+            setQuestionModalVisible(false);
+            getData();
+            setSpinning(false);
+        })();
+    };
     const getData = () => {
         setSpinning(true);
         (async () => {
             const data = await coursesQuestionsServices.showQuestionById(courseID);
             setCourses(data.data.data);
+            setSpinning(false);
+        })();
+    };
+    const getQuestionAnswers = (record) => {
+        setSpinning(true);
+        (async () => {
+            const data = await coursesQuestionAnswersServices.showQuestionAnswerById(record.id);
+            setCourseQuestion({
+                questionsAnswers: data.data.data,
+                title: record.title,
+                CourseID: record.CourseID,
+                type: record.type,
+                id: record.id,
+                required: record.required === 1 ? true : false,
+
+            });
+            setQuestionModalVisible(true);
+
             setSpinning(false);
         })();
     };
@@ -66,6 +96,22 @@ const QuestionsTab = ({ courseID }) => {
                             </Button>
                         </Tooltip>
                     </Col>
+                    <Col>
+                        <Tooltip title={'Edit Course'}>
+                            <Button
+                                type='link'
+                                size="small"
+                                shape="circle"
+                                onClick={() => {
+                                    setRecord(record);
+                                    getQuestionAnswers(record);
+                                    setIsUpdate(true);
+                                }}
+                            >
+                                <EditOutlined />
+                            </Button>
+                        </Tooltip>
+                    </Col>
                 </Row>
             );
         },
@@ -74,7 +120,10 @@ const QuestionsTab = ({ courseID }) => {
         <>
             <Spin spinning={spinning} >
                 <Row justify='end' align='middle'>
-                    <Button type='primary' onClick={() => setQuestionModalVisible(true)} >
+                    <Button type='primary' onClick={() => {
+                        setQuestionModalVisible(true);
+                        setIsUpdate(false);
+                    }} >
                         <Row align='middle'>
                             <PlusOutlined /> Add  Question
                         </Row>
@@ -91,7 +140,9 @@ const QuestionsTab = ({ courseID }) => {
                     isVisible={isQuestionModalVisible}
                     setVisible={setQuestionModalVisible}
                     addQuestion={addQuestion}
-                    formValues={record} />
+                    updateQuestion={updateQuestion}
+                    formValues={courseQuestion}
+                    isUpdate={isUpdate} />
                 <Modal
                     title='Delete  Question'
                     visible={isDeleteModalVisible}
