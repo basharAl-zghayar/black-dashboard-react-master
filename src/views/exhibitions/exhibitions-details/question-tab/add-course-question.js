@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Row, Modal, Button, Form, Input, Col, Select, Checkbox, Divider, Tooltip, Spin } from 'antd';
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 
-const AddCourseQuestionModal = ({
+const AddExhibitionQuestionModal = ({
     isVisible,
     setVisible,
     addQuestion,
@@ -20,7 +20,7 @@ const AddCourseQuestionModal = ({
             form.setFieldsValue({
                 questionsAnswers: formValues?.questionsAnswers,
                 title: formValues?.title,
-                CourseID: formValues?.CourseID,
+                ExhibitionID: formValues?.ExhibitionID,
                 type: formValues?.type,
                 id: formValues?.id,
                 required: formValues?.required,
@@ -273,4 +273,4 @@ const AddCourseQuestionModal = ({
 
 };
 
-export default AddCourseQuestionModal;
+export default AddExhibitionQuestionModal;

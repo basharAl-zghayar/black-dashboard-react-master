@@ -3,19 +3,19 @@ import { Spin, Row, Typography, Button, Table, Modal, Col, Tooltip } from 'antd'
 import React, { useState, useEffect } from 'react';
 import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { columns } from './columns';
-import AddCourseQuestionModal from "./add-course-question";
-import * as coursesQuestionsServices from '../../../../services/courses/question-course/index';
-import * as coursesQuestionAnswersServices from '../../../../services/courses/course-questino-anwers/index';
+import AddCourseQuestionModal from "./add-exhibition-question";
+import * as exhibitionsQuestionsServices from '../../../../services/exhibition/exhibition-question/index';
+import * as exhibitionsQuestionAnswersServices from '../../../../services/exhibition/exhibition-question-answers';
 
-const QuestionsTab = ({ courseID }) => {
+const QuestionsTab = ({ exhibitionID }) => {
 
     const [isQuestionModalVisible, setQuestionModalVisible] = useState(false);
     const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
     const [spinning, setSpinning] = useState(true);
     const [record, setRecord] = useState();
-    const [courses, setCourses] = useState([]);
+    const [exhibitions, setCourses] = useState([]);
     const [isUpdate, setIsUpdate] = useState(false);
-    const [courseQuestion, setCourseQuestion] = useState();
+    const [exhibitionQuestion, setCourseQuestion] = useState();
 
     useEffect(() => {
         getData();
@@ -25,7 +25,7 @@ const QuestionsTab = ({ courseID }) => {
         setSpinning(true);
 
         (async () => {
-            await coursesQuestionsServices.deleteQuestion(record.id);
+            await exhibitionsQuestionsServices.deleteQuestion(record.id);
             setDeleteModalVisible(false);
             getData();
             setSpinning(false);
@@ -33,7 +33,7 @@ const QuestionsTab = ({ courseID }) => {
     };
     const addQuestion = (values) => {
         (async () => {
-            await coursesQuestionsServices.addQuestion({ ...values, CourseID: Number(courseID) });
+            await exhibitionsQuestionsServices.addQuestion({ ...values, CourseID: Number(exhibitionID) });
             setQuestionModalVisible(false);
             getData();
             setSpinning(false);
@@ -41,7 +41,7 @@ const QuestionsTab = ({ courseID }) => {
     };
     const updateQuestion = (values) => {
         (async () => {
-            await coursesQuestionsServices.updateQuestion({ ...values, CourseID: Number(courseID), id: record.id });
+            await exhibitionsQuestionsServices.updateQuestion({ ...values, CourseID: Number(exhibitionID), id: record.id });
             setQuestionModalVisible(false);
             getData();
             setSpinning(false);
@@ -50,7 +50,7 @@ const QuestionsTab = ({ courseID }) => {
     const getData = () => {
         setSpinning(true);
         (async () => {
-            const data = await coursesQuestionsServices.showQuestionById(courseID);
+            const data = await exhibitionsQuestionsServices.showQuestionById(exhibitionID);
             setCourses(data.data.data);
             setSpinning(false);
         })();
@@ -58,7 +58,7 @@ const QuestionsTab = ({ courseID }) => {
     const getQuestionAnswers = (record) => {
         setSpinning(true);
         (async () => {
-            const data = await coursesQuestionAnswersServices.showQuestionAnswerById(record.id);
+            const data = await exhibitionsQuestionAnswersServices.showQuestionAnswerById(record.id);
             const questionsAnswers = data.data.data.map((answer) => {
                 answer.state = answer.state === 1 ? true : false;
                 return answer;
@@ -134,7 +134,7 @@ const QuestionsTab = ({ courseID }) => {
                     </Button>
                 </Row>
                 <Row>
-                    <Table dataSource={courses} columns={[...columns, actionColumn]} style={{
+                    <Table dataSource={exhibitions} columns={[...columns, actionColumn]} style={{
                         width: '100%',
                         padding: ' 16px 0 0',
                         borderRadius: '7px'
@@ -145,7 +145,7 @@ const QuestionsTab = ({ courseID }) => {
                     setVisible={setQuestionModalVisible}
                     addQuestion={addQuestion}
                     updateQuestion={updateQuestion}
-                    formValues={courseQuestion}
+                    formValues={exhibitionQuestion}
                     isUpdate={isUpdate} />
                 <Modal
                     title='Delete  Question'
