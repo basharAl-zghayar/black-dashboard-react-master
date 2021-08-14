@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Modal, Button, Form, Input, Col, DatePicker, InputNumber } from 'antd';
+import { Row, Modal, Button, Form, Input, Col, DatePicker } from 'antd';
 import moment from 'moment';
 
 const AddExhibitionModal = ({ isVisible, setVisible, addExhibition, formValues, updateExhibition }) => {
@@ -11,6 +11,7 @@ const AddExhibitionModal = ({ isVisible, setVisible, addExhibition, formValues, 
         data.startDate = moment(values.startDate).format("YYYY/MM/DD");
         data.endDate = moment(values.endDate).format("YYYY/MM/DD");
         setLoading(true);
+        console.log(data);
         if (formValues) {
 
             (async () => {
@@ -33,8 +34,6 @@ const AddExhibitionModal = ({ isVisible, setVisible, addExhibition, formValues, 
                 location: formValues.location,
                 description: formValues?.description,
                 manager: formValues?.manager,
-
-
             });
         }
 
@@ -43,7 +42,7 @@ const AddExhibitionModal = ({ isVisible, setVisible, addExhibition, formValues, 
     return (
         <>
             <Modal
-                title='Add  Exhibition'
+                title='Add Exhibition'
                 visible={isVisible}
                 onCancel={() => { setVisible(false); form.resetFields(); }}
                 okButtonProps={{ hidden: true }}
@@ -120,20 +119,6 @@ const AddExhibitionModal = ({ isVisible, setVisible, addExhibition, formValues, 
                     <Row gutter={24} justify='space-between'>
                         <Col sm={24} lg={12}>
                             <Form.Item
-                                label="Duration (Days)"
-                                name="Duration"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Please Add Duration!',
-                                    },
-                                ]}
-                            >
-                                <InputNumber style={{ width: '100%' }} min={0} />
-                            </Form.Item>
-                        </Col>
-                        <Col sm={24} lg={12}>
-                            <Form.Item
                                 label="Location"
                                 name="location"
                                 rules={[
@@ -144,6 +129,17 @@ const AddExhibitionModal = ({ isVisible, setVisible, addExhibition, formValues, 
                                 ]}
                             >
                                 <Input />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row gutter={24} justify='space-between'>
+
+                        <Col sm={24} lg={24}>
+                            <Form.Item
+                                label="Description"
+                                name="description"
+                            >
+                                <Input.TextArea />
                             </Form.Item>
                         </Col>
                     </Row>

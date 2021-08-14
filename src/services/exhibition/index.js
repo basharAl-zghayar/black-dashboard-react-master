@@ -1,19 +1,21 @@
+/* eslint-disable no-useless-concat */
+
 import http from '../common/http/index';
 import AppConsts from '../../app-consts';
 
 const apiEndpoint = AppConsts.remoteServiceBaseUrl + "/Exhibition/";
 
 export async function addExhibition(addExhibition) {
-    const data = await http.post(apiEndpoint + 'addExhibition', { addExhibition });
+    const data = await http.post(apiEndpoint + 'addExhibition', addExhibition);
     return data;
 }
 export async function updateExhibition(updateExhibition) {
-    const data = await http.put(apiEndpoint + 'editExhibition', { updateExhibition });
+    const data = await http.put(apiEndpoint + 'editExhibition', updateExhibition);
     return data;
 }
 
 export async function deleteExhibition(id) {
-    const data = await http.put(apiEndpoint + 'deleteExhibition', { id: id });
+    const data = await http.put(apiEndpoint + 'deleteExhibition', { data: { id: id } });
     return data;
 }
 export async function showAllExhibitions() {
@@ -21,8 +23,6 @@ export async function showAllExhibitions() {
     return data;
 }
 export async function showExhibitionById(id) {
-    const data = await http.get(apiEndpoint + 'showExhibitionById', {
-        params: id,
-    });
+    const data = await http.get(apiEndpoint + 'showExhibitionById' + `${id}`);
     return data;
 }

@@ -55,6 +55,7 @@ const QuestionsTab = ({ courseID }) => {
             setSpinning(false);
         })();
     };
+
     const getQuestionAnswers = (record) => {
         setSpinning(true);
         (async () => {

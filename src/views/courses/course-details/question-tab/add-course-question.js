@@ -47,7 +47,7 @@ const AddCourseQuestionModal = ({
 
             if (answer.state === true) {
                 answer.state = 1;
-            } else if (answer.state === false) {
+            } else if (answer.state === false || !answer.state) {
                 answer.state = 2;
             }
             return answer;

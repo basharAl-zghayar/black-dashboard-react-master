@@ -11,18 +11,8 @@ export const columns = [
         title: 'Title',
     },
     {
-        dataIndex: 'CurrentStudents',
-        title: 'Students',
-        render: (text, record, index) => {
-
-            return (
-                <>
-                    <Row>
-                        {record.CurrentStudents + ' /' + record.maxStudents}
-                    </Row>
-                </>
-            );
-        },
+        dataIndex: 'location',
+        title: 'Location',
     },
     {
         dataIndex: 'startDate',
@@ -38,74 +28,12 @@ export const columns = [
         },
     },
     {
-        dataIndex: 'startTime',
-        title: 'Time',
-        render: (text, record, index) => {
-            return (
-                <>
-                    <Row>
-                        {record.startTime + ' to ' + record.endTime}
-                    </Row>
-                </>
-            );
-        },
-    },
-    {
-        dataIndex: 'cost',
-        title: 'Cost',
-        render: (text, record, index) => {
-            return (
-                <>
-                    <Row>
-                        {record.cost + ' SYP'}
-                    </Row>
-                </>
-            );
-        },
-    },
-    {
-        dataIndex: 'couchName',
-        title: 'Couch',
+        dataIndex: 'manager',
+        title: 'Manager',
 
     },
     {
-        dataIndex: 'state',
-        title: 'State',
-        render: (text, record, index) => {
-            if (record.state === 1) {
-                return (
-                    <>
-                        <Row>
-                            <Tag color='green'>
-                                Active
-                            </Tag>
-                        </Row>
-                    </>
-                );
-            } else if (record.state === 2) {
-                return (
-                    <>
-                        <Row>
-                            <Tag color='orange'>
-                                Inactive
-                            </Tag>
-
-                        </Row>
-                    </>
-                );
-            } else if (record.state === 3) {
-                return (
-                    <>
-                        <Row>
-                            <Tag color='red'>
-                                Deleted
-                            </Tag>
-
-                        </Row>
-                    </>
-                );
-            }
-        },
+        dataIndex: 'location',
+        title: 'Location',
     },
-
 ];
