@@ -15,6 +15,7 @@ function Courses(props) {
     const [record, setRecord] = useState();
     const [courses, setCourses] = useState([]);
     const [isUpdate, setIsUpdate] = useState(false);
+
     const history = useHistory();
     useEffect(() => {
         getData();

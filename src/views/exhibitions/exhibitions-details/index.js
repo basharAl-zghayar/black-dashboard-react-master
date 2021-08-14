@@ -14,7 +14,6 @@ const ExhibitionDetails = () => {
     useEffect(() => {
         (async () => {
             const data = await exhibitionsServices.showExhibitionById(id);
-            console.log(data.data.data);
             setExhibitionInfo(data.data.data);
             setSpinning(false);
         })();

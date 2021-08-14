@@ -3,7 +3,7 @@ import { Row, Modal, Button, Form, Input, Col, Tabs, DatePicker, TimePicker, Sel
 import moment from 'moment';
 const { TabPane } = Tabs;
 
-const AddCourseModal = ({ isVisible, setVisible, addCourse, formValues, updateCourse }) => {
+const AddCourseModal = ({ isVisible, setVisible, addCourse, formValues, updateCourse, isUpdate }) => {
     const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
 
@@ -14,7 +14,7 @@ const AddCourseModal = ({ isVisible, setVisible, addCourse, formValues, updateCo
         data.startTime = moment(values.startTime).format("YYYY/MM/DD HH:mm Z");
         data.endTime = moment(values.endTime).format("YYYY/MM/DD HH:mm Z");
         setLoading(true);
-        if (formValues) {
+        if (isUpdate) {
 
             (async () => {
                 await updateCourse(data);
@@ -28,7 +28,7 @@ const AddCourseModal = ({ isVisible, setVisible, addCourse, formValues, updateCo
         }
     };
     useEffect(() => {
-        if (formValues) {
+        if (isUpdate) {
             form.setFieldsValue({
                 title: formValues.title,
                 coachID: formValues.coachID,
@@ -46,7 +46,7 @@ const AddCourseModal = ({ isVisible, setVisible, addCourse, formValues, updateCo
             });
         }
 
-    }, [formValues, form]);
+    }, [formValues, form, isUpdate]);
 
     return (
         <>
@@ -287,7 +287,7 @@ const AddCourseModal = ({ isVisible, setVisible, addCourse, formValues, updateCo
                                 <Form.Item>
                                     <Col>
                                         <Button loading={loading} disabled={loading} type="primary" htmlType="submit">
-                                            Add
+                                            {isUpdate ? 'Update' : 'Add'}
                                         </Button>
                                     </Col>
                                 </Form.Item>

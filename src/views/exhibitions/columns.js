@@ -33,7 +33,7 @@ export const columns = [
 
     },
     {
-        dataIndex: 'location',
-        title: 'Location',
+        dataIndex: 'description',
+        title: 'Description',
     },
 ];

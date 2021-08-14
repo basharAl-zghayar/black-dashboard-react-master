@@ -5,6 +5,7 @@ import Companies from "views/companies/companies.js";
 import Courses from "views/courses/courses";
 import Exhibitions from "views/exhibitions";
 import CourseDetails from "views/courses/course-details";
+import ExhibitionDetails from "views/exhibitions/exhibitions-details";
 import Volunteers from "views/volunteers/index";
 import ItemCosts from "views/item-costs/index";
 import Trainers from "views/trainer/index";
@@ -71,6 +72,14 @@ var routes = [
     path: "/course-details/:id",
     name: "",
     component: CourseDetails,
+    layout: "/admin",
+    hidden: true,
+  },
+  {
+    exact: true,
+    path: "/exhibition-details/:id",
+    name: "",
+    component: ExhibitionDetails,
     layout: "/admin",
     hidden: true,
   },

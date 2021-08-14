@@ -21,7 +21,7 @@ const LoginRequestsTab = ({ exhibitionID }) => {
     const getData = () => {
         setSpinning(true);
         (async () => {
-            const data = await exhibitionsLoginRequestServices.showAllCourseLoginRequest();
+            const data = await exhibitionsLoginRequestServices.showAll();
             setCourseLoginRequests(data.data.data);
             setSpinning(false);
         })();

@@ -100,7 +100,7 @@ function Exhibitions(props) {
                                 size="small"
                                 shape="circle"
                                 onClick={() => {
-                                    history.push(`${AppConst.baseUrl}/admin/exhibition-details/${record.id}`);
+                                    history.push(`exhibition-details/${record.id}`);
                                 }}
                             >
                                 <ArrowRightOutlined />

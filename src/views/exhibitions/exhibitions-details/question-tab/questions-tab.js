@@ -25,7 +25,7 @@ const QuestionsTab = ({ exhibitionID }) => {
         setSpinning(true);
 
         (async () => {
-            await exhibitionsQuestionsServices.deleteQuestion(record.id);
+            await exhibitionsQuestionsServices.deleteExhibitionQuestion(record.id);
             setDeleteModalVisible(false);
             getData();
             setSpinning(false);
@@ -33,7 +33,7 @@ const QuestionsTab = ({ exhibitionID }) => {
     };
     const addQuestion = (values) => {
         (async () => {
-            await exhibitionsQuestionsServices.addQuestion({ ...values, CourseID: Number(exhibitionID) });
+            await exhibitionsQuestionsServices.addExhibitionQuestion({ ...values, CourseID: Number(exhibitionID) });
             setQuestionModalVisible(false);
             getData();
             setSpinning(false);
@@ -41,7 +41,7 @@ const QuestionsTab = ({ exhibitionID }) => {
     };
     const updateQuestion = (values) => {
         (async () => {
-            await exhibitionsQuestionsServices.updateQuestion({ ...values, CourseID: Number(exhibitionID), id: record.id });
+            await exhibitionsQuestionsServices.updateExhibitionQuestion({ ...values, CourseID: Number(exhibitionID), id: record.id });
             setQuestionModalVisible(false);
             getData();
             setSpinning(false);
@@ -50,7 +50,7 @@ const QuestionsTab = ({ exhibitionID }) => {
     const getData = () => {
         setSpinning(true);
         (async () => {
-            const data = await exhibitionsQuestionsServices.showQuestionById(exhibitionID);
+            const data = await exhibitionsQuestionsServices.showExhibitionQuestionByExhibitionId(exhibitionID);
             setCourses(data.data.data);
             setSpinning(false);
         })();
@@ -58,7 +58,7 @@ const QuestionsTab = ({ exhibitionID }) => {
     const getQuestionAnswers = (record) => {
         setSpinning(true);
         (async () => {
-            const data = await exhibitionsQuestionAnswersServices.showQuestionAnswerById(record.id);
+            const data = await exhibitionsQuestionAnswersServices.showAllByQuestionID(record.id);
             const questionsAnswers = data.data.data.map((answer) => {
                 answer.state = answer.state === 1 ? true : false;
                 return answer;

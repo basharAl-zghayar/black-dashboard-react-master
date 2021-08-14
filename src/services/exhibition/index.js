@@ -23,6 +23,6 @@ export async function showAllExhibitions() {
     return data;
 }
 export async function showExhibitionById(id) {
-    const data = await http.get(apiEndpoint + 'showExhibitionById' + `${id}`);
+    const data = await http.get(apiEndpoint + 'showExhibitionById/' + `${id}`);
     return data;
 }

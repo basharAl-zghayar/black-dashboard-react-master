@@ -12,9 +12,10 @@ const CourseDetails = () => {
     const [spinning, setSpinning] = useState(true);
 
     useEffect(() => {
+        setSpinning(true);
+
         (async () => {
             const data = await coursesServices.showCourseById(id);
-            console.log(data.data.data);
             setCourseInfo(data.data.data);
             setSpinning(false);
         })();
