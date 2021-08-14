@@ -6,6 +6,7 @@ import { columns } from './columns';
 import AddCourseModal from './add-modal';
 import * as coursesServices from '../../services/courses/index';
 import AppConst from "app-consts";
+import { useHistory } from "react-router-dom";
 
 function Courses(props) {
     const [isModalVisible, setModalVisible] = useState(false);
@@ -14,7 +15,7 @@ function Courses(props) {
     const [record, setRecord] = useState();
     const [courses, setCourses] = useState([]);
     const [isUpdate, setIsUpdate] = useState(false);
-
+    const history = useHistory();
     useEffect(() => {
         getData();
     }, []);
@@ -99,7 +100,7 @@ function Courses(props) {
                                 size="small"
                                 shape="circle"
                                 onClick={() => {
-                                    window.location.href = `${AppConst.baseUrl}/admin/courses/${record.id}`;
+                                    history.push(`course-details/${record.id}`);
                                 }}
                             >
                                 <ArrowRightOutlined />

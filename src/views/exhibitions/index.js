@@ -6,6 +6,7 @@ import { columns } from './columns';
 import AddExhibitionModal from './add-modal';
 import * as exhibitionsServices from '../../services/exhibition/index';
 import AppConst from "app-consts";
+import { useHistory } from "react-router-dom";
 
 function Exhibitions(props) {
     const [isModalVisible, setModalVisible] = useState(false);
@@ -14,7 +15,7 @@ function Exhibitions(props) {
     const [record, setRecord] = useState();
     const [exhibitions, setExhibitions] = useState([]);
     const [isUpdate, setIsUpdate] = useState(false);
-
+    const history = useHistory();
     useEffect(() => {
         getData();
     }, []);
@@ -99,7 +100,7 @@ function Exhibitions(props) {
                                 size="small"
                                 shape="circle"
                                 onClick={() => {
-                                    window.location.href = `${AppConst.baseUrl}/admin/exhibitions/${record.id}`;
+                                    history.push(`${AppConst.baseUrl}/admin/exhibition-details/${record.id}`);
                                 }}
                             >
                                 <ArrowRightOutlined />

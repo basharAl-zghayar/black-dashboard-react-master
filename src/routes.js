@@ -3,6 +3,7 @@ import Dashboard from "views/Dashboard.js";
 import Icons from "views/Icons.js";
 import Companies from "views/companies/companies.js";
 import Courses from "views/courses/courses";
+import Exhibitions from "views/exhibitions";
 import CourseDetails from "views/courses/course-details";
 import Volunteers from "views/volunteers/index";
 import ItemCosts from "views/item-costs/index";
@@ -37,14 +38,7 @@ var routes = [
     layout: "/admin",
   },
 
-  {
-    exact: true,
-    path: "/courses/:id",
-    name: "",
-    component: CourseDetails,
-    layout: "/admin",
-    hidden: true,
-  },
+
   {
     exact: true,
     path: "/expansive/:code",
@@ -61,6 +55,24 @@ var routes = [
     icon: "tim-icons icon-single-copy-04",
     component: Courses,
     layout: "/admin",
+  },
+
+  {
+    exact: true,
+    path: "/exhibitions",
+    name: "Exhibitions",
+    rtlName: "",
+    icon: "tim-icons icon-single-copy-04",
+    component: Exhibitions,
+    layout: "/admin",
+  },
+  {
+    exact: true,
+    path: "/course-details/:id",
+    name: "",
+    component: CourseDetails,
+    layout: "/admin",
+    hidden: true,
   },
   {
     path: "/volunteers",

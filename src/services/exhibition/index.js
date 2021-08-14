@@ -1,7 +1,7 @@
 import http from '../common/http/index';
 import AppConsts from '../../app-consts';
 
-const apiEndpoint = AppConsts.remoteServiceBaseUrl + "/ExhibitionQuestionAnswer/";
+const apiEndpoint = AppConsts.remoteServiceBaseUrl + "/Exhibition/";
 
 export async function addExhibition(addExhibition) {
     const data = await http.post(apiEndpoint + 'addExhibition', { addExhibition });
@@ -17,7 +17,7 @@ export async function deleteExhibition(id) {
     return data;
 }
 export async function showAllExhibitions() {
-    const data = await http.get(apiEndpoint + 'showAllExhibitions');
+    const data = await http.get(apiEndpoint + 'showAllExhibition');
     return data;
 }
 export async function showExhibitionById(id) {
