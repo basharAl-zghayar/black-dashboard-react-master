@@ -55,7 +55,7 @@ export const columns = [
                 return (
                     <>
                         <Row>
-                            <Tag color='green'>
+                            <Tag color='orange'>
                                 Part Time
                             </Tag>
                         </Row>
@@ -65,7 +65,7 @@ export const columns = [
                 return (
                     <>
                         <Row>
-                            <Tag color='orange'>
+                            <Tag color='green'>
                                 Full Time
                             </Tag>
 

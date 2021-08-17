@@ -66,7 +66,15 @@ export const columns = [
     {
         dataIndex: 'couchName',
         title: 'Couch',
-
+        render: (text, record, index) => {
+            return (
+                <>
+                    <Row>
+                        {record?.coach?.firstName + ' ' + record?.coach?.lastName}
+                    </Row>
+                </>
+            );
+        },
     },
     {
         dataIndex: 'state',

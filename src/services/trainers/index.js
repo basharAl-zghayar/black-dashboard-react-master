@@ -9,6 +9,7 @@ export async function addTrainer(addTrainers) {
     return data;
 }
 export async function updateTrainer(updateTrainers) {
+    console.log(updateTrainers);
     const data = await http.put(apiEndpoint + 'edit', updateTrainers);
     return data;
 }

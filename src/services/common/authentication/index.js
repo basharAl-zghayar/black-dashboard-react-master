@@ -9,6 +9,7 @@ const tokenKey = "token";
 export async function login(email, password) {
     const data = await http.post(apiEndpoint, { email, password });
     localStorage.setItem(tokenKey, data.data.data.token);
+    localStorage.setItem('userType', data.data.data.user.type);
     return data;
 }
 

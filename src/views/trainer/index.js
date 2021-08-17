@@ -44,7 +44,7 @@ function Trainer() {
     const updateTrainer = (values) => {
 
         (async () => {
-            await trainersServices.updateTrainer({ ...values, id: record.id });
+            await trainersServices.updateTrainer({ ...values, userID: record.userID, trainerID: record.id });
             setModalVisible(false);
             getData();
 

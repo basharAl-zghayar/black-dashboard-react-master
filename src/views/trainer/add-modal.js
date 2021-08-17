@@ -20,7 +20,6 @@ const AddTrainerModal = ({ isVisible, setVisible, addTrainer, formValues, update
                 setLoading(false);
             })();
         }
-        form.resetFields();
     };
 
     useEffect(() => {
@@ -36,7 +35,6 @@ const AddTrainerModal = ({ isVisible, setVisible, addTrainer, formValues, update
                 description: formValues.description,
                 location: formValues.location,
                 specialization: formValues.specialization,
-
             });
         } else {
             form.resetFields();
@@ -96,7 +94,7 @@ const AddTrainerModal = ({ isVisible, setVisible, addTrainer, formValues, update
 
                                     <Form.Item
                                         label="User Name"
-                                        name="user_name"
+                                        name="userName"
                                         rules={[
                                             {
                                                 required: true,
@@ -124,7 +122,7 @@ const AddTrainerModal = ({ isVisible, setVisible, addTrainer, formValues, update
                                 </Col>
 
                             </Row>
-                            {isUpdate && <Row gutter={24} justify='space-between'>
+                            {!isUpdate && <Row gutter={24} justify='space-between'>
                                 <Col sm={24} lg={12}>
                                     <Form.Item
                                         label="Password"
@@ -136,7 +134,7 @@ const AddTrainerModal = ({ isVisible, setVisible, addTrainer, formValues, update
                                             },
                                         ]}
                                     >
-                                        <InputNumber style={{ width: '100%' }} min={0} />
+                                        <Input.Password style={{ width: '100%' }} />
                                     </Form.Item>
                                 </Col>
                                 <Col sm={24} lg={12}>
@@ -151,7 +149,7 @@ const AddTrainerModal = ({ isVisible, setVisible, addTrainer, formValues, update
                                             },
                                         ]}
                                     >
-                                        <InputNumber style={{ width: '100%' }} min={0} />
+                                        <Input.Password style={{ width: '100%' }} />
                                     </Form.Item>
                                 </Col>
                             </Row>}

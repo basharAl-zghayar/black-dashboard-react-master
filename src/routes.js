@@ -1,6 +1,6 @@
 
 import Dashboard from "views/Dashboard.js";
-import Icons from "views/Icons.js";
+// import Icons from "views/Icons.js";
 import Companies from "views/companies/companies.js";
 import Courses from "views/courses/courses";
 import Exhibitions from "views/exhibitions";
@@ -45,7 +45,7 @@ var routes = [
   {
     exact: true,
     path: "/expansive/:code",
-    name: "",
+    name: "Item Cost Details",
     component: ItemCostDetails,
     layout: "/admin",
     hidden: true,
@@ -55,7 +55,7 @@ var routes = [
     path: "/courses",
     name: "Courses",
     rtlName: "",
-    icon: "tim-icons icon-single-copy-04",
+    icon: "tim-icons icon-book-bookmark",
     component: Courses,
     layout: "/admin",
   },
@@ -65,7 +65,7 @@ var routes = [
     path: "/exhibitions",
     name: "Exhibitions",
     rtlName: "",
-    icon: "tim-icons icon-single-copy-04",
+    icon: "tim-icons icon-components",
     component: Exhibitions,
     layout: "/admin",
   },
@@ -74,14 +74,14 @@ var routes = [
     path: "/opportunities",
     name: "Opportunities",
     rtlName: "",
-    icon: "tim-icons icon-single-copy-04",
+    icon: "tim-icons icon-zoom-split",
     component: Opportunity,
     layout: "/admin",
   },
   {
     exact: true,
     path: "/course-details/:id",
-    name: "",
+    name: "Course Details",
     component: CourseDetails,
     layout: "/admin",
     hidden: true,
@@ -89,7 +89,7 @@ var routes = [
   {
     exact: true,
     path: "/opportunity-details/:id",
-    name: "",
+    name: "Opportunity Details",
     component: OpportunityDetails,
     layout: "/admin",
     hidden: true,
@@ -97,7 +97,7 @@ var routes = [
   {
     exact: true,
     path: "/exhibition-details/:id",
-    name: "",
+    name: "Exhibition Details",
     component: ExhibitionDetails,
     layout: "/admin",
     hidden: true,
@@ -106,7 +106,7 @@ var routes = [
     path: "/volunteers",
     name: "Volunteers",
     rtlName: "",
-    icon: "tim-icons icon-single-copy-04",
+    icon: "tim-icons icon-badge",
     component: Volunteers,
     layout: "/admin",
   },
@@ -114,18 +114,18 @@ var routes = [
     path: "/trainers",
     name: "Trainers",
     rtlName: "",
-    icon: "tim-icons icon-single-copy-04",
+    icon: "tim-icons icon-single-02",
     component: Trainers,
     layout: "/admin",
   },
-  {
-    path: "/icons",
-    name: "Icons",
-    rtlName: "",
-    icon: "tim-icons icon-atom",
-    component: Icons,
-    layout: "/admin",
-  },
+  // {
+  //   path: "/icons",
+  //   name: "Icons",
+  //   rtlName: "",
+  //   icon: "tim-icons icon-atom",
+  //   component: Icons,
+  //   layout: "/admin",
+  // },
   {
     path: "/login",
     name: "",

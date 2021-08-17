@@ -1,4 +1,4 @@
-import { Col, Row, Typography } from 'antd';
+import { Col, Row, Tag, Typography } from 'antd';
 import React, { useEffect, useState } from 'react';
 import * as companiesServices from '../../../services/companies';
 
@@ -54,10 +54,10 @@ const InfoTab = ({ opportunityInfo }) => {
                 <Col style={{ border: '1px solid #ccc', width: '49%', padding: '8px 16px ', borderRadius: '5px' }}>
                     <Row justify='space-between' align='middle'  >
                         <Col>
-                            <Text strong>Cost:</Text>
+                            <Text strong>Last Date For Register:</Text>
                         </Col>
                         <Col>
-                            <Text >{opportunityInfo?.cost + ' SYP'}</Text>
+                            <Text >{opportunityInfo?.lastDateForRegister}</Text>
                         </Col>
                     </Row>
                 </Col>
@@ -73,13 +73,16 @@ const InfoTab = ({ opportunityInfo }) => {
                             <Text >{
                                 opportunityInfo?.time === 1 && (<>
                                     <Row>
-                                        Part Time
+                                        <Tag color='orange'>
+                                            Part Time
+                                        </Tag>
                                     </Row>
                                 </>)}{
                                     opportunityInfo?.time === 2 && <>
                                         <Row>
-
-
+                                            <Tag color='green'>
+                                                Full Time
+                                            </Tag>
                                         </Row>
                                     </>
                                 }</Text>
@@ -96,13 +99,16 @@ const InfoTab = ({ opportunityInfo }) => {
                             <Text >{
                                 opportunityInfo?.type === 1 && (<>
                                     <Row>
-                                        Placement
+                                        <Tag color='green'>
+                                            Placement
+                                        </Tag>
                                     </Row>
                                 </>)}{
                                     opportunityInfo?.type === 2 && <>
                                         <Row>
-                                            Training
-
+                                            <Tag color='orange'>
+                                                Training
+                                            </Tag>
                                         </Row>
                                     </>
                                 }</Text>
@@ -115,10 +121,10 @@ const InfoTab = ({ opportunityInfo }) => {
                 <Col style={{ border: '1px solid #ccc', width: '49%', padding: '8px 16px ', borderRadius: '5px' }}>
                     <Row justify='space-between' align='middle'  >
                         <Col>
-                            <Text strong>StartTime:</Text>
+                            <Text strong >Salary:</Text>
                         </Col>
                         <Col>
-                            <Text >{opportunityInfo?.startTime}</Text>
+                            <Text >{opportunityInfo?.salary + ' SYP'}</Text>
                         </Col>
                     </Row>
                 </Col>
@@ -126,10 +132,10 @@ const InfoTab = ({ opportunityInfo }) => {
                 <Col style={{ border: '1px solid #ccc', width: '49%', padding: '8px 16px ', borderRadius: '5px' }}>
                     <Row justify='space-between' align='middle'  >
                         <Col>
-                            <Text strong>EndTime:</Text>
+                            <Text strong>Scope:</Text>
                         </Col>
                         <Col>
-                            <Text >{opportunityInfo?.endTime}</Text>
+                            <Text >{opportunityInfo?.scope}</Text>
                         </Col>
                     </Row>
                 </Col>
@@ -139,10 +145,10 @@ const InfoTab = ({ opportunityInfo }) => {
                 <Col style={{ border: '1px solid #ccc', width: '49%', padding: '8px 16px ', borderRadius: '5px' }}>
                     <Row justify='space-between' align='middle'  >
                         <Col>
-                            <Text strong>CurrentStudents:</Text>
+                            <Text strong>Free Desks:</Text>
                         </Col>
                         <Col>
-                            <Text >{opportunityInfo?.CurrentStudents}</Text>
+                            <Text >{opportunityInfo?.freeDesks}</Text>
                         </Col>
                     </Row>
                 </Col>
@@ -150,10 +156,44 @@ const InfoTab = ({ opportunityInfo }) => {
                 <Col style={{ border: '1px solid #ccc', width: '49%', padding: '8px 16px ', borderRadius: '5px' }}>
                     <Row justify='space-between' align='middle'  >
                         <Col>
-                            <Text strong>maxStudents:</Text>
+                            <Text strong>State:</Text>
                         </Col>
                         <Col>
-                            <Text >{opportunityInfo?.maxStudents}</Text>
+                            <Text >{
+                                opportunityInfo?.state === 1 && (<>
+                                    <Row>
+                                        <Tag color='green'>
+                                            Active
+                                        </Tag>
+                                    </Row>
+                                </>)}{
+                                    opportunityInfo?.state === 2 && <>
+                                        <Row>
+                                            <Tag color='orange'>
+                                                Inactive
+                                            </Tag>
+                                        </Row>
+                                    </>
+                                }
+                                {
+                                    opportunityInfo?.state === 3 && <>
+                                        <Row>
+                                            <Tag color='red'>
+                                                Deleted
+                                            </Tag>
+                                        </Row>
+                                    </>
+                                }
+                                {
+                                    opportunityInfo?.state === 4 && <>
+                                        <Row>
+                                            <Tag color='gray'>
+                                                Finished
+                                            </Tag>
+                                        </Row>
+                                    </>
+                                }
+                            </Text>
                         </Col>
                     </Row>
                 </Col>

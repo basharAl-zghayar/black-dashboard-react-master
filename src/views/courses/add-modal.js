@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Modal, Button, Form, Input, Col, Tabs, DatePicker, TimePicker, Select, InputNumber } from 'antd';
 import moment from 'moment';
+import * as coachesServices from '../../services/trainers/index';
+
 const { TabPane } = Tabs;
 
 const AddCourseModal = ({ isVisible, setVisible, addCourse, formValues, updateCourse, isUpdate }) => {
     const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
+    const [coaches, setCoaches] = useState([]);
+    useEffect(() => {
+        (async () => {
+            const data = await coachesServices.showAllTrainers();
+            setCoaches(data.data.data);
+        })();
 
+    }, []);
     const onFinish = (values) => {
         const data = values;
         data.startDate = moment(values.startDate).format("YYYY/MM/DD");
@@ -31,7 +40,7 @@ const AddCourseModal = ({ isVisible, setVisible, addCourse, formValues, updateCo
         if (isUpdate) {
             form.setFieldsValue({
                 title: formValues.title,
-                coachID: formValues.coachID,
+                coachID: formValues?.coach?.id,
                 maxStudents: formValues.maxStudents,
                 CurrentStudents: formValues.CurrentStudents,
                 cost: formValues.cost,
@@ -42,7 +51,6 @@ const AddCourseModal = ({ isVisible, setVisible, addCourse, formValues, updateCo
                 endTime: moment(formValues.endTime, 'HH:mm:ss'),
                 Duration: formValues.Duration,
                 location: formValues.location,
-
             });
         }
 
@@ -93,10 +101,15 @@ const AddCourseModal = ({ isVisible, setVisible, addCourse, formValues, updateCo
                                         ]}
                                     >
                                         <Select >
-                                            <Select.Option key='active' value={1}>
-                                                Quais
-                                            </Select.Option>
+                                            {coaches?.map((coach) => {
+                                                return (
 
+                                                    <Select.Option key={coach.id} value={coach.id}>
+                                                        {coach?.firstName + ' ' + coach?.lastName}
+                                                    </Select.Option>
+
+                                                );
+                                            })}
                                         </Select>
                                     </Form.Item>
                                 </Col>
