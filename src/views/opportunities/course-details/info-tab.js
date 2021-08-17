@@ -1,8 +1,17 @@
 import { Col, Row, Typography } from 'antd';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import * as companiesServices from '../../../services/companies';
 
 const { Text } = Typography;
-const InfoTab = ({ courseInfo }) => {
+const InfoTab = ({ opportunityInfo }) => {
+    const [company, setCompany] = useState();
+
+    useEffect(() => {
+        (async () => {
+            const data = await companiesServices.showCompanyById(opportunityInfo?.companyID);
+            setCompany(data.data.data);
+        })();
+    }, [opportunityInfo]);
 
     return (
         <>
@@ -13,7 +22,7 @@ const InfoTab = ({ courseInfo }) => {
                             <Text strong>Title:</Text>
                         </Col>
                         <Col>
-                            <Text >{courseInfo?.title}</Text>
+                            <Text >{opportunityInfo?.title}</Text>
                         </Col>
                     </Row>
                 </Col>
@@ -21,10 +30,10 @@ const InfoTab = ({ courseInfo }) => {
                 <Col style={{ border: '1px solid #ccc', width: '49%', padding: '8px 16px ', borderRadius: '5px' }}>
                     <Row justify='space-between' align='middle'  >
                         <Col>
-                            <Text strong>Couch:</Text>
+                            <Text strong>Company:</Text>
                         </Col>
                         <Col>
-                            <Text >{courseInfo?.couchName}</Text>
+                            <Text >{company?.name}</Text>
                         </Col>
                     </Row>
                 </Col>
@@ -37,7 +46,7 @@ const InfoTab = ({ courseInfo }) => {
                             <Text strong>Location:</Text>
                         </Col>
                         <Col>
-                            <Text >{courseInfo?.location}</Text>
+                            <Text >{opportunityInfo?.location}</Text>
                         </Col>
                     </Row>
                 </Col>
@@ -48,7 +57,7 @@ const InfoTab = ({ courseInfo }) => {
                             <Text strong>Cost:</Text>
                         </Col>
                         <Col>
-                            <Text >{courseInfo?.cost + ' SYP'}</Text>
+                            <Text >{opportunityInfo?.cost + ' SYP'}</Text>
                         </Col>
                     </Row>
                 </Col>
@@ -58,10 +67,22 @@ const InfoTab = ({ courseInfo }) => {
                 <Col style={{ border: '1px solid #ccc', width: '49%', padding: '8px 16px ', borderRadius: '5px' }}>
                     <Row justify='space-between' align='middle'  >
                         <Col>
-                            <Text strong>StartDate:</Text>
+                            <Text strong>Work Time:</Text>
                         </Col>
                         <Col>
-                            <Text >{courseInfo?.startDate}</Text>
+                            <Text >{
+                                opportunityInfo?.time === 1 && (<>
+                                    <Row>
+                                        Part Time
+                                    </Row>
+                                </>)}{
+                                    opportunityInfo?.time === 2 && <>
+                                        <Row>
+
+
+                                        </Row>
+                                    </>
+                                }</Text>
                         </Col>
                     </Row>
                 </Col>
@@ -69,10 +90,22 @@ const InfoTab = ({ courseInfo }) => {
                 <Col style={{ border: '1px solid #ccc', width: '49%', padding: '8px 16px ', borderRadius: '5px' }}>
                     <Row justify='space-between' align='middle'  >
                         <Col>
-                            <Text strong>EndDate:</Text>
+                            <Text strong>Type:</Text>
                         </Col>
                         <Col>
-                            <Text >{courseInfo?.endDate}</Text>
+                            <Text >{
+                                opportunityInfo?.type === 1 && (<>
+                                    <Row>
+                                        Placement
+                                    </Row>
+                                </>)}{
+                                    opportunityInfo?.type === 2 && <>
+                                        <Row>
+                                            Training
+
+                                        </Row>
+                                    </>
+                                }</Text>
                         </Col>
                     </Row>
                 </Col>
@@ -85,7 +118,7 @@ const InfoTab = ({ courseInfo }) => {
                             <Text strong>StartTime:</Text>
                         </Col>
                         <Col>
-                            <Text >{courseInfo?.startTime}</Text>
+                            <Text >{opportunityInfo?.startTime}</Text>
                         </Col>
                     </Row>
                 </Col>
@@ -96,7 +129,7 @@ const InfoTab = ({ courseInfo }) => {
                             <Text strong>EndTime:</Text>
                         </Col>
                         <Col>
-                            <Text >{courseInfo?.endTime}</Text>
+                            <Text >{opportunityInfo?.endTime}</Text>
                         </Col>
                     </Row>
                 </Col>
@@ -109,7 +142,7 @@ const InfoTab = ({ courseInfo }) => {
                             <Text strong>CurrentStudents:</Text>
                         </Col>
                         <Col>
-                            <Text >{courseInfo?.CurrentStudents}</Text>
+                            <Text >{opportunityInfo?.CurrentStudents}</Text>
                         </Col>
                     </Row>
                 </Col>
@@ -120,7 +153,7 @@ const InfoTab = ({ courseInfo }) => {
                             <Text strong>maxStudents:</Text>
                         </Col>
                         <Col>
-                            <Text >{courseInfo?.maxStudents}</Text>
+                            <Text >{opportunityInfo?.maxStudents}</Text>
                         </Col>
                     </Row>
                 </Col>
@@ -133,7 +166,7 @@ const InfoTab = ({ courseInfo }) => {
                             <Text strong>Description:</Text>
                         </Col>
                         <Col>
-                            <Text >{courseInfo?.description}</Text>
+                            <Text >{opportunityInfo?.description}</Text>
                         </Col>
                     </Row>
                 </Col>

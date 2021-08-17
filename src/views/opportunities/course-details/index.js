@@ -1,21 +1,21 @@
 import { Card, Spin, Tabs } from 'antd';
 import React, { useEffect, useState } from 'react';
-import * as coursesServices from '../../../services/courses/index';
+import * as opportunitiesServices from '../../../services/opportunities/index';
 import { useParams } from 'react-router-dom';
 import InfoTab from './info-tab';
 import QuestionsTab from './question-tab/questions-tab';
 import LoginRequestsTab from './login-request-tab/login-request-tab';
 
-const CourseDetails = () => {
+const OpportunityDetails = () => {
     const { id } = useParams();
-    const [courseInfo, setCourseInfo] = useState();
+    const [opportunityInfo, setOpportunityInfo] = useState();
     const [spinning, setSpinning] = useState(true);
 
     useEffect(() => {
         (async () => {
-            const data = await coursesServices.showCourseById(id);
-            console.log(data.data.data);
-            setCourseInfo(data.data.data);
+            const data = await opportunitiesServices.showOpportunityById(id);
+
+            setOpportunityInfo(data.data.data);
             setSpinning(false);
         })();
     }, [id]);
@@ -27,13 +27,13 @@ const CourseDetails = () => {
                     <Card style={{ minHeight: '85vh', borderRadius: '5px' }}>
                         <Tabs>
                             <Tabs.TabPane key='info' tab="Info">
-                                <InfoTab courseInfo={courseInfo} />
+                                <InfoTab opportunityInfo={opportunityInfo} />
                             </Tabs.TabPane>
-                            <Tabs.TabPane key='questions' tab="Course Questions">
-                                <QuestionsTab courseID={id} />
+                            <Tabs.TabPane key='questions' tab="Opportunity Questions">
+                                <QuestionsTab opportunityID={id} />
                             </Tabs.TabPane>
-                            <Tabs.TabPane key='questions-login-requests' tab="Course Login Requests">
-                                <LoginRequestsTab courseID={id} />
+                            <Tabs.TabPane key='questions-login-requests' tab="Opportunity Login Requests">
+                                <LoginRequestsTab opportunityID={id} />
                             </Tabs.TabPane>
                         </Tabs>
 
@@ -44,4 +44,4 @@ const CourseDetails = () => {
     );
 };
 
-export default CourseDetails;
+export default OpportunityDetails;

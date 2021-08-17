@@ -18,6 +18,8 @@ import {
   Container,
   NavbarToggler,
 } from "reactstrap";
+import { useHistory } from "react-router-dom";
+import AppConst from "../../app-consts";
 
 function AdminNavbar(props) {
   const [collapseOpen, setcollapseOpen] = React.useState(false);
@@ -46,7 +48,7 @@ function AdminNavbar(props) {
     }
     setcollapseOpen(!collapseOpen);
   };
-
+  const history = useHistory();
   return (
     <>
       <Navbar className={classNames("navbar-absolute", color)} expand="lg">
@@ -94,7 +96,9 @@ function AdminNavbar(props) {
                 <DropdownMenu className="dropdown-navbar" right tag="ul">
 
                   <NavLink tag="li">
-                    <DropdownItem className="nav-item">Log out</DropdownItem>
+                    <DropdownItem className="nav-item" onClick={() => {
+                      window.location.href = `${AppConst.baseUrl}/` + 'user/login';
+                    }}>Log out</DropdownItem>
                   </NavLink>
                 </DropdownMenu>
               </UncontrolledDropdown>

@@ -14,7 +14,7 @@ const CourseDetails = () => {
     useEffect(() => {
         (async () => {
             const data = await coursesServices.showCourseById(id);
-            console.log(data.data.data);
+
             setCourseInfo(data.data.data);
             setSpinning(false);
         })();

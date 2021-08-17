@@ -20,8 +20,6 @@ export async function showAllCompanies() {
     return data;
 }
 export async function showCompanyById(id) {
-    const data = await http.get(apiEndpoint + 'showById', {
-        params: id,
-    });
+    const data = await http.get(apiEndpoint + 'showCompanyByID/' + `${id}`);
     return data;
 }

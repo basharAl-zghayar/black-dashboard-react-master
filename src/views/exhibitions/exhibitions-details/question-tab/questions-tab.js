@@ -33,7 +33,7 @@ const QuestionsTab = ({ exhibitionID }) => {
     };
     const addQuestion = (values) => {
         (async () => {
-            await exhibitionsQuestionsServices.addExhibitionQuestion({ ...values, CourseID: Number(exhibitionID) });
+            await exhibitionsQuestionsServices.addExhibitionQuestion({ ...values, exhibitionsId: Number(exhibitionID) });
             setQuestionModalVisible(false);
             getData();
             setSpinning(false);
@@ -41,7 +41,7 @@ const QuestionsTab = ({ exhibitionID }) => {
     };
     const updateQuestion = (values) => {
         (async () => {
-            await exhibitionsQuestionsServices.updateExhibitionQuestion({ ...values, CourseID: Number(exhibitionID), id: record.id });
+            await exhibitionsQuestionsServices.updateExhibitionQuestion({ ...values, exhibitionsId: Number(exhibitionID), id: record.id });
             setQuestionModalVisible(false);
             getData();
             setSpinning(false);
@@ -52,8 +52,8 @@ const QuestionsTab = ({ exhibitionID }) => {
         (async () => {
             const data = await exhibitionsQuestionsServices.showExhibitionQuestionByExhibitionId(exhibitionID);
             setCourses(data.data.data);
-            setSpinning(false);
         })();
+        setSpinning(false);
     };
     const getQuestionAnswers = (record) => {
         setSpinning(true);

@@ -4,10 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { columns } from './columns';
 import AddCourseQuestionModal from "./add-course-question";
-import * as coursesQuestionsServices from '../../../../services/courses/question-course/index';
-import * as coursesQuestionAnswersServices from '../../../../services/courses/course-questino-anwers/index';
+import * as coursesQuestionsServices from '../../../../services/opportunities/opportunities-question/index';
+import * as coursesQuestionAnswersServices from '../../../../services/opportunities/opportunities-question-answers/index';
 
-const QuestionsTab = ({ courseID }) => {
+const QuestionsTab = ({ opportunityID }) => {
 
     const [isQuestionModalVisible, setQuestionModalVisible] = useState(false);
     const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
@@ -25,7 +25,7 @@ const QuestionsTab = ({ courseID }) => {
         setSpinning(true);
 
         (async () => {
-            await coursesQuestionsServices.deleteQuestion(record.id);
+            await coursesQuestionsServices.deleteOpportunityQuestion(record.id);
             setDeleteModalVisible(false);
             getData();
             setSpinning(false);
@@ -33,7 +33,7 @@ const QuestionsTab = ({ courseID }) => {
     };
     const addQuestion = (values) => {
         (async () => {
-            await coursesQuestionsServices.addQuestion({ ...values, CourseID: Number(courseID) });
+            await coursesQuestionsServices.addOpportunityQuestion({ ...values, opportunityId: Number(opportunityID) });
             setQuestionModalVisible(false);
             getData();
             setSpinning(false);
@@ -41,7 +41,7 @@ const QuestionsTab = ({ courseID }) => {
     };
     const updateQuestion = (values) => {
         (async () => {
-            await coursesQuestionsServices.updateQuestion({ ...values, CourseID: Number(courseID), id: record.id });
+            await coursesQuestionsServices.updateOpportunityQuestion({ ...values, opportunityId: Number(opportunityID), id: record.id });
             setQuestionModalVisible(false);
             getData();
             setSpinning(false);
@@ -50,7 +50,7 @@ const QuestionsTab = ({ courseID }) => {
     const getData = () => {
         setSpinning(true);
         (async () => {
-            const data = await coursesQuestionsServices.showQuestionById(courseID);
+            const data = await coursesQuestionsServices.showAllByQuestionID(opportunityID);
             setCourses(data.data.data);
             setSpinning(false);
         })();

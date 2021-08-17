@@ -291,7 +291,7 @@ const AddVolunteerModal = ({ isVisible, setVisible, addVolunteer, formValues, up
                                     setVisible(false);
                                     form.resetFields();
                                 }}>
-                                    Reset
+                                    Close
                                 </Button>
                             </Form.Item>
                         </Col>

@@ -168,7 +168,7 @@ const AddCourseModal = ({ isVisible, setVisible, addCourse, formValues, updateCo
                                 <Col style={{ margin: '0 8px 0 0' }}>
                                     <Form.Item >
                                         <Button htmlType="button" onClick={() => { setVisible(false); form.resetFields(); }}>
-                                            Reset
+                                            Close
                                         </Button>
                                     </Form.Item>
                                 </Col>

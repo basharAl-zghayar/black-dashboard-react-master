@@ -4,6 +4,7 @@ import Icons from "views/Icons.js";
 import Companies from "views/companies/companies.js";
 import Courses from "views/courses/courses";
 import Exhibitions from "views/exhibitions";
+import Opportunity from "views/opportunities";
 import CourseDetails from "views/courses/course-details";
 import ExhibitionDetails from "views/exhibitions/exhibitions-details";
 import Volunteers from "views/volunteers/index";
@@ -11,6 +12,7 @@ import ItemCosts from "views/item-costs/index";
 import Trainers from "views/trainer/index";
 import LoginPage from "views/log-in";
 import ItemCostDetails from "views/item-costs/item-cost-details";
+import OpportunityDetails from "views/opportunities/course-details";
 
 var routes = [
   {
@@ -69,9 +71,26 @@ var routes = [
   },
   {
     exact: true,
+    path: "/opportunities",
+    name: "Opportunities",
+    rtlName: "",
+    icon: "tim-icons icon-single-copy-04",
+    component: Opportunity,
+    layout: "/admin",
+  },
+  {
+    exact: true,
     path: "/course-details/:id",
     name: "",
     component: CourseDetails,
+    layout: "/admin",
+    hidden: true,
+  },
+  {
+    exact: true,
+    path: "/opportunity-details/:id",
+    name: "",
+    component: OpportunityDetails,
     layout: "/admin",
     hidden: true,
   },
