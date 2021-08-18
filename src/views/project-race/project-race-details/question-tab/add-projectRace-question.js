@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Row, Modal, Button, Form, Input, Col, Select, Checkbox, Divider, Tooltip, Spin } from 'antd';
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 
-const AddCourseQuestionModal = ({
+const AddQuestionModal = ({
     isVisible,
     setVisible,
     addQuestion,
@@ -273,4 +273,4 @@ const AddCourseQuestionModal = ({
 
 };
 
-export default AddCourseQuestionModal;
+export default AddQuestionModal;

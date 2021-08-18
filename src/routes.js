@@ -5,7 +5,9 @@ import Companies from "views/companies/companies.js";
 import Courses from "views/courses/courses";
 import Exhibitions from "views/exhibitions";
 import Opportunity from "views/opportunities";
+import ProjectRace from "views/project-race";
 import CourseDetails from "views/courses/course-details";
+import ProjectRaceDetails from "views/project-race/project-race-details";
 import ExhibitionDetails from "views/exhibitions/exhibitions-details";
 import Volunteers from "views/volunteers/index";
 import ItemCosts from "views/item-costs/index";
@@ -80,9 +82,26 @@ var routes = [
   },
   {
     exact: true,
+    path: "/projects-races",
+    name: "Project Race",
+    rtlName: "",
+    icon: "tim-icons icon-zoom-split",
+    component: ProjectRace,
+    layout: "/admin",
+  },
+  {
+    exact: true,
     path: "/course-details/:id",
     name: "Course Details",
     component: CourseDetails,
+    layout: "/admin",
+    hidden: true,
+  },
+  {
+    exact: true,
+    path: "/project-race-details/:id",
+    name: "Course Details",
+    component: ProjectRaceDetails,
     layout: "/admin",
     hidden: true,
   },

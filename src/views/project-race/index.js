@@ -5,7 +5,7 @@ import { ArrowRightOutlined, DeleteOutlined, EditOutlined, PlusOutlined } from '
 import { columns } from './columns';
 import AddProjectRaceModal from './add-modal';
 import { useHistory } from "react-router-dom";
-import * as opportunityServices from '../../services/opportunities';
+import * as projectRaceServices from '../../services/projects-races';
 
 function ProjectRace(props) {
     const history = useHistory();
@@ -13,7 +13,7 @@ function ProjectRace(props) {
     const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
     const [spinning, setSpinning] = useState(true);
     const [record, setRecord] = useState();
-    const [opportunity, setProjectRace] = useState([]);
+    const [projectRace, setProjectRace] = useState([]);
     const [isUpdate, setIsUpdate] = useState(false);
 
     useEffect(() => {
@@ -23,14 +23,14 @@ function ProjectRace(props) {
     const getData = () => {
         setSpinning(true);
         (async () => {
-            const data = await opportunityServices.showAllProjectRace();
+            const data = await projectRaceServices.showAllProjectsRaces();
             setProjectRace(data.data.data);
             setSpinning(false);
         })();
     };
     const handleDelete = () => {
         (async () => {
-            await opportunityServices.deleteProjectRace(record.id);
+            await projectRaceServices.deleteProjectsRaces(record.id);
             setDeleteModalVisible(false);
             getData();
             setSpinning(false);
@@ -39,7 +39,7 @@ function ProjectRace(props) {
     const onFinish = (values) => {
 
         (async () => {
-            await opportunityServices.addProjectRace(values);
+            await projectRaceServices.addProjectsRaces(values);
             setModalVisible(false);
             getData();
 
@@ -48,7 +48,7 @@ function ProjectRace(props) {
     const updateProjectRace = (values) => {
 
         (async () => {
-            await opportunityServices.updateProjectRace({ ...values, id: record.id });
+            await projectRaceServices.updateProjectsRaces({ ...values, id: record.id });
             setModalVisible(false);
             getData();
 
@@ -63,7 +63,7 @@ function ProjectRace(props) {
             return (
                 <Row justify="space-between">
                     <Col>
-                        <Tooltip title={'Delete ProjectRace'}>
+                        <Tooltip title={'Delete Project Race'}>
                             <Button
                                 type='link'
                                 danger
@@ -79,7 +79,7 @@ function ProjectRace(props) {
                         </Tooltip>
                     </Col>
                     <Col>
-                        <Tooltip title={'Edit ProjectRace'}>
+                        <Tooltip title={'Edit Project Race'}>
                             <Button
                                 type='link'
                                 size="small"
@@ -101,7 +101,7 @@ function ProjectRace(props) {
                                 size="small"
                                 shape="circle"
                                 onClick={() => {
-                                    history.push(`opportunity-details/${record.id}`);
+                                    history.push(`project-race-details/${record.id}`);
                                 }}
                             >
                                 <ArrowRightOutlined />
@@ -132,7 +132,7 @@ function ProjectRace(props) {
                             </Button>
                         </Row>
                         <Row>
-                            <Table dataSource={opportunity} columns={[...columns, actionColumn]} style={{
+                            <Table dataSource={projectRace} columns={[...columns, actionColumn]} style={{
                                 width: '100%',
                                 padding: ' 16px 0 0',
                                 borderRadius: '7px'

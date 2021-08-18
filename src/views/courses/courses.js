@@ -5,7 +5,6 @@ import { ArrowRightOutlined, DeleteOutlined, EditOutlined, PlusOutlined } from '
 import { columns } from './columns';
 import AddCourseModal from './add-modal';
 import * as coursesServices from '../../services/courses/index';
-import AppConst from "app-consts";
 import { useHistory } from "react-router-dom";
 
 function Courses(props) {

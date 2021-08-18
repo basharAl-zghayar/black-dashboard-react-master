@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-    Row, Modal, Button, Form, Input, Col, Tabs, DatePicker, TimePicker, Select, InputNumber
+    Row, Modal, Button, Form, Input, Col, Tabs, DatePicker, Select, InputNumber
 }
     from 'antd';
 import moment from 'moment';

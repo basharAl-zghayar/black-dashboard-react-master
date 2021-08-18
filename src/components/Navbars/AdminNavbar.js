@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-concat */
 
 import React from "react";
 // nodejs library that concatenates classes
@@ -18,7 +19,6 @@ import {
   Container,
   NavbarToggler,
 } from "reactstrap";
-import { useHistory } from "react-router-dom";
 import AppConst from "../../app-consts";
 
 function AdminNavbar(props) {
@@ -48,7 +48,6 @@ function AdminNavbar(props) {
     }
     setcollapseOpen(!collapseOpen);
   };
-  const history = useHistory();
   return (
     <>
       <Navbar className={classNames("navbar-absolute", color)} expand="lg">

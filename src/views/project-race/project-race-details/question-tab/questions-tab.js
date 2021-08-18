@@ -3,19 +3,19 @@ import { Spin, Row, Typography, Button, Table, Modal, Col, Tooltip } from 'antd'
 import React, { useState, useEffect } from 'react';
 import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { columns } from './columns';
-import AddCourseQuestionModal from "./add-course-question";
-import * as coursesQuestionsServices from '../../../../services/courses/question-course/index';
-import * as coursesQuestionAnswersServices from '../../../../services/courses/course-questino-anwers/index';
+import AddQuestionModal from "./add-projectRace-question";
+import * as projectRacesQuestionsServices from '../../../../services/projects-races/projects-races-questions';
+import * as projectRacesQuestionAnswersServices from '../../../../services/projects-races/projects-races-question-answe';
 
-const QuestionsTab = ({ courseID }) => {
+const QuestionsTab = ({ projectRaceID }) => {
 
     const [isQuestionModalVisible, setQuestionModalVisible] = useState(false);
     const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
     const [spinning, setSpinning] = useState(true);
     const [record, setRecord] = useState();
-    const [courses, setCourses] = useState([]);
+    const [projectRaces, setCourses] = useState([]);
     const [isUpdate, setIsUpdate] = useState(false);
-    const [courseQuestion, setCourseQuestion] = useState();
+    const [projectRaceQuestion, setProjectsRacesQuestion] = useState();
 
     useEffect(() => {
         getData();
@@ -25,7 +25,7 @@ const QuestionsTab = ({ courseID }) => {
         setSpinning(true);
 
         (async () => {
-            await coursesQuestionsServices.deleteQuestion(record.id);
+            await projectRacesQuestionsServices.deleteQuestion(record.id);
             setDeleteModalVisible(false);
             getData();
             setSpinning(false);
@@ -33,7 +33,7 @@ const QuestionsTab = ({ courseID }) => {
     };
     const addQuestion = (values) => {
         (async () => {
-            await coursesQuestionsServices.addQuestion({ ...values, CourseID: Number(courseID) });
+            await projectRacesQuestionsServices.addQuestion({ ...values, projectRaceID: Number(projectRaceID) });
             setQuestionModalVisible(false);
             getData();
             setSpinning(false);
@@ -41,7 +41,7 @@ const QuestionsTab = ({ courseID }) => {
     };
     const updateQuestion = (values) => {
         (async () => {
-            await coursesQuestionsServices.updateQuestion({ ...values, CourseID: Number(courseID), id: record.id });
+            await projectRacesQuestionsServices.update({ ...values, projectRaceID: Number(projectRaceID), id: record.id });
             setQuestionModalVisible(false);
             getData();
             setSpinning(false);
@@ -50,7 +50,7 @@ const QuestionsTab = ({ courseID }) => {
     const getData = () => {
         setSpinning(true);
         (async () => {
-            const data = await coursesQuestionsServices.showQuestionById(courseID);
+            const data = await projectRacesQuestionsServices.showAllByQuestionID(projectRaceID);
             setCourses(data.data.data);
             setSpinning(false);
         })();
@@ -58,15 +58,15 @@ const QuestionsTab = ({ courseID }) => {
     const getQuestionAnswers = (record) => {
         setSpinning(true);
         (async () => {
-            const data = await coursesQuestionAnswersServices.showQuestionAnswerById(record.id);
+            const data = await projectRacesQuestionAnswersServices.showQuestionAnswerById(record.id);
             const questionsAnswers = data.data.data.map((answer) => {
                 answer.state = answer.state === 1 ? true : false;
                 return answer;
             });
-            setCourseQuestion({
+            setProjectsRacesQuestion({
                 questionsAnswers: questionsAnswers,
                 title: record.title,
-                CourseID: record.CourseID,
+                projectRaceID: record.projectRaceID,
                 type: record.type,
                 id: record.id,
                 required: record.required === 1 ? true : false,
@@ -134,18 +134,18 @@ const QuestionsTab = ({ courseID }) => {
                     </Button>
                 </Row>
                 <Row>
-                    <Table dataSource={courses} columns={[...columns, actionColumn]} style={{
+                    <Table dataSource={projectRaces} columns={[...columns, actionColumn]} style={{
                         width: '100%',
                         padding: ' 16px 0 0',
                         borderRadius: '7px'
                     }} />
                 </Row>
-                <AddCourseQuestionModal
+                <AddQuestionModal
                     isVisible={isQuestionModalVisible}
                     setVisible={setQuestionModalVisible}
                     addQuestion={addQuestion}
                     updateQuestion={updateQuestion}
-                    formValues={courseQuestion}
+                    formValues={projectRaceQuestion}
                     isUpdate={isUpdate} />
                 <Modal
                     title='Delete  Question'

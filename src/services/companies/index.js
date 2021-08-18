@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-concat */
 import http from '../common/http/index';
 import AppConsts from '../../app-consts';
 

@@ -15,7 +15,7 @@ export async function updateOpportunity(updateOpportunity) {
 }
 
 export async function deleteOpportunity(id) {
-    const data = await http.put(apiEndpoint + 'deleteOpportunity' + `${id}`);
+    const data = await http.put(apiEndpoint + 'deleteOpportunity/' + `${id}`);
     return data;
 }
 export async function showAllOpportunity() {

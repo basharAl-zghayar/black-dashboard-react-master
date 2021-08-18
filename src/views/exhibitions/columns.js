@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Tag } from "antd";
+import { Row } from "antd";
 
 export const columns = [
     {

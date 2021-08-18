@@ -5,7 +5,6 @@ import { ArrowRightOutlined, DeleteOutlined, EditOutlined, PlusOutlined } from '
 import { columns } from './columns';
 import AddExhibitionModal from './add-modal';
 import * as exhibitionsServices from '../../services/exhibition/index';
-import AppConst from "app-consts";
 import { useHistory } from "react-router-dom";
 
 function Exhibitions(props) {
