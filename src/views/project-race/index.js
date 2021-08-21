@@ -6,6 +6,8 @@ import { columns } from './columns';
 import AddProjectRaceModal from './add-modal';
 import { useHistory } from "react-router-dom";
 import * as projectRaceServices from '../../services/projects-races';
+import * as exhibitionLoginServices from '../../services/exhibition/exhibition-login-request';
+import AddLoginRequestModal from "./login-request";
 
 function ProjectRace(props) {
     const history = useHistory();
@@ -15,7 +17,8 @@ function ProjectRace(props) {
     const [record, setRecord] = useState();
     const [projectRace, setProjectRace] = useState([]);
     const [isUpdate, setIsUpdate] = useState(false);
-
+    const [logModalVisible, setLogModalVisible] = useState(false);
+    const type = localStorage.getItem('userType');
     useEffect(() => {
         getData();
     }, []);
@@ -61,76 +64,106 @@ function ProjectRace(props) {
         className: 'actions',
         render: (text, record, index) => {
             return (
-                <Row justify="space-between">
-                    <Col>
-                        <Tooltip title={'Delete Project Race'}>
-                            <Button
-                                type='link'
-                                danger
-                                size="small"
-                                shape="circle"
-                                onClick={() => {
-                                    setDeleteModalVisible(true);
-                                    setRecord(record);
-                                }}
-                            >
-                                <DeleteOutlined />
-                            </Button>
-                        </Tooltip>
-                    </Col>
-                    <Col>
-                        <Tooltip title={'Edit Project Race'}>
-                            <Button
-                                type='link'
-                                size="small"
-                                shape="circle"
-                                onClick={() => {
-                                    setRecord(record);
-                                    setModalVisible(true);
-                                    setIsUpdate(true);
-                                }}
-                            >
-                                <EditOutlined />
-                            </Button>
-                        </Tooltip>
-                    </Col>
-                    <Col>
-                        <Tooltip title={'ProjectRace Details'}>
-                            <Button
-                                type='link'
-                                size="small"
-                                shape="circle"
-                                onClick={() => {
-                                    history.push(`project-race-details/${record.id}`);
-                                }}
-                            >
-                                <ArrowRightOutlined />
-                            </Button>
-                        </Tooltip>
-                    </Col>
+                type === '2' ? <Col>
+                    <Tooltip title={'Add Request'}>
+                        <Button
+                            type='link'
+                            size="small"
+                            shape="circle"
+                            onClick={() => {
+                                setRecord(record);
+                                setLogModalVisible(true);
+                            }}
+                        >
+                            Add Request
+                        </Button>
+                    </Tooltip>
+                </Col> :
+                    <Row justify="space-between">
+                        <Col>
+                            <Tooltip title={'Delete Project Race'}>
+                                <Button
+                                    type='link'
+                                    danger
+                                    size="small"
+                                    shape="circle"
+                                    onClick={() => {
+                                        setDeleteModalVisible(true);
+                                        setRecord(record);
+                                    }}
+                                >
+                                    <DeleteOutlined />
+                                </Button>
+                            </Tooltip>
+                        </Col>
+                        <Col>
+                            <Tooltip title={'Edit Project Race'}>
+                                <Button
+                                    type='link'
+                                    size="small"
+                                    shape="circle"
+                                    onClick={() => {
+                                        setRecord(record);
+                                        setModalVisible(true);
+                                        setIsUpdate(true);
+                                    }}
+                                >
+                                    <EditOutlined />
+                                </Button>
+                            </Tooltip>
+                        </Col>
+                        <Col>
+                            <Tooltip title={'ProjectRace Details'}>
+                                <Button
+                                    type='link'
+                                    size="small"
+                                    shape="circle"
+                                    onClick={() => {
+                                        history.push(`project-race-details/${record.id}`);
+                                    }}
+                                >
+                                    <ArrowRightOutlined />
+                                </Button>
+                            </Tooltip>
+                        </Col>
 
-                </Row>
+                    </Row>
             );
         },
     };
 
-
+    const addLogRequest = (values) => {
+        const studentID = localStorage.getItem('userId');
+        const data = {};
+        data.studentID = studentID;
+        data.projectsRaceID = record.id;
+        data.state = 1;
+        data.Answers = values;
+        (async () => {
+            await exhibitionLoginServices.addExhibitionLoginRequest(data);
+            setLogModalVisible(false);
+        })();
+    };
     return (
         <>
             <div className="content">
                 <Card style={{ minHeight: '85vh', borderRadius: '5px' }}>
                     <Spin spinning={spinning} >
-                        <Row justify='end' align='middle'>
+                        {type === '2' ? null : <Row justify='end' align='middle'>
 
                             <Button type='primary' onClick={() => {
-                                setModalVisible(true);
+                                type === '2' ? setLogModalVisible(true) :
+                                    setModalVisible(true);
                                 setIsUpdate(false);
                             }} >
-                                <Row align='middle'>
-                                    <PlusOutlined /> Add  ProjectRace
-                                </Row>
+                                {type === '2' ? <Row align='middle'>
+                                    <PlusOutlined /> Login  Course
+                                </Row> :
+                                    <Row align='middle'>
+                                        <PlusOutlined /> Add  Exhibition
+                                    </Row>}
                             </Button>
-                        </Row>
+                        </Row>}
                         <Row>
                             <Table dataSource={projectRace} columns={[...columns, actionColumn]} style={{
                                 width: '100%',
@@ -147,7 +180,12 @@ function ProjectRace(props) {
                             isUpdate={isUpdate}
 
                         />
-
+                        <AddLoginRequestModal
+                            isVisible={logModalVisible}
+                            setVisible={setLogModalVisible}
+                            addCourse={addLogRequest}
+                            id={record?.id}
+                        />
                         <Modal
                             title='Delete  ProjectRace'
                             visible={isDeleteModalVisible}

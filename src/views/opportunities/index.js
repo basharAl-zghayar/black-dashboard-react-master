@@ -6,15 +6,20 @@ import { columns } from './columns';
 import AddOpportunityModal from './add-modal';
 import { useHistory } from "react-router-dom";
 import * as opportunityServices from '../../services/opportunities';
+import * as opportunityLogServices from '../../services/opportunities/opportunities-login-request';
+import AddLoginRequestModal from "./login-request";
 
 function Opportunity(props) {
     const history = useHistory();
     const [isModalVisible, setModalVisible] = useState(false);
+    const [logModalVisible, setLogModalVisible] = useState(false);
+
     const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
     const [spinning, setSpinning] = useState(true);
     const [record, setRecord] = useState();
     const [opportunity, setOpportunity] = useState([]);
     const [isUpdate, setIsUpdate] = useState(false);
+    const type = localStorage.getItem('userType');
 
     useEffect(() => {
         getData();
@@ -54,62 +59,88 @@ function Opportunity(props) {
 
         })();
     };
-
+    const addLogRequest = (values) => {
+        const studentID = localStorage.getItem('userId');
+        const data = {};
+        data.studentID = studentID;
+        data.opportunityID = record.id;
+        data.state = 1;
+        data.Answers = values;
+        (async () => {
+            await opportunityLogServices.addOpportunityLoginRequest(data);
+            setLogModalVisible(false);
+        })();
+    };
     const actionColumn = {
         key: 'actions',
         width: '13%',
         className: 'actions',
         render: (text, record, index) => {
             return (
-                <Row justify="space-between">
-                    <Col>
-                        <Tooltip title={'Delete Opportunity'}>
-                            <Button
-                                type='link'
-                                danger
-                                size="small"
-                                shape="circle"
-                                onClick={() => {
-                                    setDeleteModalVisible(true);
-                                    setRecord(record);
-                                }}
-                            >
-                                <DeleteOutlined />
-                            </Button>
-                        </Tooltip>
-                    </Col>
-                    <Col>
-                        <Tooltip title={'Edit Opportunity'}>
-                            <Button
-                                type='link'
-                                size="small"
-                                shape="circle"
-                                onClick={() => {
-                                    setRecord(record);
-                                    setModalVisible(true);
-                                    setIsUpdate(true);
-                                }}
-                            >
-                                <EditOutlined />
-                            </Button>
-                        </Tooltip>
-                    </Col>
-                    <Col>
-                        <Tooltip title={'Opportunity Details'}>
-                            <Button
-                                type='link'
-                                size="small"
-                                shape="circle"
-                                onClick={() => {
-                                    history.push(`opportunity-details/${record.id}`);
-                                }}
-                            >
-                                <ArrowRightOutlined />
-                            </Button>
-                        </Tooltip>
-                    </Col>
+                type === '2' ? <Col>
+                    <Tooltip title={'Add Request'}>
+                        <Button
+                            type='link'
+                            size="small"
+                            shape="circle"
+                            onClick={() => {
+                                setRecord(record);
+                                setLogModalVisible(true);
+                            }}
+                        >
+                            Add Request
+                        </Button>
+                    </Tooltip>
+                </Col> :
+                    <Row justify="space-between">
+                        <Col>
+                            <Tooltip title={'Delete Opportunity'}>
+                                <Button
+                                    type='link'
+                                    danger
+                                    size="small"
+                                    shape="circle"
+                                    onClick={() => {
+                                        setDeleteModalVisible(true);
+                                        setRecord(record);
+                                    }}
+                                >
+                                    <DeleteOutlined />
+                                </Button>
+                            </Tooltip>
+                        </Col>
+                        <Col>
+                            <Tooltip title={'Edit Opportunity'}>
+                                <Button
+                                    type='link'
+                                    size="small"
+                                    shape="circle"
+                                    onClick={() => {
+                                        setRecord(record);
+                                        setModalVisible(true);
+                                        setIsUpdate(true);
+                                    }}
+                                >
+                                    <EditOutlined />
+                                </Button>
+                            </Tooltip>
+                        </Col>
+                        <Col>
+                            <Tooltip title={'Opportunity Details'}>
+                                <Button
+                                    type='link'
+                                    size="small"
+                                    shape="circle"
+                                    onClick={() => {
+                                        history.push(`opportunity-details/${record.id}`);
+                                    }}
+                                >
+                                    <ArrowRightOutlined />
+                                </Button>
+                            </Tooltip>
+                        </Col>
 
-                </Row>
+                    </Row>
             );
         },
     };
@@ -120,17 +151,21 @@ function Opportunity(props) {
             <div className="content">
                 <Card style={{ minHeight: '85vh', borderRadius: '5px' }}>
                     <Spin spinning={spinning} >
-                        <Row justify='end' align='middle'>
+                        {type === '2' ? null : <Row justify='end' align='middle'>
 
                             <Button type='primary' onClick={() => {
-                                setModalVisible(true);
+                                type === '2' ? setLogModalVisible(true) :
+                                    setModalVisible(true);
                                 setIsUpdate(false);
                             }} >
-                                <Row align='middle'>
-                                    <PlusOutlined /> Add  Opportunity
-                                </Row>
+                                {type === '2' ? <Row align='middle'>
+                                    <PlusOutlined /> Login  Course
+                                </Row> :
+                                    <Row align='middle'>
+                                        <PlusOutlined /> Add  Exhibition
+                                    </Row>}
                             </Button>
-                        </Row>
+                        </Row>}
                         <Row>
                             <Table dataSource={opportunity} columns={[...columns, actionColumn]} style={{
                                 width: '100%',
@@ -146,6 +181,12 @@ function Opportunity(props) {
                             updateOpportunity={updateOpportunity}
                             isUpdate={isUpdate}
 
+                        />
+                        <AddLoginRequestModal
+                            isVisible={logModalVisible}
+                            setVisible={setLogModalVisible}
+                            addCourse={addLogRequest}
+                            id={record?.id}
                         />
 
                         <Modal

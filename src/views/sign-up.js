@@ -15,11 +15,13 @@ function Signup() {
         try {
             const data = await addStudent.addStudent({ ...form.getFieldsValue(), image: 'none' });
             if (data) {
-                setTimeout(async function () { await login(form.getFieldValue('email'), form.getFieldValue('password')); }, 3000);
+                setTimeout(async function () {
+                    await login(form.getFieldValue('email'), form.getFieldValue('password')); if (data) {
+                        window.location.href = `http://localhost:3000/admin/dashboard`;
+                    }
+                }, 2000);
 
-                // if (data) {
-                //     window.location.href = `http://localhost:3000/admin/dashboard`;
-                // }
+
 
             }
         } finally {
@@ -36,7 +38,6 @@ function Signup() {
                                 <div class="col-md-3 register-left">
                                     <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
                                     <h3>Welcome To PTC</h3>
-                                    <input type="submit" name="" value="Login" /><br />
                                 </div>
                                 <div class="col-md-9 register-right">
                                     <div class="tab-content" id="myTabContent">

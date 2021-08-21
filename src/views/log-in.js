@@ -69,13 +69,7 @@ function LoginPage() {
                                                             />
                                                         }
                                                     />
-                                                    {/* <Row
-                                                        style={{ fontWeight: 'bolder', fontSize: '16px', color: '#fff', padding: '0 0 16px' }}>
-                                                        {<span style={{ color: 'red', padding: '0 4px 0 0' }}>{'* '}</span>} Email:
-                                                    </Row>
-                                                    <Row>
-                                                       
-                                                    </Row> */}
+
                                                 </Form.Item>
 
                                                 <Form.Item
@@ -99,11 +93,7 @@ function LoginPage() {
                                                             />
                                                         }
                                                     />
-                                                    {/* <Row
-                                                        style={{ fontWeight: 'bolder', fontSize: '16px', color: '#fff', padding: '0 0 16px' }}>
-                                                        {<span style={{ color: 'red', padding: '0 4px 0 0' }}>{'* '}</span>} Password:
-                                                    </Row>
-                                                     */}
+
                                                 </Form.Item>
 
                                                 <Row justify="end">
@@ -123,6 +113,14 @@ function LoginPage() {
                                                             {
                                                                 "Login"
                                                             }
+                                                        </Button>
+                                                    </Col>
+                                                    <Col>
+                                                        <Button
+                                                            type='link'
+                                                            onClick={() => window.location.href = `http://localhost:3000/user/signup`}
+                                                        >
+                                                            or Sign Up
                                                         </Button>
                                                     </Col>
                                                 </Row>

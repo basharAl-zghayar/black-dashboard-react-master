@@ -10,6 +10,7 @@ export async function login(email, password) {
     const data = await http.post(apiEndpoint, { email, password });
     localStorage.setItem(tokenKey, data.data.data.token);
     localStorage.setItem('userType', data.data.data.user.type);
+    localStorage.setItem('userId', data.data.data.user.id);
     return data;
 }
 

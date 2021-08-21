@@ -5,10 +5,13 @@ import { ArrowRightOutlined, DeleteOutlined, EditOutlined, PlusOutlined } from '
 import { columns } from './columns';
 import AddExhibitionModal from './add-modal';
 import * as exhibitionsServices from '../../services/exhibition/index';
+import * as exhibitionLoginServices from '../../services/exhibition/exhibition-login-request';
 import { useHistory } from "react-router-dom";
+import AddLoginRequestModal from "./login-request";
 
 function Exhibitions(props) {
     const [isModalVisible, setModalVisible] = useState(false);
+    const [logModalVisible, setLogModalVisible] = useState(false);
     const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
     const [spinning, setSpinning] = useState(true);
     const [record, setRecord] = useState();
@@ -18,6 +21,8 @@ function Exhibitions(props) {
     useEffect(() => {
         getData();
     }, []);
+    const type = localStorage.getItem('userType');
+
 
     const getData = () => {
         setSpinning(true);
@@ -53,61 +58,88 @@ function Exhibitions(props) {
 
         })();
     };
+    const addLogRequest = (values) => {
+        const studentID = localStorage.getItem('userId');
+        const data = {};
+        data.studentID = studentID;
+        data.exhibitionID = record.id;
+        data.state = 1;
+        data.Answers = values;
+        (async () => {
+            await exhibitionLoginServices.addExhibitionLoginRequest(data);
+            setLogModalVisible(false);
+        })();
+    };
     const actionColumn = {
         key: 'actions',
         width: '13%',
         className: 'actions',
         render: (text, record, index) => {
             return (
-                <Row justify="space-between">
-                    <Col>
-                        <Tooltip title={'Delete Exhibition'}>
-                            <Button
-                                type='link'
-                                danger
-                                size="small"
-                                shape="circle"
-                                onClick={() => {
-                                    setDeleteModalVisible(true);
-                                    setRecord(record);
-                                }}
-                            >
-                                <DeleteOutlined />
-                            </Button>
-                        </Tooltip>
-                    </Col>
-                    <Col>
-                        <Tooltip title={'Edit Exhibition'}>
-                            <Button
-                                type='link'
-                                size="small"
-                                shape="circle"
-                                onClick={() => {
-                                    setRecord(record);
-                                    setModalVisible(true);
-                                    setIsUpdate(true);
-                                }}
-                            >
-                                <EditOutlined />
-                            </Button>
-                        </Tooltip>
-                    </Col>
-                    <Col>
-                        <Tooltip title={'Exhibition Details'}>
-                            <Button
-                                type='link'
-                                size="small"
-                                shape="circle"
-                                onClick={() => {
-                                    history.push(`exhibition-details/${record.id}`);
-                                }}
-                            >
-                                <ArrowRightOutlined />
-                            </Button>
-                        </Tooltip>
-                    </Col>
+                type === '2' ? <Col>
+                    <Tooltip title={'Add Request'}>
+                        <Button
+                            type='link'
+                            size="small"
+                            shape="circle"
+                            onClick={() => {
+                                setRecord(record);
+                                setLogModalVisible(true);
+                            }}
+                        >
+                            Add Request
+                        </Button>
+                    </Tooltip>
+                </Col> :
+                    <Row justify="space-between">
+                        <Col>
+                            <Tooltip title={'Delete Exhibition'}>
+                                <Button
+                                    type='link'
+                                    danger
+                                    size="small"
+                                    shape="circle"
+                                    onClick={() => {
+                                        setDeleteModalVisible(true);
+                                        setRecord(record);
+                                    }}
+                                >
+                                    <DeleteOutlined />
+                                </Button>
+                            </Tooltip>
+                        </Col>
+                        <Col>
+                            <Tooltip title={'Edit Exhibition'}>
+                                <Button
+                                    type='link'
+                                    size="small"
+                                    shape="circle"
+                                    onClick={() => {
+                                        setRecord(record);
+                                        setModalVisible(true);
+                                        setIsUpdate(true);
+                                    }}
+                                >
+                                    <EditOutlined />
+                                </Button>
+                            </Tooltip>
+                        </Col>
+                        <Col>
+                            <Tooltip title={'Exhibition Details'}>
+                                <Button
+                                    type='link'
+                                    size="small"
+                                    shape="circle"
+                                    onClick={() => {
+                                        history.push(`exhibition-details/${record.id}`);
+                                    }}
+                                >
+                                    <ArrowRightOutlined />
+                                </Button>
+                            </Tooltip>
+                        </Col>
 
-                </Row>
+                    </Row>
             );
         },
     };
@@ -118,17 +150,21 @@ function Exhibitions(props) {
             <div className="content">
                 <Card style={{ minHeight: '85vh', borderRadius: '5px' }}>
                     <Spin spinning={spinning} >
-                        <Row justify='end' align='middle'>
+                        {type === '2' ? null : <Row justify='end' align='middle'>
 
                             <Button type='primary' onClick={() => {
-                                setModalVisible(true);
+                                type === '2' ? setLogModalVisible(true) :
+                                    setModalVisible(true);
                                 setIsUpdate(false);
                             }} >
-                                <Row align='middle'>
-                                    <PlusOutlined /> Add  Exhibition
-                                </Row>
+                                {type === '2' ? <Row align='middle'>
+                                    <PlusOutlined /> Login  Course
+                                </Row> :
+                                    <Row align='middle'>
+                                        <PlusOutlined /> Add  Exhibition
+                                    </Row>}
                             </Button>
-                        </Row>
+                        </Row>}
                         <Row>
                             <Table dataSource={exhibitions} columns={[...columns, actionColumn]} style={{
                                 width: '100%',
@@ -145,7 +181,12 @@ function Exhibitions(props) {
                             isUpdate={isUpdate}
 
                         />
-
+                        <AddLoginRequestModal
+                            isVisible={logModalVisible}
+                            setVisible={setLogModalVisible}
+                            addCourse={addLogRequest}
+                            id={record?.id}
+                        />
                         <Modal
                             title='Delete  Exhibition'
                             visible={isDeleteModalVisible}
