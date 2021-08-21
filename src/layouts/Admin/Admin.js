@@ -16,7 +16,7 @@
 
 */
 import React from "react";
-import { Route, Switch, useLocation } from "react-router-dom";
+import { Redirect, Route, Switch, useLocation } from "react-router-dom";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
 
@@ -26,6 +26,7 @@ import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 
 import routes from "routes.js";
+import userRoutse from "routes-copy.js";
 
 import logo from "assets/img/react-logo.png";
 import { BackgroundColorContext } from "contexts/BackgroundColorContext";
@@ -38,6 +39,8 @@ function Admin(props) {
   const [sidebarOpened, setsidebarOpened] = React.useState(
     document.documentElement.className.indexOf("nav-open") !== -1
   );
+  const userType = localStorage.getItem('userType');
+
   React.useEffect(() => {
     if (navigator.platform.indexOf("Win") > -1) {
       document.documentElement.className += " perfect-scrollbar-on";
@@ -106,7 +109,7 @@ function Admin(props) {
         <React.Fragment>
           <div className="wrapper">
             <Sidebar
-              routes={routes}
+              routes={userType === '2' ? userRoutse : routes}
               logo={{
 
                 text: "PTC",
@@ -120,14 +123,14 @@ function Admin(props) {
                 toggleSidebar={toggleSidebar}
                 sidebarOpened={sidebarOpened}
               />
-              <Switch>
+              {userType === '2' ? (<Switch>
+                {getRoutes(userRoutse)}
+                <Redirect from="/admin" to="/admin/dashboard" />
+              </Switch>) : <Switch>
                 {getRoutes(routes)}
-                {/* <Redirect from="/admin" to="/admin/dashboard" /> */}
-              </Switch>
-              {
-                // we don't want the Footer to be rendered on map page
-                location.pathname === "/admin/maps" ? null : <Footer fluid />
-              }
+                <Redirect from="/admin" to="/admin/dashboard" />
+              </Switch>}
+              <Footer fluid />
             </div>
           </div>
         </React.Fragment>

@@ -17,7 +17,7 @@ export async function changeState(id, state) {
     return data;
 }
 export async function deleteCourse(id) {
-    const data = await http.delete(apiEndpoint + 'delete', { data: { id: id } });
+    const data = await http.delete(apiEndpoint + 'delete/' + `${id}`);
     return data;
 }
 export async function showAllCourses() {

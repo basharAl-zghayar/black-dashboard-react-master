@@ -4,11 +4,11 @@ import AppConsts from '../../app-consts';
 const apiEndpoint = AppConsts.remoteServiceBaseUrl + "/student/";
 
 export async function addStudent(addStudent) {
-    const data = await http.post(apiEndpoint + 'add', { addStudent });
+    const data = await http.post('add', addStudent);
     return data;
 }
 export async function updateStudent(updateStudent) {
-    const data = await http.put(apiEndpoint + 'edit', { updateStudent });
+    const data = await http.put(apiEndpoint + 'edit', updateStudent);
     return data;
 }
 export async function deleteStudent(id) {

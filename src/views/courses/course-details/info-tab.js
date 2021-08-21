@@ -24,7 +24,7 @@ const InfoTab = ({ courseInfo }) => {
                             <Text strong>Couch:</Text>
                         </Col>
                         <Col>
-                            <Text >{courseInfo?.couchName}</Text>
+                            <Text >{courseInfo?.coach?.firstName + ' ' + courseInfo?.coach?.lastName}</Text>
                         </Col>
                     </Row>
                 </Col>

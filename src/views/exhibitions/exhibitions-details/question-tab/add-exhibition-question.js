@@ -20,7 +20,7 @@ const AddExhibitionQuestionModal = ({
             form.setFieldsValue({
                 questionsAnswers: formValues?.questionsAnswers,
                 title: formValues?.title,
-                ExhibitionID: formValues?.ExhibitionID,
+                exhibitionId: formValues?.ExhibitionID,
                 type: formValues?.type,
                 id: formValues?.id,
                 required: formValues?.required,

@@ -1,4 +1,4 @@
-import http from '../common/http/index';
+import http from '../../common/http/index';
 import AppConsts from '../../../app-consts';
 
 const apiEndpoint = AppConsts.remoteServiceBaseUrl + "/courseAnswer/";
@@ -22,20 +22,14 @@ export async function showAllCourseAnswer() {
     return data;
 }
 export async function showCourseAnswerById(id) {
-    const data = await http.get(apiEndpoint + 'showByID', {
-        params: id,
-    });
+    const data = await http.get(apiEndpoint + 'showByID/' + `${id}`);
     return data;
 }
 export async function showStudentAnswer(id) {
-    const data = await http.get(apiEndpoint + 'showByID', {
-        params: id,
-    });
+    const data = await http.get(apiEndpoint + 'showByID/' + `${id}`);
     return data;
 }
 export async function showStudentAnswerInSpecificQuestion(studentId, questionId) {
-    const data = await http.get(apiEndpoint + 'showByID', {
-        params: { studentId, questionId },
-    });
+    const data = await http.get(apiEndpoint + 'showByID/' + `${studentId}` + `${questionId}`);
     return data;
 }

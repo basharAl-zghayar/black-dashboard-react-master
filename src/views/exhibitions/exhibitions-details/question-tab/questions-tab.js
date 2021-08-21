@@ -33,7 +33,7 @@ const QuestionsTab = ({ exhibitionID }) => {
     };
     const addQuestion = (values) => {
         (async () => {
-            await exhibitionsQuestionsServices.addExhibitionQuestion({ ...values, exhibitionsId: Number(exhibitionID) });
+            await exhibitionsQuestionsServices.addExhibitionQuestion({ ...values, exhibitionId: Number(exhibitionID) });
             setQuestionModalVisible(false);
             getData();
             setSpinning(false);
@@ -41,7 +41,7 @@ const QuestionsTab = ({ exhibitionID }) => {
     };
     const updateQuestion = (values) => {
         (async () => {
-            await exhibitionsQuestionsServices.updateExhibitionQuestion({ ...values, exhibitionsId: Number(exhibitionID), id: record.id });
+            await exhibitionsQuestionsServices.updateExhibitionQuestion({ ...values, exhibitionId: Number(exhibitionID), id: record.id });
             setQuestionModalVisible(false);
             getData();
             setSpinning(false);
@@ -66,7 +66,7 @@ const QuestionsTab = ({ exhibitionID }) => {
             setCourseQuestion({
                 questionsAnswers: questionsAnswers,
                 title: record.title,
-                CourseID: record.CourseID,
+                exhibitionId: record.exhibitionId,
                 type: record.type,
                 id: record.id,
                 required: record.required === 1 ? true : false,

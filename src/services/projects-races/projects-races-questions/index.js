@@ -21,6 +21,6 @@ export async function showAllAnswers() {
     return data;
 }
 export async function showAllByQuestionID(id) {
-    const data = await http.get(apiEndpoint + 'showsByID/' + `${id}`);
+    const data = await http.get(apiEndpoint + 'showByID/' + `${id}`);
     return data;
 }
