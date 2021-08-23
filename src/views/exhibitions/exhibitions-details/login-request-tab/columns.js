@@ -14,6 +14,11 @@ export const columns = [
     {
         dataIndex: 'StudentName',
         title: 'Student',
+        render: (text, record, index) => {
+            return (<Row>
+                {record?.student?.firstName + ' ' + record?.student?.lastName}
+            </Row>);
+        }
     },
     {
         dataIndex: 'CurrentStudents',

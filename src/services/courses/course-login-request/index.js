@@ -31,10 +31,18 @@ export async function showCourseLoginRequestRejectedLogs() {
     return data;
 }
 export async function acceptLoginRequest({ studentID, courseID }) {
-    const data = await http.put(apiEndpoint + 'edit/' + `${studentID}/` + `${courseID}`);
+    const data = await http.put(apiEndpoint + 'acceptLoginRequest/' + `${studentID}/` + `${courseID}`);
     return data;
 }
 export async function rejectLoginRequest({ studentID, courseID }) {
-    const data = await http.put(apiEndpoint + 'edit/' + `${studentID}/` + `${courseID}`);
+    const data = await http.put(apiEndpoint + 'rejectedLoginRequest/' + `${studentID}/` + `${courseID}`);
+    return data;
+}
+export async function showCourseLoginRequestById(id) {
+    const data = await http.get(apiEndpoint + 'showCourseByID/' + `${id}`);
+    return data;
+}
+export async function showCourseLoginRequestByStudentId(id) {
+    const data = await http.get(apiEndpoint + 'showStudentByID/' + `${id}`);
     return data;
 }

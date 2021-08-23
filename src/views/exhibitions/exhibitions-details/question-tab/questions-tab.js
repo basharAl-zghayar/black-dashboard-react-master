@@ -7,18 +7,18 @@ import AddCourseQuestionModal from "./add-exhibition-question";
 import * as exhibitionsQuestionsServices from '../../../../services/exhibition/exhibition-question/index';
 import * as exhibitionsQuestionAnswersServices from '../../../../services/exhibition/exhibition-question-answers';
 
-const QuestionsTab = ({ exhibitionID }) => {
+const QuestionsTab = ({ exhibitionID, getData }) => {
 
     const [isQuestionModalVisible, setQuestionModalVisible] = useState(false);
     const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
     const [spinning, setSpinning] = useState(true);
     const [record, setRecord] = useState();
-    const [exhibitions, setCourses] = useState([]);
+    const [questions, setQuestions] = useState([]);
     const [isUpdate, setIsUpdate] = useState(false);
     const [exhibitionQuestion, setCourseQuestion] = useState();
 
     useEffect(() => {
-        getData();
+        getData(setQuestions, setSpinning);
     }, []);
 
     const handleDelete = () => {
@@ -27,7 +27,7 @@ const QuestionsTab = ({ exhibitionID }) => {
         (async () => {
             await exhibitionsQuestionsServices.deleteExhibitionQuestion(record.id);
             setDeleteModalVisible(false);
-            getData();
+            getData(setQuestions, setSpinning);
             setSpinning(false);
         })();
     };
@@ -35,7 +35,7 @@ const QuestionsTab = ({ exhibitionID }) => {
         (async () => {
             await exhibitionsQuestionsServices.addExhibitionQuestion({ ...values, exhibitionId: Number(exhibitionID) });
             setQuestionModalVisible(false);
-            getData();
+            getData(setQuestions, setSpinning);
             setSpinning(false);
         })();
     };
@@ -43,17 +43,9 @@ const QuestionsTab = ({ exhibitionID }) => {
         (async () => {
             await exhibitionsQuestionsServices.updateExhibitionQuestion({ ...values, exhibitionId: Number(exhibitionID), id: record.id });
             setQuestionModalVisible(false);
-            getData();
+            getData(setQuestions, setSpinning);
             setSpinning(false);
         })();
-    };
-    const getData = () => {
-        setSpinning(true);
-        (async () => {
-            const data = await exhibitionsQuestionsServices.showExhibitionQuestionByExhibitionId(exhibitionID);
-            setCourses(data.data.data);
-        })();
-        setSpinning(false);
     };
     const getQuestionAnswers = (record) => {
         setSpinning(true);
@@ -134,7 +126,7 @@ const QuestionsTab = ({ exhibitionID }) => {
                     </Button>
                 </Row>
                 <Row>
-                    <Table dataSource={exhibitions} columns={[...columns, actionColumn]} style={{
+                    <Table dataSource={questions} columns={[...columns, actionColumn]} style={{
                         width: '100%',
                         padding: ' 16px 0 0',
                         borderRadius: '7px'

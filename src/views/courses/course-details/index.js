@@ -1,10 +1,11 @@
 import { Card, Spin, Tabs } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import * as coursesServices from '../../../services/courses/index';
 import { useParams } from 'react-router-dom';
 import InfoTab from './info-tab';
 import QuestionsTab from './question-tab/questions-tab';
 import LoginRequestsTab from './login-request-tab/login-request-tab';
+import * as coursesQuestionsServices from '../../../services/courses/question-course/index';
 
 const CourseDetails = () => {
     const { id } = useParams();
@@ -20,7 +21,14 @@ const CourseDetails = () => {
             setSpinning(false);
         })();
     }, [id]);
-
+    const getData = useCallback((setCourses, setSpinning) => {
+        setSpinning(true);
+        (async () => {
+            const data = await coursesQuestionsServices.showQuestionById(id);
+            setCourses(data.data.data);
+            setSpinning(false);
+        })();
+    }, [id]);
     return (
         <>
             <div className="content">
@@ -31,10 +39,10 @@ const CourseDetails = () => {
                                 <InfoTab courseInfo={courseInfo} />
                             </Tabs.TabPane>
                             <Tabs.TabPane key='questions' tab="Course Questions">
-                                <QuestionsTab courseID={id} />
+                                <QuestionsTab courseID={id} getData={getData} />
                             </Tabs.TabPane>
                             <Tabs.TabPane key='questions-login-requests' tab="Course Login Requests">
-                                <LoginRequestsTab courseID={id} />
+                                <LoginRequestsTab courseID={id} getQuestions={getData} />
                             </Tabs.TabPane>
                         </Tabs>
 

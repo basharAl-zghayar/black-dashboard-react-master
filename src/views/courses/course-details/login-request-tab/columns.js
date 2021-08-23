@@ -14,12 +14,17 @@ export const columns = [
     {
         dataIndex: 'StudentName',
         title: 'Student',
+        render: (text, record, index) => {
+            return (<Row>
+                {record?.student?.firstName + ' ' + record?.student?.lastName}
+            </Row>);
+        }
     },
     {
         dataIndex: 'CurrentStudents',
         title: 'Status',
         render: (text, record, index) => {
-            if (record.state === 1)
+            if (record?.state === 3)
                 return (
                     <>
                         <Row>
@@ -29,11 +34,19 @@ export const columns = [
                         </Row>
                     </>
                 );
-            if (record.state === 0)
+            if (record?.state === 2)
                 return (
                     <>
                         <Tag color='red' >
                             Rejected
+                        </Tag>
+                    </>
+                );
+            if (record?.state === 1)
+                return (
+                    <>
+                        <Tag color='blue' >
+                            Stuck
                         </Tag>
                     </>
                 );

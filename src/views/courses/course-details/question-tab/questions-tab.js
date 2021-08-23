@@ -7,18 +7,18 @@ import AddCourseQuestionModal from "./add-course-question";
 import * as coursesQuestionsServices from '../../../../services/courses/question-course/index';
 import * as coursesQuestionAnswersServices from '../../../../services/courses/course-questino-anwers/index';
 
-const QuestionsTab = ({ courseID }) => {
+const QuestionsTab = ({ courseID, getData }) => {
 
     const [isQuestionModalVisible, setQuestionModalVisible] = useState(false);
     const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
     const [spinning, setSpinning] = useState(true);
     const [record, setRecord] = useState();
-    const [courses, setCourses] = useState([]);
+    const [questions, setQuestions] = useState([]);
     const [isUpdate, setIsUpdate] = useState(false);
     const [courseQuestion, setCourseQuestion] = useState();
 
     useEffect(() => {
-        getData();
+        getData(setQuestions, setSpinning);
     }, []);
 
     const handleDelete = () => {
@@ -27,7 +27,7 @@ const QuestionsTab = ({ courseID }) => {
         (async () => {
             await coursesQuestionsServices.deleteQuestion(record.id);
             setDeleteModalVisible(false);
-            getData();
+            getData(setQuestions, setSpinning);
             setSpinning(false);
         })();
     };
@@ -35,7 +35,7 @@ const QuestionsTab = ({ courseID }) => {
         (async () => {
             await coursesQuestionsServices.addQuestion({ ...values, CourseID: Number(courseID) });
             setQuestionModalVisible(false);
-            getData();
+            getData(setQuestions, setSpinning);
             setSpinning(false);
         })();
     };
@@ -43,15 +43,7 @@ const QuestionsTab = ({ courseID }) => {
         (async () => {
             await coursesQuestionsServices.updateQuestion({ ...values, CourseID: Number(courseID), id: record.id });
             setQuestionModalVisible(false);
-            getData();
-            setSpinning(false);
-        })();
-    };
-    const getData = () => {
-        setSpinning(true);
-        (async () => {
-            const data = await coursesQuestionsServices.showQuestionById(courseID);
-            setCourses(data.data.data);
+            getData(setQuestions, setSpinning);
             setSpinning(false);
         })();
     };
@@ -135,7 +127,7 @@ const QuestionsTab = ({ courseID }) => {
                     </Button>
                 </Row>
                 <Row>
-                    <Table dataSource={courses} columns={[...columns, actionColumn]} style={{
+                    <Table dataSource={questions} columns={[...columns, actionColumn]} style={{
                         width: '100%',
                         padding: ' 16px 0 0',
                         borderRadius: '7px'

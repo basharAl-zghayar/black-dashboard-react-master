@@ -44,11 +44,12 @@ const AddCourseQuestionModal = ({
             data.required = false;
         }
         const modAnswers = values.questionsAnswers.map((answer) => {
-
-            if (answer.state === true) {
-                answer.state = 1;
-            } else if (answer.state === false || !answer.state) {
+            if (answer?.state) {
                 answer.state = 2;
+            }
+            answer.state = 2;
+            if (answer?.state === true) {
+                answer.state = 1;
             }
             return answer;
         });
@@ -205,14 +206,13 @@ const AddCourseQuestionModal = ({
                                                                 </Col>
                                                                 <Col sm={24} lg={4}>
                                                                     <Form.Item
-                                                                        name={[index, "state"]} valuePropName="checked"
+                                                                        name={[index, "state"]} valuePropName="checked" initialValue={false}
                                                                     >
                                                                         <Checkbox >Is Correct</Checkbox>
                                                                     </Form.Item>
                                                                 </Col>
                                                                 <Tooltip title={'Delete Answer'}>
                                                                     <Button
-
                                                                         size='small'
                                                                         danger
                                                                         type="link"

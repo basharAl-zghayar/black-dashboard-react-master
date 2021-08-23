@@ -26,7 +26,7 @@ export async function showCourseAnswerById(id) {
     return data;
 }
 export async function showStudentAnswer(id) {
-    const data = await http.get(apiEndpoint + 'showByID/' + `${id}`);
+    const data = await http.get(apiEndpoint + 'showStudentAnswers/' + `${id}`);
     return data;
 }
 export async function showStudentAnswerInSpecificQuestion(studentId, questionId) {

@@ -1,27 +1,35 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Spin, Row, Typography, Button, Table, Modal, Col, Tooltip } from 'antd';
 import React, { useState, useEffect } from 'react';
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined, FileSearchOutlined } from '@ant-design/icons';
 import { columns } from './columns';
 import * as coursesLoginRequestServices from '../../../../services/courses/course-login-request/index';
+import * as coursesAnswersServices from '../../../../services/courses/course-answers';
+import StudentAnswersModal from './login-request-answers';
 
-const LoginRequestsTab = ({ courseID }) => {
+const LoginRequestsTab = ({ courseID, getQuestions }) => {
 
     const [spinning, setSpinning] = useState(true);
     const [record, setRecord] = useState();
     const [courseLoginRequests, setCourseLoginRequests] = useState([]);
     const [isAcceptModalVisible, setAcceptModalVisible] = useState(false);
     const [isRejectModalVisible, setRejectModalVisible] = useState(false);
+    const [loginRequestModalVisible, setLoginRequestModalVisible] = useState(false);
+    const [courseQuestions, setCourseQuestions] = useState([]);
+    const [studentAnswers, setStudentAnswers] = useState([]);
 
     useEffect(() => {
         getData();
     }, []);
 
+    useEffect(() => {
+        getQuestions(setCourseQuestions, setSpinning);
+    }, []);
 
     const getData = () => {
         setSpinning(true);
         (async () => {
-            const data = await coursesLoginRequestServices.showAllCourseLoginRequest();
+            const data = await coursesLoginRequestServices.showCourseLoginRequestById(Number(courseID));
             setCourseLoginRequests(data.data.data);
             setSpinning(false);
         })();
@@ -29,20 +37,30 @@ const LoginRequestsTab = ({ courseID }) => {
     const AcceptRequest = () => {
         setSpinning(true);
         (async () => {
-            const data = await coursesLoginRequestServices.acceptLoginRequest({ studentID: record.studentID, courseID: courseID });
-            setCourseLoginRequests(data.data.data);
+            await coursesLoginRequestServices.acceptLoginRequest({ studentID: record.studentID, courseID: courseID });
+            getData();
+            setAcceptModalVisible(false);
             setSpinning(false);
         })();
     };
     const RejectRequest = () => {
         setSpinning(true);
         (async () => {
-            const data = await coursesLoginRequestServices.rejectLoginRequest();
-            setCourseLoginRequests(data.data.data);
+            await coursesLoginRequestServices.rejectLoginRequest({ studentID: record.studentID, courseID: courseID });
+            getData();
+
+            setRejectModalVisible(false);
             setSpinning(false);
         })();
     };
 
+    const getStudentAnswers = (studentID) => {
+
+        (async () => {
+            const data = await coursesAnswersServices.showStudentAnswer(studentID);
+            setStudentAnswers(data.data.data);
+        })();
+    };
 
     const actionColumn = {
         key: 'actions',
@@ -52,6 +70,21 @@ const LoginRequestsTab = ({ courseID }) => {
             return (
                 <Row justify="space-between">
 
+                    <Col>
+                        <Tooltip title={'View Student Answers'}>
+                            <Button
+                                type='link'
+                                size="small"
+                                shape="circle"
+                                onClick={() => {
+                                    setLoginRequestModalVisible(true);
+                                    getStudentAnswers(record?.studentID);
+                                }}
+                            >
+                                <FileSearchOutlined />
+                            </Button>
+                        </Tooltip>
+                    </Col>
                     <Col>
                         <Tooltip title={'Decline Request'}>
                             <Button
@@ -119,6 +152,11 @@ const LoginRequestsTab = ({ courseID }) => {
                         Are you Sure You Want To Reject This Request ?
                     </Typography.Text>
                 </Modal>
+                <StudentAnswersModal
+                    isVisible={loginRequestModalVisible}
+                    setVisible={setLoginRequestModalVisible}
+                    questions={courseQuestions}
+                    answers={studentAnswers} />
             </Spin>
         </>
     );
