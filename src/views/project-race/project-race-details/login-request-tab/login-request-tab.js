@@ -43,6 +43,8 @@ const LoginRequestsTab = ({ courseID, getQuestions }) => {
                 })();
                 return request;
             });
+            setDataSource(values);
+
             setSpinning(false);
         })();
     };

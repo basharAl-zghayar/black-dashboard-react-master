@@ -45,6 +45,8 @@ const LoginRequestsTab = ({ exhibitionID, getQuestions }) => {
                 })();
                 return request;
             });
+            setDataSource(values);
+
             setSpinning(false);
         })();
     };

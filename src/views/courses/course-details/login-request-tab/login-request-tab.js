@@ -50,6 +50,7 @@ const LoginRequestsTab = ({ courseID, getQuestions }) => {
                 setDataSource(val);
                 return request;
             });
+            setDataSource(values);
 
             setDataSource(values);
 
