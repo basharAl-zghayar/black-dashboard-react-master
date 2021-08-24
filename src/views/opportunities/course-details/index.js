@@ -1,10 +1,11 @@
 import { Card, Spin, Tabs } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import * as opportunitiesServices from '../../../services/opportunities/index';
 import { useParams } from 'react-router-dom';
 import InfoTab from './info-tab';
 import QuestionsTab from './question-tab/questions-tab';
 import LoginRequestsTab from './login-request-tab/login-request-tab';
+import * as coursesQuestionsServices from '../../../services/opportunities/opportunities-question/index';
 
 const OpportunityDetails = () => {
     const { id } = useParams();
@@ -19,7 +20,14 @@ const OpportunityDetails = () => {
             setSpinning(false);
         })();
     }, [id]);
-
+    const getData = useCallback((setCourses, setSpinning) => {
+        setSpinning(true);
+        (async () => {
+            const data = await coursesQuestionsServices.showAllByQuestionID(id);
+            setCourses(data.data.data);
+            setSpinning(false);
+        })();
+    }, [id]);
     return (
         <>
             <div className="content">
@@ -30,10 +38,10 @@ const OpportunityDetails = () => {
                                 <InfoTab opportunityInfo={opportunityInfo} />
                             </Tabs.TabPane>
                             <Tabs.TabPane key='questions' tab="Opportunity Questions">
-                                <QuestionsTab opportunityID={id} />
+                                <QuestionsTab opportunityID={id} getData={getData} />
                             </Tabs.TabPane>
                             <Tabs.TabPane key='questions-login-requests' tab="Opportunity Login Requests">
-                                <LoginRequestsTab opportunityID={id} />
+                                <LoginRequestsTab opportunityID={id} getQuestions={getData} />
                             </Tabs.TabPane>
                         </Tabs>
 

@@ -4,25 +4,40 @@ import React, { useState, useEffect } from 'react';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { columns } from './columns';
 import * as coursesLoginRequestServices from '../../../../services/courses/course-login-request/index';
+import * as studentServices from '../../../../services/students/index';
 
-const LoginRequestsTab = ({ courseID }) => {
+const LoginRequestsTab = ({ courseID, getQuestions }) => {
 
     const [spinning, setSpinning] = useState(true);
     const [record, setRecord] = useState();
     const [courseLoginRequests, setCourseLoginRequests] = useState([]);
     const [isAcceptModalVisible, setAcceptModalVisible] = useState(false);
     const [isRejectModalVisible, setRejectModalVisible] = useState(false);
+    const [dataSource, setDataSource] = useState([]);
 
     useEffect(() => {
         getData();
     }, []);
+    useEffect(() => {
+        setCourseLoginRequests(dataSource);
+
+    }, [dataSource]);
 
 
     const getData = () => {
         setSpinning(true);
         (async () => {
             const data = await coursesLoginRequestServices.showAllCourseLoginRequest();
-            setCourseLoginRequests(data.data.data);
+            const val = [];
+            const values = data.data.data.map((request) => {
+                (async () => {
+                    const student = await studentServices.showStudentById(request?.studentID);
+                    request.student = student.data.data;
+                    val.push(request);
+                    setDataSource(val);
+                })();
+                return request;
+            });
             setSpinning(false);
         })();
     };

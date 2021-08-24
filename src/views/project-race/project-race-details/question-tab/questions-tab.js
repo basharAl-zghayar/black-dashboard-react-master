@@ -33,7 +33,7 @@ const QuestionsTab = ({ projectRaceID }) => {
     };
     const addQuestion = (values) => {
         (async () => {
-            await projectRacesQuestionsServices.addQuestion({ ...values, projectRaceID: Number(projectRaceID) });
+            await projectRacesQuestionsServices.addQuestion({ ...values, projectsRaceId: Number(projectRaceID) });
             setQuestionModalVisible(false);
             getData();
             setSpinning(false);
@@ -41,7 +41,7 @@ const QuestionsTab = ({ projectRaceID }) => {
     };
     const updateQuestion = (values) => {
         (async () => {
-            await projectRacesQuestionsServices.update({ ...values, projectRaceID: Number(projectRaceID), id: record.id });
+            await projectRacesQuestionsServices.update({ ...values, projectsRaceId: Number(projectRaceID), id: record.id });
             setQuestionModalVisible(false);
             getData();
             setSpinning(false);

@@ -160,7 +160,7 @@ function ProjectRace(props) {
                                     <PlusOutlined /> Login  Course
                                 </Row> :
                                     <Row align='middle'>
-                                        <PlusOutlined /> Add  Exhibition
+                                        <PlusOutlined /> Add Project Race
                                     </Row>}
                             </Button>
                         </Row>}

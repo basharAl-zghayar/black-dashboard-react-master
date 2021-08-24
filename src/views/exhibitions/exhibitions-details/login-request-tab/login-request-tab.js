@@ -6,6 +6,7 @@ import { columns } from './columns';
 import * as exhibitionsLoginRequestServices from '../../../../services/exhibition/exhibition-login-request';
 import StudentAnswersModal from './login-request-answers';
 import * as exhibitionAnswersServices from '../../../../services/exhibition/exhibition-answer';
+import * as studentServices from '../../../../services/students/index';
 
 const LoginRequestsTab = ({ exhibitionID, getQuestions }) => {
 
@@ -17,9 +18,15 @@ const LoginRequestsTab = ({ exhibitionID, getQuestions }) => {
     const [loginRequestModalVisible, setLoginRequestModalVisible] = useState(false);
     const [courseQuestions, setCourseQuestions] = useState([]);
     const [studentAnswers, setStudentAnswers] = useState([]);
+    const [dataSource, setDataSource] = useState([]);
+
     useEffect(() => {
         getData();
     }, []);
+    useEffect(() => {
+        setCourseLoginRequests(dataSource);
+
+    }, [dataSource]);
 
     useEffect(() => {
         getQuestions(setCourseQuestions, setSpinning);
@@ -28,7 +35,16 @@ const LoginRequestsTab = ({ exhibitionID, getQuestions }) => {
         setSpinning(true);
         (async () => {
             const data = await exhibitionsLoginRequestServices.showAll();
-            setCourseLoginRequests(data.data.data);
+            const val = [];
+            const values = data.data.data.map((request) => {
+                (async () => {
+                    const student = await studentServices.showStudentById(request?.studentID);
+                    request.student = student.data.data;
+                    val.push(request);
+                    setDataSource(val);
+                })();
+                return request;
+            });
             setSpinning(false);
         })();
     };

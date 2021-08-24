@@ -20,8 +20,6 @@ export async function showAllStudents() {
     return data;
 }
 export async function showStudentById(id) {
-    const data = await http.get(apiEndpoint + 'showById', {
-        params: id,
-    });
+    const data = await http.get(apiEndpoint + 'showByID/' + `${id}`);
     return data;
 }

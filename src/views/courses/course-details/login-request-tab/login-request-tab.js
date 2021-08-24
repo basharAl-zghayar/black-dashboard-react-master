@@ -1,10 +1,12 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Spin, Row, Typography, Button, Table, Modal, Col, Tooltip } from 'antd';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { CheckOutlined, CloseOutlined, FileSearchOutlined } from '@ant-design/icons';
 import { columns } from './columns';
 import * as coursesLoginRequestServices from '../../../../services/courses/course-login-request/index';
 import * as coursesAnswersServices from '../../../../services/courses/course-answers';
+import * as studentServices from '../../../../services/students/index';
 import StudentAnswersModal from './login-request-answers';
 
 const LoginRequestsTab = ({ courseID, getQuestions }) => {
@@ -17,23 +19,40 @@ const LoginRequestsTab = ({ courseID, getQuestions }) => {
     const [loginRequestModalVisible, setLoginRequestModalVisible] = useState(false);
     const [courseQuestions, setCourseQuestions] = useState([]);
     const [studentAnswers, setStudentAnswers] = useState([]);
+    const [dataSource, setDataSource] = useState([]);
 
     useEffect(() => {
         getData();
     }, []);
+    useEffect(() => {
+        setCourseLoginRequests(dataSource);
+
+    }, [dataSource]);
+
 
     useEffect(() => {
         getQuestions(setCourseQuestions, setSpinning);
     }, []);
 
-    const getData = () => {
+    const getData = useCallback(() => {
         setSpinning(true);
         (async () => {
             const data = await coursesLoginRequestServices.showCourseLoginRequestById(Number(courseID));
-            setCourseLoginRequests(data.data.data);
+            const val = [];
+            const values = data.data.data.map((request) => {
+                setSpinning(true);
+
+                (async () => {
+                    const student = await studentServices.showStudentById(request?.studentID);
+                    request.student = student.data.data;
+                    val.push(request);
+                    setDataSource(val);
+                })();
+                return request;
+            });
             setSpinning(false);
         })();
-    };
+    }, []);
     const AcceptRequest = () => {
         setSpinning(true);
         (async () => {
@@ -48,7 +67,6 @@ const LoginRequestsTab = ({ courseID, getQuestions }) => {
         (async () => {
             await coursesLoginRequestServices.rejectLoginRequest({ studentID: record.studentID, courseID: courseID });
             getData();
-
             setRejectModalVisible(false);
             setSpinning(false);
         })();

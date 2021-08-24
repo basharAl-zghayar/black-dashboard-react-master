@@ -7,18 +7,18 @@ import AddCourseQuestionModal from "./add-course-question";
 import * as coursesQuestionsServices from '../../../../services/opportunities/opportunities-question/index';
 import * as coursesQuestionAnswersServices from '../../../../services/opportunities/opportunities-question-answers/index';
 
-const QuestionsTab = ({ opportunityID }) => {
+const QuestionsTab = ({ opportunityID, getData }) => {
 
     const [isQuestionModalVisible, setQuestionModalVisible] = useState(false);
     const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
     const [spinning, setSpinning] = useState(true);
     const [record, setRecord] = useState();
-    const [courses, setCourses] = useState([]);
+    const [questions, setQuestions] = useState([]);
     const [isUpdate, setIsUpdate] = useState(false);
     const [courseQuestion, setCourseQuestion] = useState();
 
     useEffect(() => {
-        getData();
+        getData(setQuestions, setSpinning);
     }, []);
 
     const handleDelete = () => {
@@ -27,7 +27,7 @@ const QuestionsTab = ({ opportunityID }) => {
         (async () => {
             await coursesQuestionsServices.deleteOpportunityQuestion(record.id);
             setDeleteModalVisible(false);
-            getData();
+            getData(setQuestions, setSpinning);
             setSpinning(false);
         })();
     };
@@ -35,7 +35,7 @@ const QuestionsTab = ({ opportunityID }) => {
         (async () => {
             await coursesQuestionsServices.addOpportunityQuestion({ ...values, opportunityId: Number(opportunityID) });
             setQuestionModalVisible(false);
-            getData();
+            getData(setQuestions, setSpinning);
             setSpinning(false);
         })();
     };
@@ -43,18 +43,11 @@ const QuestionsTab = ({ opportunityID }) => {
         (async () => {
             await coursesQuestionsServices.updateOpportunityQuestion({ ...values, opportunityId: Number(opportunityID), id: record.id });
             setQuestionModalVisible(false);
-            getData();
+            getData(setQuestions, setSpinning);
             setSpinning(false);
         })();
     };
-    const getData = () => {
-        setSpinning(true);
-        (async () => {
-            const data = await coursesQuestionsServices.showAllByQuestionID(opportunityID);
-            setCourses(data.data.data);
-            setSpinning(false);
-        })();
-    };
+
     const getQuestionAnswers = (record) => {
         setSpinning(true);
         (async () => {
@@ -134,7 +127,7 @@ const QuestionsTab = ({ opportunityID }) => {
                     </Button>
                 </Row>
                 <Row>
-                    <Table dataSource={courses} columns={[...columns, actionColumn]} style={{
+                    <Table dataSource={questions} columns={[...columns, actionColumn]} style={{
                         width: '100%',
                         padding: ' 16px 0 0',
                         borderRadius: '7px'
