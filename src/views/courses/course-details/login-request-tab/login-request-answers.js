@@ -16,14 +16,19 @@ const StudentAnswersModal = ({ isVisible, setVisible, questions, answers }) => {
     useEffect(() => {
         setLoading(true);
         const data = loginQuestions.map((question, index) => {
-            if (question?.id === loginAnswers[index]?.questionID)
+            if (loginAnswers[index] !== undefined) {
                 question.answers = loginAnswers[index];
+            }
+            else {
+                question.answers = loginAnswers;
+            }
             return question;
         });
         setDataSource(data);
         setLoading(false);
 
     }, [loginQuestions, loginAnswers]);
+
 
 
     return (

@@ -14,7 +14,7 @@ export async function updateOpportunityAnswer(OpportunityAnswer) {
     return data;
 }
 export async function deleteOpportunityAnswer(id) {
-    const data = await http.delete(apiEndpoint + 'delete' + `${id}`);
+    const data = await http.delete(apiEndpoint + 'delete/' + `${id}`);
     return data;
 }
 export async function showAllOpportunityAnswer() {
@@ -27,10 +27,10 @@ export async function showOpportunityAnswerById(id) {
 }
 
 export async function showStudentAnswer(id) {
-    const data = await http.get(apiEndpoint + 'showStudentAnswers' + `${id}`);
+    const data = await http.get(apiEndpoint + 'showStudentAnswers/' + `${id}`);
     return data;
 }
 export async function showStudentAnswerInSpecificQuestion(studentId, questionId) {
-    const data = await http.get(apiEndpoint + 'showStudentAnswersInSpecificQuestion' + `${studentId}/` + `${questionId}`);
+    const data = await http.get(apiEndpoint + 'showStudentAnswersInSpecificQuestion/' + `${studentId}/` + `${questionId}`);
     return data;
 }

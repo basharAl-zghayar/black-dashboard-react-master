@@ -7,20 +7,18 @@ import AddQuestionModal from "./add-projectRace-question";
 import * as projectRacesQuestionsServices from '../../../../services/projects-races/projects-races-questions';
 import * as projectRacesQuestionAnswersServices from '../../../../services/projects-races/projects-races-question-answe';
 
-const QuestionsTab = ({ projectRaceID }) => {
+const QuestionsTab = ({ projectRaceID, getData }) => {
 
     const [isQuestionModalVisible, setQuestionModalVisible] = useState(false);
     const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
     const [spinning, setSpinning] = useState(true);
     const [record, setRecord] = useState();
-    const [projectRaces, setCourses] = useState([]);
     const [isUpdate, setIsUpdate] = useState(false);
     const [projectRaceQuestion, setProjectsRacesQuestion] = useState();
-
+    const [questions, setQuestions] = useState([]);
     useEffect(() => {
-        getData();
+        getData(setQuestions, setSpinning);
     }, []);
-
     const handleDelete = () => {
         setSpinning(true);
 
@@ -47,14 +45,7 @@ const QuestionsTab = ({ projectRaceID }) => {
             setSpinning(false);
         })();
     };
-    const getData = () => {
-        setSpinning(true);
-        (async () => {
-            const data = await projectRacesQuestionsServices.showAllByQuestionID(projectRaceID);
-            setCourses(data.data.data);
-            setSpinning(false);
-        })();
-    };
+
     const getQuestionAnswers = (record) => {
         setSpinning(true);
         (async () => {
@@ -134,7 +125,7 @@ const QuestionsTab = ({ projectRaceID }) => {
                     </Button>
                 </Row>
                 <Row>
-                    <Table dataSource={projectRaces} columns={[...columns, actionColumn]} style={{
+                    <Table dataSource={questions} columns={[...columns, actionColumn]} style={{
                         width: '100%',
                         padding: ' 16px 0 0',
                         borderRadius: '7px'

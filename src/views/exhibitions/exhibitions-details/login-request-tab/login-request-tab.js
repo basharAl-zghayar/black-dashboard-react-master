@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Spin, Row, Typography, Button, Table, Modal, Col, Tooltip } from 'antd';
 import React, { useState, useEffect } from 'react';
@@ -27,14 +28,13 @@ const LoginRequestsTab = ({ exhibitionID, getQuestions }) => {
         setCourseLoginRequests(dataSource);
 
     }, [dataSource]);
-
     useEffect(() => {
         getQuestions(setCourseQuestions, setSpinning);
     }, []);
     const getData = () => {
         setSpinning(true);
         (async () => {
-            const data = await exhibitionsLoginRequestServices.showAll();
+            const data = await exhibitionsLoginRequestServices.showExhibitionLoginRequestById(exhibitionID);
             const val = [];
             const values = data.data.data.map((request) => {
                 (async () => {

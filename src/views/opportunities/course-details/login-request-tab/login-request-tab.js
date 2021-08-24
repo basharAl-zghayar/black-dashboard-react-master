@@ -1,10 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Spin, Row, Typography, Button, Table, Modal, Col, Tooltip } from 'antd';
 import React, { useState, useEffect } from 'react';
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined, FileSearchOutlined } from '@ant-design/icons';
 import { columns } from './columns';
-import * as coursesLoginRequestServices from '../../../../services/courses/course-login-request/index';
+import * as coursesLoginRequestServices from '../../../../services/opportunities/opportunities-login-request';
 import * as studentServices from '../../../../services/students/index';
+import * as exhibitionAnswersServices from '../../../../services/opportunities/opportunities-answer';
+import StudentAnswersModal from './login-request-answers';
 
 const LoginRequestsTab = ({ courseID, getQuestions }) => {
 
@@ -13,7 +15,10 @@ const LoginRequestsTab = ({ courseID, getQuestions }) => {
     const [courseLoginRequests, setCourseLoginRequests] = useState([]);
     const [isAcceptModalVisible, setAcceptModalVisible] = useState(false);
     const [isRejectModalVisible, setRejectModalVisible] = useState(false);
+    const [courseQuestions, setCourseQuestions] = useState([]);
+    const [studentAnswers, setStudentAnswers] = useState([]);
     const [dataSource, setDataSource] = useState([]);
+    const [loginRequestModalVisible, setLoginRequestModalVisible] = useState(false);
 
     useEffect(() => {
         getData();
@@ -23,11 +28,14 @@ const LoginRequestsTab = ({ courseID, getQuestions }) => {
 
     }, [dataSource]);
 
+    useEffect(() => {
+        getQuestions(setCourseQuestions, setSpinning);
+    }, []);
 
     const getData = () => {
         setSpinning(true);
         (async () => {
-            const data = await coursesLoginRequestServices.showAllCourseLoginRequest();
+            const data = await coursesLoginRequestServices.showOpportunityLoginRequestById(courseID);
             const val = [];
             const values = data.data.data.map((request) => {
                 (async () => {
@@ -58,7 +66,13 @@ const LoginRequestsTab = ({ courseID, getQuestions }) => {
         })();
     };
 
+    const getStudentAnswers = (studentID) => {
 
+        (async () => {
+            const data = await exhibitionAnswersServices.showStudentAnswer(studentID);
+            setStudentAnswers(data.data.data);
+        })();
+    };
     const actionColumn = {
         key: 'actions',
         width: '13%',
@@ -66,7 +80,21 @@ const LoginRequestsTab = ({ courseID, getQuestions }) => {
         render: (text, record, index) => {
             return (
                 <Row justify="space-between">
-
+                    <Col>
+                        <Tooltip title={'View Student Answers'}>
+                            <Button
+                                type='link'
+                                size="small"
+                                shape="circle"
+                                onClick={() => {
+                                    setLoginRequestModalVisible(true);
+                                    getStudentAnswers(record?.studentID);
+                                }}
+                            >
+                                <FileSearchOutlined />
+                            </Button>
+                        </Tooltip>
+                    </Col>
                     <Col>
                         <Tooltip title={'Decline Request'}>
                             <Button
@@ -134,6 +162,11 @@ const LoginRequestsTab = ({ courseID, getQuestions }) => {
                         Are you Sure You Want To Reject This Request ?
                     </Typography.Text>
                 </Modal>
+                <StudentAnswersModal
+                    isVisible={loginRequestModalVisible}
+                    setVisible={setLoginRequestModalVisible}
+                    questions={courseQuestions}
+                    answers={studentAnswers} />
             </Spin>
         </>
     );

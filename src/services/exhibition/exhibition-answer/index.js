@@ -20,20 +20,14 @@ export async function showAllExhibitionAnswer() {
     return data;
 }
 export async function showExhibitionAnswerById(id) {
-    const data = await http.get(apiEndpoint + 'showByID', {
-        params: id,
-    });
+    const data = await http.get(apiEndpoint + 'showByID/' + `${id}`);
     return data;
 }
 export async function showStudentAnswer(id) {
-    const data = await http.get(apiEndpoint + 'showByID', {
-        params: id,
-    });
+    const data = await http.get(apiEndpoint + 'showByID/' + `${id}`);
     return data;
 }
 export async function showStudentAnswerInSpecificQuestion(studentId, questionId) {
-    const data = await http.get(apiEndpoint + 'showByID', {
-        params: [studentId, questionId]
-    });
+    const data = await http.get(apiEndpoint + 'showByID/' + `${studentId}/` + `${questionId}`);
     return data;
-}
+};

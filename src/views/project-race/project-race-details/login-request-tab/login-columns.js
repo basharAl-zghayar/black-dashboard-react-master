@@ -19,7 +19,6 @@ export const columns = [
         dataIndex: 'answers',
         title: 'Student Answer',
         render: (text, record, index) => {
-            console.log(record);
             return (
                 <Row>
                     <Tag color='orange' >

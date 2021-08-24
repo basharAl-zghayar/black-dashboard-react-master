@@ -1,10 +1,11 @@
 import { Card, Spin, Tabs } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import * as projectRaceServices from '../../../services/projects-races';
 import { useParams } from 'react-router-dom';
 import InfoTab from './info-tab';
 import QuestionsTab from './question-tab/questions-tab';
 import LoginRequestsTab from './login-request-tab/login-request-tab';
+import * as projectRacesQuestionsServices from '../../../services/projects-races/projects-races-questions';
 
 const ProjectRaceDetails = () => {
     const { id } = useParams();
@@ -18,7 +19,14 @@ const ProjectRaceDetails = () => {
             setSpinning(false);
         })();
     }, [id]);
-
+    const getData = useCallback((setCourses, setSpinning) => {
+        setSpinning(true);
+        (async () => {
+            const data = await projectRacesQuestionsServices.showAllByQuestionID(id);
+            setCourses(data.data.data);
+            setSpinning(false);
+        })();
+    }, [id]);
     return (
         <>
             <div className="content">
@@ -29,10 +37,10 @@ const ProjectRaceDetails = () => {
                                 <InfoTab projectRaceInfo={projectRaceInfo} />
                             </Tabs.TabPane>
                             <Tabs.TabPane key='questions' tab="ProjectRace Questions">
-                                <QuestionsTab projectRaceID={id} />
+                                <QuestionsTab projectRaceID={id} getData={getData} />
                             </Tabs.TabPane>
                             <Tabs.TabPane key='questions-login-requests' tab="ProjectRace Login Requests">
-                                <LoginRequestsTab projectRaceID={id} />
+                                <LoginRequestsTab projectRaceID={id} getQuestions={getData} />
                             </Tabs.TabPane>
                         </Tabs>
 

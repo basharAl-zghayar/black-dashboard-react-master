@@ -13,7 +13,7 @@ export async function updateOpportunityLoginRequest(OpportunityLoginRequest) {
     return data;
 }
 export async function deleteOpportunityLoginRequest(id) {
-    const data = await http.delete(apiEndpoint + 'delete' + `${id}/`);
+    const data = await http.delete(apiEndpoint + 'delete/' + `${id}`);
     return data;
 }
 export async function showAcceptedLogs() {
@@ -29,10 +29,18 @@ export async function showAll() {
     return data;
 }
 export async function acceptLoginRequest(studentID, projectsRaceID) {
-    const data = await http.put(apiEndpoint + 'acceptLoginRequest' + `${studentID}/` + `${projectsRaceID}`);
+    const data = await http.put(apiEndpoint + 'acceptLoginRequest/' + `${studentID}/` + `${projectsRaceID}`);
     return data;
 }
 export async function rejectLoginRequest(studentID, projectsRaceID) {
-    const data = await http.put(apiEndpoint + 'rejectedLoginRequest' + `${studentID}/` + `${projectsRaceID}`);
+    const data = await http.put(apiEndpoint + 'rejectedLoginRequest/' + `${studentID}/` + `${projectsRaceID}`);
+    return data;
+}
+export async function showProjectsRaceLoginRequestById(id) {
+    const data = await http.get(apiEndpoint + 'showProjectsRaceByID/' + `${id}`);
+    return data;
+}
+export async function showOpportunityLoginRequestByStudentId(id) {
+    const data = await http.get(apiEndpoint + 'showStudentByID/' + `${id}`);
     return data;
 }

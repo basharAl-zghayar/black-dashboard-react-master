@@ -13,7 +13,7 @@ export async function updateOpportunityLoginRequest(OpportunityLoginRequest) {
     return data;
 }
 export async function deleteOpportunityLoginRequest(id) {
-    const data = await http.delete(apiEndpoint + 'delete' + `${id}/`);
+    const data = await http.delete(apiEndpoint + 'delete/' + `${id}`);
     return data;
 }
 export async function showAcceptedLogs() {
@@ -29,10 +29,18 @@ export async function showAll(id) {
     return data;
 }
 export async function acceptLoginRequest(studentID, OpportunityID) {
-    const data = await http.put(apiEndpoint + 'acceptLoginRequest' + `${studentID}/` + `${OpportunityID}`);
+    const data = await http.put(apiEndpoint + 'acceptLoginRequest/' + `${studentID}/` + `${OpportunityID}`);
     return data;
 }
 export async function rejectLoginRequest(studentID, OpportunityID) {
-    const data = await http.put(apiEndpoint + 'rejectedLoginRequest' + `${studentID}/` + `${OpportunityID}`);
+    const data = await http.put(apiEndpoint + 'rejectedLoginRequest/' + `${studentID}/` + `${OpportunityID}`);
+    return data;
+}
+export async function showOpportunityLoginRequestById(id) {
+    const data = await http.get(apiEndpoint + 'showOpportunityByID/' + `${id}`);
+    return data;
+}
+export async function showOpportunityLoginRequestByStudentId(id) {
+    const data = await http.get(apiEndpoint + 'showStudentByID/' + `${id}`);
     return data;
 }
