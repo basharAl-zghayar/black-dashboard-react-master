@@ -1,5 +1,5 @@
 
-import Dashboard from "views/Dashboard.js";
+// import Dashboard from "views/Dashboard.js";
 import Courses from "views/courses/courses";
 import Exhibitions from "views/exhibitions";
 import Opportunity from "views/opportunities";
@@ -12,13 +12,13 @@ import RegisterStudent from "views/sign-up";
 import OpportunityDetails from "views/opportunities/course-details";
 
 const useRouts = [
-  {
-    path: "/dashboard",
-    name: "Dashboard",
-    icon: "tim-icons icon-chart-pie-36",
-    component: Dashboard,
-    layout: "/admin",
-  },
+  // {
+  //   path: "/dashboard",
+  //   name: "Dashboard",
+  //   icon: "tim-icons icon-chart-pie-36",
+  //   component: Dashboard,
+  //   layout: "/admin",
+  // },
   {
     exact: true,
     path: "/courses",

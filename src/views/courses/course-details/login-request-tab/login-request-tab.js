@@ -46,10 +46,13 @@ const LoginRequestsTab = ({ courseID, getQuestions }) => {
                     const student = await studentServices.showStudentById(request?.studentID);
                     request.student = student.data.data;
                     val.push(request);
-                    setDataSource(val);
                 })();
+                setDataSource(val);
                 return request;
             });
+
+            setDataSource(values);
+
             setSpinning(false);
         })();
     }, []);

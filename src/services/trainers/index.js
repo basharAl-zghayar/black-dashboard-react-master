@@ -14,7 +14,7 @@ export async function updateTrainer(updateTrainers) {
     return data;
 }
 export async function deleteTrainer(id) {
-    const data = await http.delete(apiEndpoint + 'delete', { id: id });
+    const data = await http.delete(apiEndpoint + 'delete/' + `${id}`);
     return data;
 }
 export async function showAllTrainers() {

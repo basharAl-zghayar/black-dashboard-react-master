@@ -13,7 +13,7 @@ export async function updateCompany(updateCompany) {
     return data;
 }
 export async function deleteCompany(id) {
-    const data = await http.delete(apiEndpoint + 'deleteCompany', { id: id });
+    const data = await http.delete(apiEndpoint + 'deleteCompany/' + `${id}`);
     return data;
 }
 export async function showAllCompanies() {

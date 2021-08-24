@@ -125,7 +125,7 @@ function Admin(props) {
               />
               {userType === '2' ? (<Switch>
                 {getRoutes(userRoutse)}
-                <Redirect from="/admin" to="/admin/dashboard" />
+                <Redirect from="/admin" to="/admin/courses" />
               </Switch>) : <Switch>
                 {getRoutes(routes)}
                 <Redirect from="/admin" to="/admin/dashboard" />

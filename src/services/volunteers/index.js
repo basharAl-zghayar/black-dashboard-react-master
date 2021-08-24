@@ -12,7 +12,7 @@ export async function updateVolunteer(updateVolunteer) {
     return data;
 }
 export async function deleteVolunteer(id) {
-    const data = await http.delete(apiEndpoint + 'delete', { data: { id: id } });
+    const data = await http.delete(apiEndpoint + 'delete' + 'delete/' + `${id}`);
     return data;
 }
 export async function showAllVolunteers() {
@@ -20,8 +20,6 @@ export async function showAllVolunteers() {
     return data;
 }
 export async function showVolunteerById(id) {
-    const data = await http.get(apiEndpoint + 'showById', {
-        params: id,
-    });
+    const data = await http.get(apiEndpoint + 'showById/' + `${id}`);
     return data;
 }

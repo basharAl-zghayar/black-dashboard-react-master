@@ -127,12 +127,12 @@ const AddCourseQuestionModal = ({
                                         <Select.Option key='free-question' value={1}>
                                             Free Question
                                         </Select.Option>
-                                        <Select.Option key='check-box' value={2}>
+                                        {/* <Select.Option key='check-box' value={2}>
                                             Check Box
                                         </Select.Option>
                                         <Select.Option key='radio-box' value={3}>
                                             Radio Box
-                                        </Select.Option>
+                                        </Select.Option> */}
 
                                     </Select>
                                 </Form.Item>

@@ -5,11 +5,11 @@ import AppConsts from '../../../app-consts';
 const apiEndpoint = AppConsts.remoteServiceBaseUrl + "/courseLoginRequest/";
 
 export async function addCourseLoginRequest(addCourseLoginRequest) {
-    const data = await http.post(apiEndpoint + 'add', { addCourseLoginRequest });
+    const data = await http.post(apiEndpoint + 'add', addCourseLoginRequest);
     return data;
 }
 export async function updateCourseLoginRequest(updateCourseLoginRequest) {
-    const data = await http.put(apiEndpoint + 'edit', { updateCourseLoginRequest });
+    const data = await http.put(apiEndpoint + 'edit', updateCourseLoginRequest);
     return data;
 }
 
