@@ -8,7 +8,7 @@ import * as studentServices from '../../../../services/students/index';
 import * as exhibitionAnswersServices from '../../../../services/opportunities/opportunities-answer';
 import StudentAnswersModal from './login-request-answers';
 
-const LoginRequestsTab = ({ courseID, getQuestions }) => {
+const LoginRequestsTab = ({ opportunityID, getQuestions }) => {
 
     const [spinning, setSpinning] = useState(true);
     const [record, setRecord] = useState();
@@ -35,7 +35,7 @@ const LoginRequestsTab = ({ courseID, getQuestions }) => {
     const getData = () => {
         setSpinning(true);
         (async () => {
-            const data = await coursesLoginRequestServices.showOpportunityLoginRequestById(courseID);
+            const data = await coursesLoginRequestServices.showOpportunityLoginRequestById(opportunityID);
             const val = [];
             const values = data.data.data.map((request) => {
                 (async () => {
@@ -54,7 +54,7 @@ const LoginRequestsTab = ({ courseID, getQuestions }) => {
     const AcceptRequest = () => {
         setSpinning(true);
         (async () => {
-            const data = await coursesLoginRequestServices.acceptLoginRequest({ studentID: record.studentID, courseID: courseID });
+            const data = await coursesLoginRequestServices.acceptLoginRequest({ studentID: record.studentID, opportunityID: opportunityID });
             setCourseLoginRequests(data.data.data);
             setSpinning(false);
         })();

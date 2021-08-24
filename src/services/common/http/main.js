@@ -35,9 +35,9 @@ class httpClientFactory {
                         },
 
                         (error) => {
-                                if (error.response.status === 401 /* Unauthorized */) {
+                                if (error?.response?.status === 401 /* Unauthorized */) {
                                         window.location.href = `${AppConsts.baseUrl}/user/login`;
-                                } else if (error.response.status === 404) {
+                                } else if (error?.response?.status === 404) {
                                         notification['error']({
                                                 duration: 5,
                                                 message: 'Unknown Error',

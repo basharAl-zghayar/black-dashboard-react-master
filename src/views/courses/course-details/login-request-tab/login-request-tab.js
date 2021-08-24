@@ -52,7 +52,6 @@ const LoginRequestsTab = ({ courseID, getQuestions }) => {
             });
             setDataSource(values);
 
-            setDataSource(values);
 
             setSpinning(false);
         })();
