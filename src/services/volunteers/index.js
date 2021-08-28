@@ -14,7 +14,7 @@ export async function updateVolunteer(updateVolunteer) {
     return data;
 }
 export async function deleteVolunteer(id) {
-    const data = await http.delete(apiEndpoint + 'delete' + 'delete/' + `${id}`);
+    const data = await http.delete(apiEndpoint + 'delete/' + `${id}`);
     return data;
 }
 export async function showAllVolunteers() {

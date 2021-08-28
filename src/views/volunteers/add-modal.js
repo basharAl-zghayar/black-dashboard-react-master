@@ -23,12 +23,11 @@ const AddVolunteerModal = ({ isVisible, setVisible, addVolunteer, formValues, up
         form.resetFields();
     };
     useEffect(() => {
-        if (formValues) {
+        if (isUpdate) {
             form.setFieldsValue({
                 firstName: formValues.firstName,
                 lastName: formValues.lastName,
                 user_name: formValues?.user?.name,
-                userID: formValues?.userID,
                 email: formValues?.user?.email,
                 phone: formValues.phone,
                 volunteerTitle: formValues.volunteerTitle,
@@ -41,7 +40,7 @@ const AddVolunteerModal = ({ isVisible, setVisible, addVolunteer, formValues, up
 
             });
         }
-    }, [formValues, form]);
+    }, [formValues, form, isUpdate]);
     return (
         <>
             <Modal
@@ -60,20 +59,7 @@ const AddVolunteerModal = ({ isVisible, setVisible, addVolunteer, formValues, up
                     <Tabs >
                         <TabPane key='info  ' tab="Info" >
                             <Row gutter={24} justify='space-between'>
-                                <Col sm={24} lg={12}>
-                                    <Form.Item
-                                        label="ID"
-                                        name="userID"
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Please add ID!',
-                                            },
-                                        ]}
-                                    >
-                                        <InputNumber style={{ width: '100%' }} min={0} />
-                                    </Form.Item>
-                                </Col>
+
                                 <Col sm={24} lg={12}>
 
                                     <Form.Item
@@ -89,6 +75,21 @@ const AddVolunteerModal = ({ isVisible, setVisible, addVolunteer, formValues, up
                                         <Input />
                                     </Form.Item>
                                 </Col>
+                                <Col sm={24} lg={12}>
+                                    <Form.Item
+                                        label="Age"
+                                        name="age"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Please Add Age!',
+                                            },
+                                        ]}
+                                    >
+                                        <InputNumber style={{ width: '100%' }} min={0} />
+                                    </Form.Item>
+                                </Col>
+
                             </Row>
                             <Row gutter={24} justify='space-between'>
                                 <Col sm={24} lg={12}>
@@ -145,7 +146,7 @@ const AddVolunteerModal = ({ isVisible, setVisible, addVolunteer, formValues, up
                                     </Form.Item>
                                 </Col>
                             </Row>
-                            {isUpdate && <Row gutter={24} justify='space-between'>
+                            {!isUpdate && <Row gutter={24} justify='space-between'>
                                 <Col sm={24} lg={12}>
                                     <Form.Item
                                         label="Password"
@@ -157,7 +158,7 @@ const AddVolunteerModal = ({ isVisible, setVisible, addVolunteer, formValues, up
                                             },
                                         ]}
                                     >
-                                        <InputNumber style={{ width: '100%' }} min={0} />
+                                        <Input.Password style={{ width: '100%' }} />
                                     </Form.Item>
                                 </Col>
                                 <Col sm={24} lg={12}>
@@ -172,7 +173,7 @@ const AddVolunteerModal = ({ isVisible, setVisible, addVolunteer, formValues, up
                                             },
                                         ]}
                                     >
-                                        <InputNumber style={{ width: '100%' }} min={0} />
+                                        <Input.Password style={{ width: '100%' }} />
                                     </Form.Item>
                                 </Col>
                             </Row>}
@@ -255,20 +256,6 @@ const AddVolunteerModal = ({ isVisible, setVisible, addVolunteer, formValues, up
                                         <Input />
                                     </Form.Item>
                                 </Col>
-                                <Col sm={24} lg={12}>
-                                    <Form.Item
-                                        label="Age"
-                                        name="age"
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Please Add Age!',
-                                            },
-                                        ]}
-                                    >
-                                        <InputNumber style={{ width: '100%' }} min={0} />
-                                    </Form.Item>
-                                </Col>
 
                             </Row>
                             <Row gutter={24} justify='space-between'>
@@ -298,7 +285,7 @@ const AddVolunteerModal = ({ isVisible, setVisible, addVolunteer, formValues, up
                         <Form.Item>
                             <Col>
                                 <Button loading={loading} disabled={loading} type="primary" htmlType="submit">
-                                    Add
+                                    {isUpdate ? 'Update' : 'Add'}
                                 </Button>
                             </Col>
                         </Form.Item>

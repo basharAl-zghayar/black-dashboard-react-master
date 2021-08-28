@@ -242,7 +242,7 @@ const AddTrainerModal = ({ isVisible, setVisible, addTrainer, formValues, update
                         <Form.Item>
                             <Col>
                                 <Button loading={loading} disabled={loading} type="primary" htmlType="submit">
-                                    Add
+                                    {isUpdate ? 'Update' : 'Add'}
                                 </Button>
                             </Col>
                         </Form.Item>

@@ -36,9 +36,9 @@ function Volunteers() {
         })();
     };
     const onFinish = (values) => {
-
         (async () => {
             await volunteersServices.addVolunteer(values);
+            setModalVisible(false);
             getData();
         })();
     };
@@ -123,7 +123,7 @@ function Volunteers() {
                         <AddVolunteerModal
                             isVisible={isModalVisible}
                             setVisible={setModalVisible}
-                            addTrainer={onFinish}
+                            addVolunteer={onFinish}
                             formValues={record}
                             updateVolunteer={updateVolunteer}
                             isUpdate={isUpdate}

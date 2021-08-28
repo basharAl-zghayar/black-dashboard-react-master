@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Row, Modal, Button, Form, Input, Col, DatePicker } from 'antd';
 import moment from 'moment';
 
-const AddExhibitionModal = ({ isVisible, setVisible, addExhibition, formValues, updateExhibition }) => {
+const AddExhibitionModal = ({ isVisible, setVisible, addExhibition, formValues, updateExhibition, isUpdate }) => {
     const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
 
@@ -11,8 +11,7 @@ const AddExhibitionModal = ({ isVisible, setVisible, addExhibition, formValues, 
         data.startDate = moment(values.startDate).format("YYYY/MM/DD");
         data.endDate = moment(values.endDate).format("YYYY/MM/DD");
         setLoading(true);
-        console.log(data);
-        if (formValues) {
+        if (isUpdate) {
 
             (async () => {
                 await updateExhibition(data);
@@ -26,7 +25,7 @@ const AddExhibitionModal = ({ isVisible, setVisible, addExhibition, formValues, 
         }
     };
     useEffect(() => {
-        if (formValues) {
+        if (isUpdate) {
             form.setFieldsValue({
                 title: formValues.title,
                 startDate: moment(formValues.startDate),
@@ -37,7 +36,7 @@ const AddExhibitionModal = ({ isVisible, setVisible, addExhibition, formValues, 
             });
         }
 
-    }, [formValues, form]);
+    }, [formValues, form, isUpdate]);
 
     return (
         <>
@@ -154,7 +153,7 @@ const AddExhibitionModal = ({ isVisible, setVisible, addExhibition, formValues, 
                         <Form.Item>
                             <Col>
                                 <Button loading={loading} disabled={loading} type="primary" htmlType="submit">
-                                    Add
+                                    {isUpdate ? 'Update' : 'Add'}
                                 </Button>
                             </Col>
                         </Form.Item>

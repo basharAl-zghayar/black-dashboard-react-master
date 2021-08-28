@@ -36,18 +36,7 @@ const LoginRequestsTab = ({ opportunityID, getQuestions }) => {
         setSpinning(true);
         (async () => {
             const data = await coursesLoginRequestServices.showOpportunityLoginRequestById(opportunityID);
-            const val = [];
-            const values = data.data.data.map((request) => {
-                (async () => {
-                    const student = await studentServices.showStudentById(request?.student?.id);
-                    request.student = student.data.data;
-                    val.push(request);
-                    setDataSource(val);
-                })();
-                return request;
-            });
-            setDataSource(values);
-
+            setDataSource(data.data.data);
             setSpinning(false);
         })();
     };

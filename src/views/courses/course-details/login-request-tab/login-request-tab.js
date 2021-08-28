@@ -38,10 +38,7 @@ const LoginRequestsTab = ({ courseID, getQuestions }) => {
         setSpinning(true);
         (async () => {
             const data = await coursesLoginRequestServices.showCourseLoginRequestById(Number(courseID));
-
             setDataSource(data.data.data);
-
-
             setSpinning(false);
         })();
     }, []);

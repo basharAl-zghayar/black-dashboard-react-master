@@ -35,17 +35,8 @@ const LoginRequestsTab = ({ exhibitionID, getQuestions }) => {
         setSpinning(true);
         (async () => {
             const data = await exhibitionsLoginRequestServices.showExhibitionLoginRequestById(exhibitionID);
-            const val = [];
-            const values = data.data.data.map((request) => {
-                (async () => {
-                    const student = await studentServices.showStudentById(request?.student?.id);
-                    request.student = student.data.data;
-                    val.push(request);
-                    setDataSource(val);
-                })();
-                return request;
-            });
-            setDataSource(values);
+
+            setDataSource(data.data.data);
 
             setSpinning(false);
         })();
@@ -53,7 +44,7 @@ const LoginRequestsTab = ({ exhibitionID, getQuestions }) => {
     const AcceptRequest = () => {
         setSpinning(true);
         (async () => {
-            const data = await exhibitionsLoginRequestServices.acceptLoginRequest({ studentID: record.record.student.id, exhibitionID: exhibitionID });
+            const data = await exhibitionsLoginRequestServices.acceptLoginRequest(record?.student?.id, exhibitionID);
             setCourseLoginRequests(data.data.data);
             setSpinning(false);
         })();
@@ -61,7 +52,7 @@ const LoginRequestsTab = ({ exhibitionID, getQuestions }) => {
     const RejectRequest = () => {
         setSpinning(true);
         (async () => {
-            const data = await exhibitionsLoginRequestServices.rejectLoginRequest({ studentID: record.record.student.id, exhibitionID: exhibitionID });
+            const data = await exhibitionsLoginRequestServices.rejectLoginRequest(record?.student?.id, exhibitionID);
             setCourseLoginRequests(data.data.data);
             setSpinning(false);
         })();

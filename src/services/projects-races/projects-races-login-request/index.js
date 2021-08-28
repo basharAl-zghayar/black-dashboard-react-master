@@ -28,11 +28,11 @@ export async function showAll() {
     const data = await http.get(apiEndpoint + 'all');
     return data;
 }
-export async function acceptLoginRequest(studentID, projectsRaceID) {
+export async function acceptLoginRequest({ studentID, projectsRaceID }) {
     const data = await http.put(apiEndpoint + 'acceptLoginRequest/' + `${studentID}/` + `${projectsRaceID}`);
     return data;
 }
-export async function rejectLoginRequest(studentID, projectsRaceID) {
+export async function rejectLoginRequest({ studentID, projectsRaceID }) {
     const data = await http.put(apiEndpoint + 'rejectedLoginRequest/' + `${studentID}/` + `${projectsRaceID}`);
     return data;
 }
