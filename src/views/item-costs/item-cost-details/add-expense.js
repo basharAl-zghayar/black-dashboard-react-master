@@ -17,8 +17,10 @@ const AddExpenseModal = ({
     const onFinish = (values) => {
         const data = values;
         data.date = moment(values.date).format("YYYY/MM/DD");
+
         setLoading(true);
         if (isUpdate) {
+            data.id = formValues.id;
             (async () => {
                 await updateExpense(data);
             })();
@@ -34,6 +36,7 @@ const AddExpenseModal = ({
         setLoading(false);
         if (isUpdate) {
             form.setFieldsValue({
+
                 name: formValues.name,
                 itemCode: itemCode,
                 paidValue: formValues.paidValue,
@@ -159,7 +162,7 @@ const AddExpenseModal = ({
                         <Form.Item>
                             <Col>
                                 <Button loading={loading} disabled={loading} type="primary" htmlType="submit">
-                                    Add
+                                    {isUpdate ? 'Update' : 'Add'}
                                 </Button>
                             </Col>
                         </Form.Item>

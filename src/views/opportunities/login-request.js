@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Modal, Form, Input, Col, Button } from 'antd';
+import { Row, Modal, Form, Input, Col, Button, Checkbox } from 'antd';
 import * as courseQuestions from '../../services/opportunities/opportunities-question';
-
+const CheckboxGroup = Checkbox.Group;
 const AddLoginRequestModal = ({ isVisible, setVisible, addCourse, id }) => {
     const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
     const [questions, setQuestions] = useState([]);
+    const [questionsAnswers, setQuestionsAnswers] = useState([]);
+
     useEffect(() => {
         (async () => {
             const data = await courseQuestions.showAllByQuestionID(id);
             setQuestions(data.data.data);
+            setQuestionsAnswers(data.data.data.answerQuestion);
         })();
 
     }, [id]);
@@ -45,6 +48,7 @@ const AddLoginRequestModal = ({ isVisible, setVisible, addCourse, id }) => {
                     onFinish={onFinish}
                 >
                     {questions.map((question, index) => {
+                        console.log(question.type);
                         return (
                             <div style={{
                                 margin: '16px 0',
@@ -69,12 +73,15 @@ const AddLoginRequestModal = ({ isVisible, setVisible, addCourse, id }) => {
                                                                     },
                                                                 ]}
                                                             >
-                                                                <Input.TextArea onChangeCapture={(value) => {
-                                                                    form.setFieldsValue({
-                                                                        questionID: question.id,
-                                                                        questionsAnswers: [{ answer: value.target.value, questionID: question.id }]
-                                                                    });
-                                                                }} />
+                                                                {question.type === 2 || question.type === 3 ?
+                                                                    <CheckboxGroup options={questionsAnswers} />
+                                                                    :
+                                                                    <Input.TextArea onChangeCapture={(value) => {
+                                                                        form.setFieldsValue({
+                                                                            questionID: question.id,
+                                                                            questionsAnswers: [{ answer: value.target.value, questionID: question.id }]
+                                                                        });
+                                                                    }} />}
                                                             </Form.Item>
                                                         </Col>
 
