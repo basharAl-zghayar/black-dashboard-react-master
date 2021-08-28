@@ -62,7 +62,7 @@ function Signup() {
                                                             name="password"
                                                             rules={[{ required: true, message: 'Please input your Username!' }]}
                                                         >
-                                                            <Input type='password' placeholder="Password" />
+                                                            <Input.Password placeholder="Password" />
                                                         </Form.Item>
                                                         <Form.Item
                                                             name="collage"
@@ -100,7 +100,7 @@ function Signup() {
                                                             name="c_password"
                                                             rules={[{ required: true, message: 'Please Repeat Password!' }]}
                                                         >
-                                                            <Input type='password' placeholder="Password" />
+                                                            <Input.Password placeholder="Repeat Password" />
                                                         </Form.Item>
                                                         <Form.Item
                                                             name="specialization"

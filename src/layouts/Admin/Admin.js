@@ -26,7 +26,8 @@ import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 
 import routes from "routes.js";
-import userRoutse from "routes-copy.js";
+import userRouts from "routes-copy.js";
+import volunteerRouts from "volunteer-routes.js";
 
 import logo from "assets/img/react-logo.png";
 import { BackgroundColorContext } from "contexts/BackgroundColorContext";
@@ -109,7 +110,7 @@ function Admin(props) {
         <React.Fragment>
           <div className="wrapper">
             <Sidebar
-              routes={userType === '2' ? userRoutse : routes}
+              routes={userType === '2' ? userRouts : userType === '3' ? volunteerRouts : routes}
               logo={{
 
                 text: "PTC",
@@ -124,8 +125,11 @@ function Admin(props) {
                 sidebarOpened={sidebarOpened}
               />
               {userType === '2' ? (<Switch>
-                {getRoutes(userRoutse)}
+                {getRoutes(userRouts)}
                 <Redirect from="/admin" to="/admin/courses" />
+              </Switch>) : userType === '3' ? (<Switch>
+                {getRoutes(volunteerRouts)}
+                <Redirect from="/admin" to="/admin/dashboard" />
               </Switch>) : <Switch>
                 {getRoutes(routes)}
                 <Redirect from="/admin" to="/admin/dashboard" />

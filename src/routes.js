@@ -1,6 +1,5 @@
 
 import Dashboard from "views/Dashboard.js";
-import Icons from "views/Icons.js";
 import Companies from "views/companies/companies.js";
 import Courses from "views/courses/courses";
 import Exhibitions from "views/exhibitions";
@@ -86,7 +85,7 @@ var routes = [
     path: "/projects-races",
     name: "Project Race",
     rtlName: "",
-    icon: "tim-icons icon-zoom-split",
+    icon: "tim-icons icon-bulb-63",
     component: ProjectRace,
     layout: "/admin",
   },
@@ -105,14 +104,6 @@ var routes = [
     component: ProjectRaceDetails,
     layout: "/admin",
     hidden: true,
-  },
-  {
-    path: "/icons",
-    name: "Icons",
-    rtlName: "",
-    icon: "tim-icons icon-atom",
-    component: Icons,
-    layout: "/admin",
   },
   {
     exact: true,
@@ -144,14 +135,6 @@ var routes = [
     rtlName: "",
     icon: "tim-icons icon-single-02",
     component: Trainers,
-    layout: "/admin",
-  },
-  {
-    path: "/icons",
-    name: "Icons",
-    rtlName: "",
-    icon: "tim-icons icon-atom",
-    component: Icons,
     layout: "/admin",
   },
   {

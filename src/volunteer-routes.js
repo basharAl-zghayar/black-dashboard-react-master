@@ -1,5 +1,6 @@
 
-// import Dashboard from "views/Dashboard.js";
+import Dashboard from "views/Dashboard.js";
+import Companies from "views/companies/companies.js";
 import Courses from "views/courses/courses";
 import Exhibitions from "views/exhibitions";
 import Opportunity from "views/opportunities";
@@ -7,12 +8,49 @@ import ProjectRace from "views/project-race";
 import CourseDetails from "views/courses/course-details";
 import ProjectRaceDetails from "views/project-race/project-race-details";
 import ExhibitionDetails from "views/exhibitions/exhibitions-details";
+import ItemCosts from "views/item-costs/index";
+import Trainers from "views/trainer/index";
 import LoginPage from "views/log-in";
 import RegisterStudent from "views/sign-up";
+import ItemCostDetails from "views/item-costs/item-cost-details";
 import OpportunityDetails from "views/opportunities/course-details";
 
-const useRouts = [
+var routes = [
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    icon: "tim-icons icon-chart-pie-36",
+    component: Dashboard,
+    layout: "/admin",
+  },
+  {
+    exact: true,
+    path: "/companies",
+    name: "Companies",
+    rtlName: "",
+    icon: "tim-icons icon-bank",
+    component: Companies,
+    layout: "/admin",
+  },
+  {
+    exact: true,
+    path: "/item-costs",
+    name: "Item Costs",
+    rtlName: "",
+    icon: "tim-icons icon-coins",
+    component: ItemCosts,
+    layout: "/admin",
+  },
 
+
+  {
+    exact: true,
+    path: "/expansive/:code",
+    name: "Item Cost Details",
+    component: ItemCostDetails,
+    layout: "/admin",
+    hidden: true,
+  },
   {
     exact: true,
     path: "/courses",
@@ -83,6 +121,14 @@ const useRouts = [
     hidden: true,
   },
   {
+    path: "/trainers",
+    name: "Trainers",
+    rtlName: "",
+    icon: "tim-icons icon-single-02",
+    component: Trainers,
+    layout: "/admin",
+  },
+  {
     path: "/login",
     name: "",
     component: LoginPage,
@@ -96,4 +142,5 @@ const useRouts = [
   },
 
 ];
-export default useRouts;
+
+export default routes;
