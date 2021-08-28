@@ -39,7 +39,7 @@ const LoginRequestsTab = ({ opportunityID, getQuestions }) => {
             const val = [];
             const values = data.data.data.map((request) => {
                 (async () => {
-                    const student = await studentServices.showStudentById(request?.studentID);
+                    const student = await studentServices.showStudentById(request?.student?.id);
                     request.student = student.data.data;
                     val.push(request);
                     setDataSource(val);
@@ -54,7 +54,7 @@ const LoginRequestsTab = ({ opportunityID, getQuestions }) => {
     const AcceptRequest = () => {
         setSpinning(true);
         (async () => {
-            const data = await coursesLoginRequestServices.acceptLoginRequest({ studentID: record.studentID, opportunityID: opportunityID });
+            const data = await coursesLoginRequestServices.acceptLoginRequest({ studentID: record.student?.id, opportunityID: opportunityID });
             setCourseLoginRequests(data.data.data);
             setSpinning(false);
         })();
@@ -62,7 +62,7 @@ const LoginRequestsTab = ({ opportunityID, getQuestions }) => {
     const RejectRequest = () => {
         setSpinning(true);
         (async () => {
-            const data = await coursesLoginRequestServices.rejectLoginRequest();
+            const data = await coursesLoginRequestServices.rejectLoginRequest({ studentID: record.student?.id, opportunityID: opportunityID });
             setCourseLoginRequests(data.data.data);
             setSpinning(false);
         })();
@@ -90,7 +90,7 @@ const LoginRequestsTab = ({ opportunityID, getQuestions }) => {
                                 shape="circle"
                                 onClick={() => {
                                     setLoginRequestModalVisible(true);
-                                    getStudentAnswers(record?.studentID);
+                                    getStudentAnswers(record?.student?.id);
                                 }}
                             >
                                 <FileSearchOutlined />

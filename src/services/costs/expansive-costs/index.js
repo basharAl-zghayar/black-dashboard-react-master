@@ -33,7 +33,7 @@ export async function showExpansiveByItemCode(code) {
     return data;
 }
 export async function endPointMonth(monthDate) {
-    const data = await http.post(apiEndpoint + 'endPointMonth', monthDate);
+    const data = await http.post(apiEndpoint + 'endPointMonth', { monthDate: monthDate });
     return data;
 }
 export async function endPointYear(yearDate) {

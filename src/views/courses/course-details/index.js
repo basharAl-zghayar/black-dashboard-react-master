@@ -6,6 +6,8 @@ import InfoTab from './info-tab';
 import QuestionsTab from './question-tab/questions-tab';
 import LoginRequestsTab from './login-request-tab/login-request-tab';
 import * as coursesQuestionsServices from '../../../services/courses/question-course/index';
+import * as coursesLoginServices from '../../../services/courses/course-login-request/index';
+import StudentsTab from './students';
 
 const CourseDetails = () => {
     const { id } = useParams();
@@ -29,6 +31,15 @@ const CourseDetails = () => {
             setSpinning(false);
         })();
     }, [id]);
+
+    const getStudents = useCallback((setCourses, setSpinning) => {
+        setSpinning(true);
+        (async () => {
+            const data = await coursesLoginServices.showCourseLoginRequestAcceptedLogs();
+            setCourses(data.data.data);
+            setSpinning(false);
+        })();
+    }, []);
     return (
         <>
             <div className="content">
@@ -43,6 +54,9 @@ const CourseDetails = () => {
                             </Tabs.TabPane>
                             <Tabs.TabPane key='questions-login-requests' tab="Course Login Requests">
                                 <LoginRequestsTab courseID={id} getQuestions={getData} />
+                            </Tabs.TabPane>
+                            <Tabs.TabPane key='students-tab' tab="Course Students">
+                                <StudentsTab getData={getStudents} />
                             </Tabs.TabPane>
                         </Tabs>
 

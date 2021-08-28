@@ -1,7 +1,6 @@
 import axios from "axios";
 import { getCurrentUser } from '../authentication/index';
 import AppConsts from '../../../app-consts';
-import { notification } from 'antd';
 const qs = require("qs");
 class httpClientFactory {
 
@@ -37,13 +36,13 @@ class httpClientFactory {
                         (error) => {
                                 if (error?.response?.status === 401 /* Unauthorized */) {
                                         window.location.href = `${AppConsts.baseUrl}/user/login`;
-                                } else if (error?.response?.status === 404) {
-                                        notification['error']({
-                                                duration: 5,
-                                                message: 'Unknown Error',
-                                                description: error.response.data.message,
-                                                style: 'z-index: 5000',
-                                        });
+                                } else if (error?.response?.status === 400) {
+
+                                        alert("Oops!!!: " + error.response.data.data?.code);
+                                }
+                                else if (error?.response?.status === 404) {
+
+                                        alert(error.response.message);
                                 }
                                 setTimeout(() => { }, 1000);
 

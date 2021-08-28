@@ -11,6 +11,7 @@ export async function login(email, password) {
     localStorage.setItem(tokenKey, data.data.data.token);
     localStorage.setItem('userType', data.data.data.user.type);
     localStorage.setItem('userId', data.data.data.user.id);
+    console.log(data.data.data.user);
     return data;
 }
 

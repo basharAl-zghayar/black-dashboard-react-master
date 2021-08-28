@@ -38,19 +38,8 @@ const LoginRequestsTab = ({ courseID, getQuestions }) => {
         setSpinning(true);
         (async () => {
             const data = await coursesLoginRequestServices.showCourseLoginRequestById(Number(courseID));
-            const val = [];
-            const values = data.data.data.map((request) => {
-                setSpinning(true);
 
-                (async () => {
-                    const student = await studentServices.showStudentById(request?.studentID);
-                    request.student = student.data.data;
-                    val.push(request);
-                })();
-                setDataSource(val);
-                return request;
-            });
-            setDataSource(values);
+            setDataSource(data.data.data);
 
 
             setSpinning(false);
@@ -59,7 +48,7 @@ const LoginRequestsTab = ({ courseID, getQuestions }) => {
     const AcceptRequest = () => {
         setSpinning(true);
         (async () => {
-            await coursesLoginRequestServices.acceptLoginRequest({ studentID: record.studentID, courseID: courseID });
+            await coursesLoginRequestServices.acceptLoginRequest({ studentID: record.student.id, courseID: courseID });
             getData();
             setAcceptModalVisible(false);
             setSpinning(false);
@@ -68,7 +57,7 @@ const LoginRequestsTab = ({ courseID, getQuestions }) => {
     const RejectRequest = () => {
         setSpinning(true);
         (async () => {
-            await coursesLoginRequestServices.rejectLoginRequest({ studentID: record.studentID, courseID: courseID });
+            await coursesLoginRequestServices.rejectLoginRequest({ studentID: record.student.id, courseID: courseID });
             getData();
             setRejectModalVisible(false);
             setSpinning(false);
@@ -99,7 +88,7 @@ const LoginRequestsTab = ({ courseID, getQuestions }) => {
                                 shape="circle"
                                 onClick={() => {
                                     setLoginRequestModalVisible(true);
-                                    getStudentAnswers(record?.studentID);
+                                    getStudentAnswers(record?.student.id);
                                 }}
                             >
                                 <FileSearchOutlined />

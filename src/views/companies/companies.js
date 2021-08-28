@@ -31,7 +31,6 @@ function Companies(props) {
                 PhoneNumber: record.PhoneNumber,
 
             });
-            console.log(record);
         }
 
     }, [record, form]);
@@ -48,6 +47,8 @@ function Companies(props) {
             const data = await companiesServices.deleteCompany(record.id);
             setCompanies(data.data.data);
             getData();
+            setDeleteModalVisible(false);
+
             setSpinning(false);
         })();
     };

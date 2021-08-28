@@ -30,6 +30,7 @@ function Volunteers() {
         (async () => {
             const data = await volunteersServices.deleteVolunteer(record.id);
             setVolunteers(data.data.data);
+            setDeleteModalVisible(false);
             getData();
             setSpinning(false);
         })();

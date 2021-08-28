@@ -51,6 +51,7 @@ function ItemCosts(props) {
         (async () => {
             const data = await services.deleteItemCost(record.code);
             setItemCosts(data.data.data);
+            setDeleteModalVisible(false);
             getData();
             setSpinning(false);
         })();

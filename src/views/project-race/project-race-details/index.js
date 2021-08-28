@@ -6,6 +6,8 @@ import InfoTab from './info-tab';
 import QuestionsTab from './question-tab/questions-tab';
 import LoginRequestsTab from './login-request-tab/login-request-tab';
 import * as projectRacesQuestionsServices from '../../../services/projects-races/projects-races-questions';
+import StudentsTab from './students';
+import * as projectRacesLoginServices from '../../../services/projects-races/projects-races-login-request';
 
 const ProjectRaceDetails = () => {
     const { id } = useParams();
@@ -27,6 +29,14 @@ const ProjectRaceDetails = () => {
             setSpinning(false);
         })();
     }, [id]);
+    const getStudents = useCallback((setCourses, setSpinning) => {
+        setSpinning(true);
+        (async () => {
+            const data = await projectRacesLoginServices.showAcceptedLogs();
+            setCourses(data.data.data);
+            setSpinning(false);
+        })();
+    }, []);
     return (
         <>
             <div className="content">
@@ -41,6 +51,9 @@ const ProjectRaceDetails = () => {
                             </Tabs.TabPane>
                             <Tabs.TabPane key='questions-login-requests' tab="ProjectRace Login Requests">
                                 <LoginRequestsTab projectRaceID={id} getQuestions={getData} />
+                            </Tabs.TabPane>
+                            <Tabs.TabPane key='students-tab' tab="Opportunity Students">
+                                <StudentsTab getData={getStudents} />
                             </Tabs.TabPane>
                         </Tabs>
 

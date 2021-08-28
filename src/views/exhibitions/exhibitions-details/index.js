@@ -6,6 +6,8 @@ import InfoTab from './info-tab';
 import QuestionsTab from './question-tab/questions-tab';
 import LoginRequestsTab from './login-request-tab/login-request-tab';
 import * as exhibitionsQuestionsServices from '../../../services/exhibition/exhibition-question/index';
+import StudentsTab from './students';
+import * as exhibitionLoginServices from '../../../services/exhibition/exhibition-login-request/index';
 
 const ExhibitionDetails = () => {
     const { id } = useParams();
@@ -28,6 +30,14 @@ const ExhibitionDetails = () => {
         setSpinning(false);
 
     }, [id]);
+    const getStudents = useCallback((setCourses, setSpinning) => {
+        setSpinning(true);
+        (async () => {
+            const data = await exhibitionLoginServices.showAcceptedLogs();
+            setCourses(data.data.data);
+            setSpinning(false);
+        })();
+    }, []);
     return (
         <>
             <div className="content">
@@ -42,6 +52,9 @@ const ExhibitionDetails = () => {
                             </Tabs.TabPane>
                             <Tabs.TabPane key='questions-login-requests' tab="Exhibition Login Requests">
                                 <LoginRequestsTab exhibitionID={id} getQuestions={getData} />
+                            </Tabs.TabPane>
+                            <Tabs.TabPane key='students-tab' tab="Exhibition Students">
+                                <StudentsTab getData={getStudents} />
                             </Tabs.TabPane>
                         </Tabs>
 

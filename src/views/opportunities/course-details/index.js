@@ -6,6 +6,8 @@ import InfoTab from './info-tab';
 import QuestionsTab from './question-tab/questions-tab';
 import LoginRequestsTab from './login-request-tab/login-request-tab';
 import * as coursesQuestionsServices from '../../../services/opportunities/opportunities-question/index';
+import StudentsTab from './students';
+import * as opportunitiesLoginServices from '../../../services/opportunities/opportunities-login-request';
 
 const OpportunityDetails = () => {
     const { id } = useParams();
@@ -28,6 +30,14 @@ const OpportunityDetails = () => {
             setSpinning(false);
         })();
     }, [id]);
+    const getStudents = useCallback((setCourses, setSpinning) => {
+        setSpinning(true);
+        (async () => {
+            const data = await opportunitiesLoginServices.showAcceptedLogs();
+            setCourses(data.data.data);
+            setSpinning(false);
+        })();
+    }, []);
     return (
         <>
             <div className="content">
@@ -42,6 +52,9 @@ const OpportunityDetails = () => {
                             </Tabs.TabPane>
                             <Tabs.TabPane key='questions-login-requests' tab="Opportunity Login Requests">
                                 <LoginRequestsTab opportunityID={id} getQuestions={getData} />
+                            </Tabs.TabPane>
+                            <Tabs.TabPane key='students-tab' tab="Opportunity Students">
+                                <StudentsTab getData={getStudents} />
                             </Tabs.TabPane>
                         </Tabs>
 

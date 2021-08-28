@@ -15,7 +15,6 @@ export const columns = [
         dataIndex: 'StudentName',
         title: 'Student',
         render: (text, record, index) => {
-            console.log(record);
             return (<Row>
                 {record?.student?.firstName + ' ' + record?.student?.lastName}
             </Row>);

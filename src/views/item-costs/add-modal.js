@@ -19,7 +19,7 @@ const AddItemCostModal = ({ isVisible, setVisible, addItemCost, formValues, hand
                 setLoading(false);
             })();
         }
-        form.resetFields();
+        // form.resetFields();
     };
     useEffect(() => {
         if (!isUpdate) {

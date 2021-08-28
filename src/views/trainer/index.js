@@ -30,6 +30,7 @@ function Trainer() {
         (async () => {
             const data = await trainersServices.deleteTrainer(record.id);
             setTrainer(data.data.data);
+            setDeleteModalVisible(false);
             getData();
             setSpinning(false);
         })();

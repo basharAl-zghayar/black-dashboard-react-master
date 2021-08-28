@@ -61,7 +61,7 @@ function Exhibitions(props) {
     const addLogRequest = (values) => {
         const studentID = localStorage.getItem('userId');
         const data = {};
-        data.studentID = studentID;
+        data.studentID = Number(studentID);
         data.exhibitionID = record.id;
         data.state = 1;
         data.Answers = values;
