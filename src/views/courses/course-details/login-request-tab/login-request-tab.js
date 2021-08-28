@@ -6,7 +6,6 @@ import { CheckOutlined, CloseOutlined, FileSearchOutlined } from '@ant-design/ic
 import { columns } from './columns';
 import * as coursesLoginRequestServices from '../../../../services/courses/course-login-request/index';
 import * as coursesAnswersServices from '../../../../services/courses/course-answers';
-import * as studentServices from '../../../../services/students/index';
 import StudentAnswersModal from './login-request-answers';
 
 const LoginRequestsTab = ({ courseID, getQuestions }) => {
@@ -131,7 +130,7 @@ const LoginRequestsTab = ({ courseID, getQuestions }) => {
         <>
             <Spin spinning={spinning} >
                 <Row>
-                    <Table dataSource={courseLoginRequests} columns={[...columns, actionColumn]} style={{
+                    <Table dataSource={dataSource} columns={[...columns, actionColumn]} style={{
                         width: '100%',
                         padding: ' 16px 0 0',
                         borderRadius: '7px'

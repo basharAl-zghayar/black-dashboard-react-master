@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { CheckOutlined, CloseOutlined, FileSearchOutlined } from '@ant-design/icons';
 import { columns } from './columns';
 import * as coursesLoginRequestServices from '../../../../services/opportunities/opportunities-login-request';
-import * as studentServices from '../../../../services/students/index';
 import * as exhibitionAnswersServices from '../../../../services/opportunities/opportunities-answer';
 import StudentAnswersModal from './login-request-answers';
 
@@ -43,16 +42,18 @@ const LoginRequestsTab = ({ opportunityID, getQuestions }) => {
     const AcceptRequest = () => {
         setSpinning(true);
         (async () => {
-            const data = await coursesLoginRequestServices.acceptLoginRequest({ studentID: record.student?.id, opportunityID: opportunityID });
-            setCourseLoginRequests(data.data.data);
+            await coursesLoginRequestServices.acceptLoginRequest({ studentID: record.student?.id, opportunityID: opportunityID });
+            getData();
+            setAcceptModalVisible(false);
             setSpinning(false);
         })();
     };
     const RejectRequest = () => {
         setSpinning(true);
         (async () => {
-            const data = await coursesLoginRequestServices.rejectLoginRequest({ studentID: record.student?.id, opportunityID: opportunityID });
-            setCourseLoginRequests(data.data.data);
+            await coursesLoginRequestServices.rejectLoginRequest({ studentID: record.student?.id, opportunityID: opportunityID });
+            getData();
+            setRejectModalVisible(false);
             setSpinning(false);
         })();
     };

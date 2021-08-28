@@ -7,8 +7,6 @@ import { columns } from './columns';
 import * as exhibitionsLoginRequestServices from '../../../../services/exhibition/exhibition-login-request';
 import StudentAnswersModal from './login-request-answers';
 import * as exhibitionAnswersServices from '../../../../services/exhibition/exhibition-answer';
-import * as studentServices from '../../../../services/students/index';
-
 const LoginRequestsTab = ({ exhibitionID, getQuestions }) => {
 
     const [spinning, setSpinning] = useState(true);
@@ -35,25 +33,25 @@ const LoginRequestsTab = ({ exhibitionID, getQuestions }) => {
         setSpinning(true);
         (async () => {
             const data = await exhibitionsLoginRequestServices.showExhibitionLoginRequestById(exhibitionID);
-
             setDataSource(data.data.data);
-
             setSpinning(false);
         })();
     };
     const AcceptRequest = () => {
         setSpinning(true);
         (async () => {
-            const data = await exhibitionsLoginRequestServices.acceptLoginRequest(record?.student?.id, exhibitionID);
-            setCourseLoginRequests(data.data.data);
+            await exhibitionsLoginRequestServices.acceptLoginRequest({ studentID: record.student.id, exhibitionID: exhibitionID });
+            getData();
+            setAcceptModalVisible(false);
             setSpinning(false);
         })();
     };
     const RejectRequest = () => {
         setSpinning(true);
         (async () => {
-            const data = await exhibitionsLoginRequestServices.rejectLoginRequest(record?.student?.id, exhibitionID);
-            setCourseLoginRequests(data.data.data);
+            await exhibitionsLoginRequestServices.rejectLoginRequest({ studentID: record.student.id, exhibitionID: exhibitionID });
+            getData();
+            setRejectModalVisible(false);
             setSpinning(false);
         })();
     };
