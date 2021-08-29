@@ -14,7 +14,7 @@ export async function updateCourseLoginRequest(updateCourseLoginRequest) {
 }
 
 export async function deleteCourseLoginRequest(id) {
-    const data = await http.delete(apiEndpoint + 'delete', { id: id });
+    const data = await http.delete(apiEndpoint + 'delete/' + `${id}`);
     return data;
 }
 
@@ -22,8 +22,8 @@ export async function showAllCourseLoginRequest() {
     const data = await http.get(apiEndpoint + 'all');
     return data;
 }
-export async function showCourseLoginRequestAcceptedLogs() {
-    const data = await http.get(apiEndpoint + 'showAcceptedLogs');
+export async function showCourseLoginRequestAcceptedLogs(id) {
+    const data = await http.get(apiEndpoint + 'showAcceptedLogs/' + `${id}`);
     return data;
 }
 export async function showCourseLoginRequestRejectedLogs() {

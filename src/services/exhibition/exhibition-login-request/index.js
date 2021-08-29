@@ -17,8 +17,8 @@ export async function deleteExhibitionLoginRequest(id) {
     const data = await http.delete(apiEndpoint + 'delete/' + `${id}`);
     return data;
 }
-export async function showAcceptedLogs() {
-    const data = await http.get(apiEndpoint + 'showAcceptedLogs');
+export async function showAcceptedLogs(id) {
+    const data = await http.get(apiEndpoint + 'showAcceptedLogs/' + `${id}`);
     return data;
 }
 export async function showRejectedLogs() {

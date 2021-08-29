@@ -33,11 +33,11 @@ const ExhibitionDetails = () => {
     const getStudents = useCallback((setCourses, setSpinning) => {
         setSpinning(true);
         (async () => {
-            const data = await exhibitionLoginServices.showAcceptedLogs();
+            const data = await exhibitionLoginServices.showAcceptedLogs(id);
             setCourses(data.data.data);
             setSpinning(false);
         })();
-    }, []);
+    }, [id]);
     return (
         <>
             <div className="content">

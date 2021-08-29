@@ -183,6 +183,7 @@ function Courses(props) {
                             isVisible={logModalVisible}
                             setVisible={setLogModalVisible}
                             addCourse={addLogRequest}
+                            id={record?.id}
                         />
 
                         <Modal

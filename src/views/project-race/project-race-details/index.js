@@ -32,11 +32,11 @@ const ProjectRaceDetails = () => {
     const getStudents = useCallback((setCourses, setSpinning) => {
         setSpinning(true);
         (async () => {
-            const data = await projectRacesLoginServices.showAcceptedLogs();
+            const data = await projectRacesLoginServices.showAcceptedLogs(id);
             setCourses(data.data.data);
             setSpinning(false);
         })();
-    }, []);
+    }, [id]);
     return (
         <>
             <div className="content">

@@ -1,30 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Modal, Form, Input, Col, Button, Checkbox } from 'antd';
+import { Row, Modal, Form, Input, Col, Button, Select } from 'antd';
 import * as courseQuestions from '../../services/courses/question-course/index';
-const CheckboxGroup = Checkbox.Group;
 
-const AddLoginRequestModal = ({ isVisible, setVisible, addCourse }) => {
+const { Option } = Select;
+
+const AddLoginRequestModal = ({ isVisible, setVisible, addCourse, id }) => {
     const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
     const [questions, setQuestions] = useState([]);
     const [questionsAnswers, setQuestionsAnswers] = useState([]);
     useEffect(() => {
         (async () => {
-            const data = await courseQuestions.showQuestionById(1);
+            const data = await courseQuestions.showQuestionById(id);
             setQuestions(data.data.data);
-            setQuestionsAnswers(data.data.data.answerQuestion);
         })();
 
-    }, []);
-    const onFinish = () => {
+    }, [id]);
+    useEffect(() => {
+        let testData = [];
+        const answers = questions?.map((answer) => {
+            const a = answer?.answerQuestion;
+            const b = a?.map((v) => { return v.title; });
+            testData.push(b);
+            return a;
+        });
+        setQuestionsAnswers(answers);
+    }, [questions]);
 
+    const onFinish = () => {
         const data = form.getFieldsValue();
         const value = data.Answers.map((v, index) => {
             v.questionID = questions[index].id;
             return v;
         });
-
-
         (async () => {
             await addCourse(value);
             setLoading(false);
@@ -61,30 +69,38 @@ const AddLoginRequestModal = ({ isVisible, setVisible, addCourse }) => {
                                         <Form.List name="Answers">
                                             {() => {
                                                 return (
-                                                    <Row>
-                                                        <Col sm={24} lg={24}>
-                                                            <Form.Item
-                                                                name={[index, "answer"]}
-                                                                rules={[
-                                                                    {
-                                                                        required: true,
-                                                                        message: 'Please Add Answer!',
-                                                                    },
-                                                                ]}
-                                                            >
-                                                                {question.type === 2 || question.type === 3 ?
-                                                                    <CheckboxGroup options={questionsAnswers} />
-                                                                    :
-                                                                    <Input.TextArea onChangeCapture={(value) => {
-                                                                        form.setFieldsValue({
-                                                                            questionID: question.id,
-                                                                            questionsAnswers: [{ answer: value.target.value, questionID: question.id }]
-                                                                        });
-                                                                    }} />}
-                                                            </Form.Item>
-                                                        </Col>
 
-                                                    </Row>
+                                                    <Form.Item
+                                                        name={[index, "answer"]}
+                                                        rules={[
+                                                            {
+                                                                required: true,
+                                                                message: 'Please Add Answer!',
+                                                            },
+                                                        ]}
+                                                    >
+                                                        {question.type === 2 || question.type === 3 ?
+                                                            <Select onSelect={(value) => {
+                                                                form.setFieldsValue({
+                                                                    questionID: question.id,
+                                                                    questionsAnswers: [{ answer: value, questionID: question.id }]
+                                                                });
+                                                            }} >
+                                                                {questionsAnswers[index]?.map((answer, index) => {
+                                                                    return (
+                                                                        <Option key={answer.id} value={answer.title}>{answer.title}</Option>
+                                                                    );
+                                                                })}
+
+                                                            </Select>
+                                                            :
+                                                            <Input.TextArea onChangeCapture={(value) => {
+                                                                form.setFieldsValue({
+                                                                    questionID: question.id,
+                                                                    questionsAnswers: [{ answer: value.target.value, questionID: question.id }]
+                                                                });
+                                                            }} />}
+                                                    </Form.Item>
                                                 );
                                             }}
                                         </Form.List>

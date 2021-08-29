@@ -35,11 +35,11 @@ const CourseDetails = () => {
     const getStudents = useCallback((setCourses, setSpinning) => {
         setSpinning(true);
         (async () => {
-            const data = await coursesLoginServices.showCourseLoginRequestAcceptedLogs();
+            const data = await coursesLoginServices.showCourseLoginRequestAcceptedLogs(id);
             setCourses(data.data.data);
             setSpinning(false);
         })();
-    }, []);
+    }, [id]);
     return (
         <>
             <div className="content">
