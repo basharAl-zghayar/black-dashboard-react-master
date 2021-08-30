@@ -178,7 +178,7 @@ const AddVolunteerModal = ({ isVisible, setVisible, addVolunteer, formValues, up
                                 </Col>
                             </Row>}
                         </TabPane>
-                        <TabPane key='specialist' tab="Specialist" >
+                        <TabPane key='specialist' tab="Specialist" forceRender>
                             <Row gutter={24} justify='space-between'>
                                 <Col sm={24} lg={12}>
                                     <Form.Item

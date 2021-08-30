@@ -9,6 +9,7 @@ const AddLoginRequestModal = ({ isVisible, setVisible, addCourse, id }) => {
     const [form] = Form.useForm();
     const [questions, setQuestions] = useState([]);
     const [questionsAnswers, setQuestionsAnswers] = useState([]);
+
     useEffect(() => {
         (async () => {
             const data = await courseQuestions.showQuestionById(id);
@@ -43,7 +44,7 @@ const AddLoginRequestModal = ({ isVisible, setVisible, addCourse, id }) => {
     return (
         <>
             <Modal
-                title='Login Course'
+                title='Login Request'
                 visible={isVisible}
                 onCancel={() => { setVisible(false); form.resetFields(); }}
                 okButtonProps={{ hidden: true }}

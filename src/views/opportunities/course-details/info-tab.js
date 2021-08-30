@@ -7,10 +7,12 @@ const InfoTab = ({ opportunityInfo }) => {
     const [company, setCompany] = useState();
 
     useEffect(() => {
-        (async () => {
-            const data = await companiesServices.showCompanyById(opportunityInfo?.companyID);
-            setCompany(data.data.data);
-        })();
+        if (opportunityInfo?.companyID !== undefined) {
+            (async () => {
+                const data = await companiesServices.showCompanyById(opportunityInfo?.companyID);
+                setCompany(data.data.data);
+            })();
+        }
     }, [opportunityInfo]);
 
     return (

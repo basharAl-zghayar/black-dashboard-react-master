@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-    Row, Modal, Button, Form, Input, Col, Tabs, DatePicker, Select, InputNumber
+    Row, Modal, Form, Input, Col, Tabs, DatePicker, Select, InputNumber
 }
     from 'antd';
 import moment from 'moment';
@@ -30,25 +30,7 @@ const AddOpportunityModal = ({ isVisible, setVisible, addOpportunity, formValues
             })();
         }
     };
-    useEffect(() => {
-        if (isUpdate) {
-            form.setFieldsValue({
-                title: formValues.title,
-                companyID: formValues.companyID,
-                time: formValues.time,
-                type: formValues.type,
-                scope: formValues.scope,
-                state: formValues.state,
-                lastDateForRegister: moment(formValues.lastDateForRegister),
-                freeDesks: formValues.freeDesks,
-                location: formValues.location,
-                salary: formValues.salary,
-                description: formValues.description,
 
-            });
-        }
-
-    }, [formValues, form, isUpdate]);
     useEffect(() => {
         (async () => {
             const data = await companiesServices.showAllCompanies();
@@ -62,15 +44,37 @@ const AddOpportunityModal = ({ isVisible, setVisible, addOpportunity, formValues
             <Modal
                 title='Add Opportunity'
                 visible={isVisible}
+                okText={isUpdate ? 'Update' : 'Add'}
+                cancelText="Cancel"
                 onCancel={() => { setVisible(false); form.resetFields(); }}
-                okButtonProps={{ hidden: true }}
-                cancelButtonProps={{ hidden: true }}
+                onOk={() => {
+                    form
+                        .validateFields()
+                        .then(values => {
+                            onFinish(values);
+                        });
+                }}
+                okButtonProps={{ loading: loading, disabled: loading }}
+                cancelButtonProps={{ disabled: loading }}
                 width={675}
             >
                 <Form
                     form={form}
                     layout='vertical'
                     onFinish={onFinish}
+                    initialValues={{
+                        title: formValues?.title,
+                        companyID: formValues?.companyID,
+                        time: formValues?.time,
+                        type: formValues?.type,
+                        scope: formValues?.scope,
+                        state: formValues?.state,
+                        freeDesks: formValues?.freeDesks,
+                        location: formValues?.location,
+                        salary: formValues?.salary,
+                        description: formValues?.description,
+                        lastDateForRegister: moment(formValues?.lastDateForRegister),
+                    }}
                 >
                     <Tabs >
                         <TabPane key='info  ' tab="Info" >
@@ -203,24 +207,9 @@ const AddOpportunityModal = ({ isVisible, setVisible, addOpportunity, formValues
                                     </Form.Item>
                                 </Col>
                             </Row>
-                            <Row justify='end'>
-                                <Col style={{ margin: '0 8px 0 0' }}>
-                                    <Form.Item >
-                                        <Button htmlType="button" onClick={() => { setVisible(false); form.resetFields(); }}>
-                                            Close
-                                        </Button>
-                                    </Form.Item>
-                                </Col>
-                                <Form.Item>
-                                    <Col>
-                                        <Button loading={loading} disabled={loading} type="primary" htmlType="submit">
-                                            Add
-                                        </Button>
-                                    </Col>
-                                </Form.Item>
-                            </Row>
+
                         </TabPane>
-                        <TabPane key='date' tab="Description" >
+                        <TabPane key='date' tab="Description" forceRender>
                             <Row gutter={24} justify='space-between'>
                                 <Col sm={24} lg={12}>
                                     <Form.Item
@@ -294,26 +283,6 @@ const AddOpportunityModal = ({ isVisible, setVisible, addOpportunity, formValues
                                     </Form.Item>
 
                                 </Col>
-                            </Row>
-
-                            <Row justify='end'>
-                                <Col style={{ margin: '0 8px 0 0' }}>
-                                    <Form.Item >
-                                        <Button htmlType="button" onClick={() => {
-                                            setVisible(false);
-                                            form.resetFields();
-                                        }}>
-                                            Close
-                                        </Button>
-                                    </Form.Item>
-                                </Col>
-                                <Form.Item>
-                                    <Col>
-                                        <Button loading={loading} disabled={loading} type="primary" htmlType="submit">
-                                            {isUpdate ? 'Update' : 'Add'}
-                                        </Button>
-                                    </Col>
-                                </Form.Item>
                             </Row>
                         </TabPane>
 

@@ -12,11 +12,19 @@ const AddLoginRequestModal = ({ isVisible, setVisible, addCourse, id }) => {
         (async () => {
             const data = await projectRacecourseQuestions.showAllByQuestionID(id);
             setQuestions(data.data.data);
-            setQuestionsAnswers(data.data.data.answerQuestion);
         })();
 
     }, [id]);
-
+    useEffect(() => {
+        let testData = [];
+        const answers = questions?.map((answer) => {
+            const a = answer?.answerQuestion;
+            const b = a?.map((v) => { return v.title; });
+            testData.push(b);
+            return a;
+        });
+        setQuestionsAnswers(answers);
+    }, [questions]);
     const onFinish = () => {
 
         const data = form.getFieldsValue();
@@ -36,7 +44,7 @@ const AddLoginRequestModal = ({ isVisible, setVisible, addCourse, id }) => {
     return (
         <>
             <Modal
-                title='Login Course'
+                title='Login Request'
                 visible={isVisible}
                 onCancel={() => { setVisible(false); form.resetFields(); }}
                 okButtonProps={{ hidden: true }}

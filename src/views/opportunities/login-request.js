@@ -11,10 +11,20 @@ const AddLoginRequestModal = ({ isVisible, setVisible, addCourse, id }) => {
         (async () => {
             const data = await opportunityQuestions.showAllByQuestionID(id);
             setQuestions(data.data.data);
-            setQuestionsAnswers(data.data.data.answerQuestion);
         })();
 
     }, [id]);
+    useEffect(() => {
+        let testData = [];
+        const answers = questions?.map((answer) => {
+            const a = answer?.answerQuestion;
+            const b = a?.map((v) => { return v.title; });
+            testData.push(b);
+            return a;
+        });
+        setQuestionsAnswers(answers);
+    }, [questions]);
+
     const onFinish = () => {
 
         const data = form.getFieldsValue();
@@ -34,7 +44,7 @@ const AddLoginRequestModal = ({ isVisible, setVisible, addCourse, id }) => {
     return (
         <>
             <Modal
-                title='Login Course'
+                title='Login Request'
                 visible={isVisible}
                 onCancel={() => { setVisible(false); form.resetFields(); }}
                 okButtonProps={{ hidden: true }}
@@ -47,7 +57,6 @@ const AddLoginRequestModal = ({ isVisible, setVisible, addCourse, id }) => {
                     onFinish={onFinish}
                 >
                     {questions.map((question, index) => {
-                        console.log(question.type);
                         return (
                             <div style={{
                                 margin: '16px 0',
@@ -71,11 +80,11 @@ const AddLoginRequestModal = ({ isVisible, setVisible, addCourse, id }) => {
                                                             },
                                                         ]}
                                                     >
-                                                        {question.type === 2 || question.type === 3 ?
+                                                        {question?.type === 2 || question?.type === 3 ?
                                                             <Select onSelect={(value) => {
                                                                 form.setFieldsValue({
-                                                                    questionID: question.id,
-                                                                    questionsAnswers: [{ answer: value, questionID: question.id }]
+                                                                    questionID: question?.id,
+                                                                    questionsAnswers: [{ answer: value, questionID: question?.id }]
                                                                 });
                                                             }} >
                                                                 {questionsAnswers[index]?.map((answer, index) => {
@@ -88,7 +97,7 @@ const AddLoginRequestModal = ({ isVisible, setVisible, addCourse, id }) => {
                                                             :
                                                             <Input.TextArea onChangeCapture={(value) => {
                                                                 form.setFieldsValue({
-                                                                    questionID: question.id,
+                                                                    questionID: question?.id,
                                                                     questionsAnswers: [{ answer: value.target.value, questionID: question.id }]
                                                                 });
                                                             }} />}

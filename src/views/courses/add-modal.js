@@ -188,13 +188,13 @@ const AddCourseModal = ({ isVisible, setVisible, addCourse, formValues, updateCo
                                 <Form.Item>
                                     <Col>
                                         <Button loading={loading} disabled={loading} type="primary" htmlType="submit">
-                                            Add
+                                            {isUpdate ? 'Update' : 'Add'}
                                         </Button>
                                     </Col>
                                 </Form.Item>
                             </Row>
                         </TabPane>
-                        <TabPane key='date' tab="Dates and Duration" >
+                        <TabPane key='date' tab="Dates and Duration" forceRender>
                             <Row gutter={24} justify='space-between'>
                                 <Col sm={24} lg={12}>
                                     <Form.Item
