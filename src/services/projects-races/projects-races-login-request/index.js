@@ -4,11 +4,11 @@ import AppConsts from '../../../app-consts';
 
 const apiEndpoint = AppConsts.remoteServiceBaseUrl + "/projectsRaceLoginRequest/";
 
-export async function addOpportunityLoginRequest(OpportunityLoginRequest) {
+export async function addProjectsRaceLoginRequest(OpportunityLoginRequest) {
     const data = await http.post(apiEndpoint + 'add', OpportunityLoginRequest);
     return data;
 }
-export async function updateOpportunityLoginRequest(OpportunityLoginRequest) {
+export async function updateProjectsRaceLoginRequest(OpportunityLoginRequest) {
     const data = await http.put(apiEndpoint + 'edit', OpportunityLoginRequest);
     return data;
 }

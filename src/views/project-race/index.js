@@ -6,7 +6,7 @@ import { columns } from './columns';
 import AddProjectRaceModal from './add-modal';
 import { useHistory } from "react-router-dom";
 import * as projectRaceServices from '../../services/projects-races';
-import * as exhibitionLoginServices from '../../services/exhibition/exhibition-login-request';
+import * as exhibitionLoginServices from '../../services/projects-races/projects-races-login-request';
 import AddLoginRequestModal from "./login-request";
 
 function ProjectRace(props) {
@@ -65,7 +65,7 @@ function ProjectRace(props) {
         render: (text, record, index) => {
             return (
                 type === '2' ? <Col>
-                    <Tooltip title={record?.state === 1 ? 'Add Request' : 'You Can\'t Add Request'}>
+                    <Tooltip title={'Add Request'}>
                         <Button
                             type='link'
                             size="small"
@@ -140,7 +140,7 @@ function ProjectRace(props) {
         data.state = 1;
         data.Answers = values;
         (async () => {
-            await exhibitionLoginServices.addExhibitionLoginRequest(data);
+            await exhibitionLoginServices.addProjectsRaceLoginRequest(data);
             setLogModalVisible(false);
         })();
     };

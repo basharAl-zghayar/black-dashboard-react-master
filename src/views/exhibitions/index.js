@@ -77,7 +77,7 @@ function Exhibitions(props) {
         render: (text, record, index) => {
             return (
                 type === '2' ? <Col>
-                    <Tooltip title={record?.state === 1 ? 'Add Request' : 'You Can\'t Add Request'}>
+                    <Tooltip title={'Add Request'}>
                         <Button
                             type='link'
                             size="small"
