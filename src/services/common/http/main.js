@@ -42,7 +42,7 @@ class httpClientFactory {
                                 }
                                 else if (error?.response?.status === 404) {
 
-                                        alert(error.response.message);
+                                        alert(error.response.data.message);
                                 }
                                 setTimeout(() => { }, 1000);
 

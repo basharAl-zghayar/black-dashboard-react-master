@@ -8,11 +8,13 @@ const AddLoginRequestModal = ({ isVisible, setVisible, addCourse, id }) => {
     const [questionsAnswers, setQuestionsAnswers] = useState([]);
 
     useEffect(() => {
-        (async () => {
-            const data = await opportunityQuestions.showAllByQuestionID(id);
-            setQuestions(data.data.data);
-        })();
+        if (id) {
+            (async () => {
+                const data = await opportunityQuestions.showAllByQuestionID(id);
+                setQuestions(data.data.data);
+            })();
 
+        }
     }, [id]);
     useEffect(() => {
         let testData = [];
