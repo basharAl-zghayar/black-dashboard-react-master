@@ -7,7 +7,7 @@ import * as coursesLoginRequestServices from '../../../../services/projects-race
 import * as exhibitionAnswersServices from '../../../../services/projects-races/projects-races-answer';
 import StudentAnswersModal from './login-request-answers';
 
-const LoginRequestsTab = ({ courseID, getQuestions }) => {
+const LoginRequestsTab = ({ projectRaceID, getQuestions }) => {
 
     const [spinning, setSpinning] = useState(true);
     const [record, setRecord] = useState();
@@ -31,7 +31,7 @@ const LoginRequestsTab = ({ courseID, getQuestions }) => {
     const getData = () => {
         setSpinning(true);
         (async () => {
-            const data = await coursesLoginRequestServices.showProjectsRaceLoginRequestById(courseID);
+            const data = await coursesLoginRequestServices.showProjectsRaceLoginRequestById(projectRaceID);
             setDataSource(data.data.data);
             setSpinning(false);
         })();
@@ -39,7 +39,7 @@ const LoginRequestsTab = ({ courseID, getQuestions }) => {
     const AcceptRequest = () => {
         setSpinning(true);
         (async () => {
-            await coursesLoginRequestServices.acceptLoginRequest({ studentID: record.student?.id, courseID: courseID });
+            await coursesLoginRequestServices.acceptLoginRequest({ studentID: record.student?.id, projectsRaceID: projectRaceID });
             getData();
             setAcceptModalVisible(false);
             setSpinning(false);
@@ -48,7 +48,7 @@ const LoginRequestsTab = ({ courseID, getQuestions }) => {
     const RejectRequest = () => {
         setSpinning(true);
         (async () => {
-            await coursesLoginRequestServices.rejectLoginRequest({ studentID: record.student?.id, courseID: courseID });
+            await coursesLoginRequestServices.rejectLoginRequest({ studentID: record.student?.id, projectsRaceID: projectRaceID });
             getData();
             setRejectModalVisible(false);
             setSpinning(false);
