@@ -18,7 +18,7 @@ const LoginRequestsTab = ({ exhibitionID, getQuestions }) => {
     const [courseQuestions, setCourseQuestions] = useState([]);
     const [studentAnswers, setStudentAnswers] = useState([]);
     const [dataSource, setDataSource] = useState([]);
-
+    console.log(exhibitionID);
     useEffect(() => {
         getData();
     }, []);
@@ -40,7 +40,7 @@ const LoginRequestsTab = ({ exhibitionID, getQuestions }) => {
     const AcceptRequest = () => {
         setSpinning(true);
         (async () => {
-            await exhibitionsLoginRequestServices.acceptLoginRequest({ studentID: record.student.id, exhibitionID: exhibitionID });
+            await exhibitionsLoginRequestServices.acceptLoginRequest({ studentID: record.student.id, exhibitionID: Number(exhibitionID) });
             getData();
             setAcceptModalVisible(false);
             setSpinning(false);
