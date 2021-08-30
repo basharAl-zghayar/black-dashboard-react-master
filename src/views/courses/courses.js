@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-import { Table, Row, Modal, Button, Col, Spin, Tooltip, Typography, Card } from 'antd';
+import { Table, Row, Modal, Button, Col, Spin, Tooltip, Typography, Card, Tabs } from 'antd';
 import { ArrowRightOutlined, DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { columns } from './columns';
+import { logColumns } from './login-columns';
 import AddCourseModal from './add-modal';
 import * as coursesServices from '../../services/courses/index';
 import * as coursesLoginServices from '../../services/courses/course-login-request';
@@ -16,13 +17,25 @@ function Courses(props) {
     const [spinning, setSpinning] = useState(true);
     const [record, setRecord] = useState();
     const [courses, setCourses] = useState([]);
+    const [loginRequests, setLoginRequests] = useState([]);
     const [isUpdate, setIsUpdate] = useState(false);
 
     const history = useHistory();
     useEffect(() => {
         getData();
     }, []);
+    const id = localStorage.getItem('userId');
     const type = localStorage.getItem('userType');
+    useEffect(() => {
+        if (type === '2') {
+            (async () => {
+                const data = await coursesLoginServices.showCourseLoginRequestByStudentId(id);
+                setLoginRequests(data?.data?.data);
+
+            })();
+
+        }
+    }, [id, type]);
     const getData = () => {
         setSpinning(true);
         (async () => {
@@ -148,58 +161,70 @@ function Courses(props) {
     return (
         <>
             <div className="content">
-                <Card style={{ minHeight: '85vh', borderRadius: '5px' }}>
-                    <Spin spinning={spinning} >
-                        {type === '2' ? null : <Row justify='end' align='middle'>
 
-                            <Button type='primary' onClick={() => {
-                                type === '2' ? setLogModalVisible(true) :
-                                    setModalVisible(true);
-                                setIsUpdate(false);
-                            }} >
-                                {type === '2' ? <Row align='middle'>
-                                    <PlusOutlined /> Login  Course
-                                </Row> :
-                                    <Row align='middle'>
-                                        <PlusOutlined /> Add  Course
-                                    </Row>}
-                            </Button>
-                        </Row>}
-                        <Row>
-                            <Table dataSource={courses} columns={[...columns, actionColumn]} style={{
+                <Card style={{ minHeight: '85vh', borderRadius: '5px' }}>
+                    <Tabs>
+                        <Tabs.TabPane tab='Courses' key='courses'>
+                            <Spin spinning={spinning} >
+                                {type === '2' ? null : <Row justify='end' align='middle'>
+
+                                    <Button type='primary' onClick={() => {
+                                        type === '2' ? setLogModalVisible(true) :
+                                            setModalVisible(true);
+                                        setIsUpdate(false);
+                                    }} >
+                                        {type === '2' ? <Row align='middle'>
+                                            <PlusOutlined /> Login  Course
+                                        </Row> :
+                                            <Row align='middle'>
+                                                <PlusOutlined /> Add  Course
+                                            </Row>}
+                                    </Button>
+                                </Row>}
+                                <Row>
+                                    <Table dataSource={courses} columns={[...columns, actionColumn]} style={{
+                                        width: '100%',
+                                        padding: ' 16px 0 0',
+                                        borderRadius: '7px'
+                                    }} />
+                                </Row>
+                                <AddCourseModal
+                                    isVisible={isModalVisible}
+                                    setVisible={setModalVisible}
+                                    addCourse={onFinish}
+                                    formValues={record}
+                                    updateCourse={updateCourse}
+                                    isUpdate={isUpdate}
+                                />
+                                <AddLoginRequestModal
+                                    isVisible={logModalVisible}
+                                    setVisible={setLogModalVisible}
+                                    addCourse={addLogRequest}
+                                    id={record?.id}
+                                />
+
+                                <Modal
+                                    title='Delete  Course'
+                                    visible={isDeleteModalVisible}
+                                    onCancel={() => { setDeleteModalVisible(false); }}
+                                    onOk={() => handleDelete()}
+
+                                >
+                                    <Typography.Text strong>
+                                        Are you Sure You Want To Delete This  Course ?
+                                    </Typography.Text>
+
+                                </Modal>
+                            </Spin>
+                        </Tabs.TabPane>
+                        {type === '2' ? <Tabs.TabPane tab="My Login Requests" key='login-requests'>
+                            <Table dataSource={loginRequests} columns={logColumns} style={{
                                 width: '100%',
                                 padding: ' 16px 0 0',
                                 borderRadius: '7px'
                             }} />
-                        </Row>
-                        <AddCourseModal
-                            isVisible={isModalVisible}
-                            setVisible={setModalVisible}
-                            addCourse={onFinish}
-                            formValues={record}
-                            updateCourse={updateCourse}
-                            isUpdate={isUpdate}
-                        />
-                        <AddLoginRequestModal
-                            isVisible={logModalVisible}
-                            setVisible={setLogModalVisible}
-                            addCourse={addLogRequest}
-                            id={record?.id}
-                        />
-
-                        <Modal
-                            title='Delete  Course'
-                            visible={isDeleteModalVisible}
-                            onCancel={() => { setDeleteModalVisible(false); }}
-                            onOk={() => handleDelete()}
-
-                        >
-                            <Typography.Text strong>
-                                Are you Sure You Want To Delete This  Course ?
-                            </Typography.Text>
-
-                        </Modal>
-                    </Spin>
+                        </Tabs.TabPane> : null}
+                    </Tabs>
                 </Card>
             </div>
         </>

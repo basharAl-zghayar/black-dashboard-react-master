@@ -44,11 +44,11 @@ const AddQuestionModal = ({
             data.required = false;
         }
         const modAnswers = values.questionsAnswers.map((answer) => {
-
+            if (answer.state === false || answer?.state === undefined) {
+                answer.state = 2;
+            }
             if (answer.state === true) {
                 answer.state = 1;
-            } else if (answer.state === false) {
-                answer.state = 2;
             }
             return answer;
         });

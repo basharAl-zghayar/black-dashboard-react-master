@@ -25,7 +25,7 @@ const QuestionsTab = ({ projectRaceID, getData }) => {
         (async () => {
             await projectRacesQuestionsServices.deleteQuestion(record.id);
             setDeleteModalVisible(false);
-            getData();
+            getData(setQuestions, setSpinning);
             setSpinning(false);
         })();
     };
@@ -33,7 +33,7 @@ const QuestionsTab = ({ projectRaceID, getData }) => {
         (async () => {
             await projectRacesQuestionsServices.addQuestion({ ...values, projectsRaceId: Number(projectRaceID) });
             setQuestionModalVisible(false);
-            getData();
+            getData(setQuestions, setSpinning);
             setSpinning(false);
         })();
     };
@@ -41,7 +41,7 @@ const QuestionsTab = ({ projectRaceID, getData }) => {
         (async () => {
             await projectRacesQuestionsServices.update({ ...values, projectsRaceId: Number(projectRaceID), id: record.id });
             setQuestionModalVisible(false);
-            getData();
+            getData(setQuestions, setSpinning);
             setSpinning(false);
         })();
     };

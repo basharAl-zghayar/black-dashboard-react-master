@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-import { Table, Row, Modal, Button, Col, Spin, Tooltip, Typography, Card } from 'antd';
+import { Table, Row, Modal, Button, Col, Spin, Tooltip, Typography, Card, Tabs } from 'antd';
 import { ArrowRightOutlined, DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { columns } from './columns';
+import { logColumns } from './login-columns';
 import AddProjectRaceModal from './add-modal';
 import { useHistory } from "react-router-dom";
 import * as projectRaceServices from '../../services/projects-races';
@@ -18,7 +19,19 @@ function ProjectRace(props) {
     const [projectRace, setProjectRace] = useState([]);
     const [isUpdate, setIsUpdate] = useState(false);
     const [logModalVisible, setLogModalVisible] = useState(false);
+    const [loginRequests, setLoginRequests] = useState([]);
+    const id = localStorage.getItem('userId');
     const type = localStorage.getItem('userType');
+    useEffect(() => {
+        if (type === '2') {
+            (async () => {
+                const data = await exhibitionLoginServices.showOpportunityLoginRequestByStudentId(id);
+                setLoginRequests(data?.data?.data);
+
+            })();
+
+        }
+    }, [id, type]);
     useEffect(() => {
         getData();
     }, []);
@@ -148,57 +161,68 @@ function ProjectRace(props) {
         <>
             <div className="content">
                 <Card style={{ minHeight: '85vh', borderRadius: '5px' }}>
-                    <Spin spinning={spinning} >
-                        {type === '2' ? null : <Row justify='end' align='middle'>
+                    <Tabs>
+                        <Tabs.TabPane tab='Project Races' key='courses'>
+                            <Spin spinning={spinning} >
+                                {type === '2' ? null : <Row justify='end' align='middle'>
 
-                            <Button type='primary' onClick={() => {
-                                type === '2' ? setLogModalVisible(true) :
-                                    setModalVisible(true);
-                                setIsUpdate(false);
-                            }} >
-                                {type === '2' ? <Row align='middle'>
-                                    <PlusOutlined /> Login  Course
-                                </Row> :
-                                    <Row align='middle'>
-                                        <PlusOutlined /> Add Project Race
-                                    </Row>}
-                            </Button>
-                        </Row>}
-                        <Row>
-                            <Table dataSource={projectRace} columns={[...columns, actionColumn]} style={{
+                                    <Button type='primary' onClick={() => {
+                                        type === '2' ? setLogModalVisible(true) :
+                                            setModalVisible(true);
+                                        setIsUpdate(false);
+                                    }} >
+                                        {type === '2' ? <Row align='middle'>
+                                            <PlusOutlined /> Login  Course
+                                        </Row> :
+                                            <Row align='middle'>
+                                                <PlusOutlined /> Add Project Race
+                                            </Row>}
+                                    </Button>
+                                </Row>}
+                                <Row>
+                                    <Table dataSource={projectRace} columns={[...columns, actionColumn]} style={{
+                                        width: '100%',
+                                        padding: ' 16px 0 0',
+                                        borderRadius: '7px'
+                                    }} />
+                                </Row>
+                                <AddProjectRaceModal
+                                    isVisible={isModalVisible}
+                                    setVisible={setModalVisible}
+                                    addProjectRace={onFinish}
+                                    formValues={record}
+                                    updateProjectRace={updateProjectRace}
+                                    isUpdate={isUpdate}
+
+                                />
+                                <AddLoginRequestModal
+                                    isVisible={logModalVisible}
+                                    setVisible={setLogModalVisible}
+                                    addCourse={addLogRequest}
+                                    id={record?.id}
+                                />
+                                <Modal
+                                    title='Delete  ProjectRace'
+                                    visible={isDeleteModalVisible}
+                                    onCancel={() => { setDeleteModalVisible(false); }}
+                                    onOk={() => handleDelete()}
+
+                                >
+                                    <Typography.Text strong>
+                                        Are you Sure You Want To Delete This  ProjectRace ?
+                                    </Typography.Text>
+
+                                </Modal>
+                            </Spin>
+                        </Tabs.TabPane>
+                        {type === '2' ? <Tabs.TabPane tab="My Login Requests" key='login-requests'>
+                            <Table dataSource={loginRequests} columns={logColumns} style={{
                                 width: '100%',
                                 padding: ' 16px 0 0',
                                 borderRadius: '7px'
                             }} />
-                        </Row>
-                        <AddProjectRaceModal
-                            isVisible={isModalVisible}
-                            setVisible={setModalVisible}
-                            addProjectRace={onFinish}
-                            formValues={record}
-                            updateProjectRace={updateProjectRace}
-                            isUpdate={isUpdate}
-
-                        />
-                        <AddLoginRequestModal
-                            isVisible={logModalVisible}
-                            setVisible={setLogModalVisible}
-                            addCourse={addLogRequest}
-                            id={record?.id}
-                        />
-                        <Modal
-                            title='Delete  ProjectRace'
-                            visible={isDeleteModalVisible}
-                            onCancel={() => { setDeleteModalVisible(false); }}
-                            onOk={() => handleDelete()}
-
-                        >
-                            <Typography.Text strong>
-                                Are you Sure You Want To Delete This  ProjectRace ?
-                            </Typography.Text>
-
-                        </Modal>
-                    </Spin>
+                        </Tabs.TabPane> : null}
+                    </Tabs>
                 </Card>
             </div>
         </>

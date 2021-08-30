@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-import { Table, Row, Modal, Button, Col, Spin, Tooltip, Typography, Card } from 'antd';
+import { Table, Row, Modal, Button, Col, Spin, Tooltip, Typography, Card, Tabs } from 'antd';
 import { ArrowRightOutlined, DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { columns } from './columns';
+import { logColumns } from './login-columns';
 import AddOpportunityModal from './add-modal';
 import { useHistory } from "react-router-dom";
 import * as opportunityServices from '../../services/opportunities';
@@ -19,8 +20,19 @@ function Opportunity(props) {
     const [record, setRecord] = useState();
     const [opportunity, setOpportunity] = useState([]);
     const [isUpdate, setIsUpdate] = useState(false);
+    const [loginRequests, setLoginRequests] = useState([]);
+    const id = localStorage.getItem('userId');
     const type = localStorage.getItem('userType');
+    useEffect(() => {
+        if (type === '2') {
+            (async () => {
+                const data = await opportunityLogServices.showOpportunityLoginRequestByStudentId(id);
+                setLoginRequests(data?.data?.data);
 
+            })();
+
+        }
+    }, [id, type]);
     useEffect(() => {
         getData();
     }, []);
@@ -151,58 +163,69 @@ function Opportunity(props) {
         <>
             <div className="content">
                 <Card style={{ minHeight: '85vh', borderRadius: '5px' }}>
-                    <Spin spinning={spinning} >
-                        {type === '2' ? null : <Row justify='end' align='middle'>
+                    <Tabs>
+                        <Tabs.TabPane tab='Opportunities' key='courses'>
+                            <Spin spinning={spinning} >
+                                {type === '2' ? null : <Row justify='end' align='middle'>
 
-                            <Button type='primary' onClick={() => {
-                                type === '2' ? setLogModalVisible(true) :
-                                    setModalVisible(true);
-                                setIsUpdate(false);
-                            }} >
-                                {type === '2' ? <Row align='middle'>
-                                    <PlusOutlined /> Login  Course
-                                </Row> :
-                                    <Row align='middle'>
-                                        <PlusOutlined /> Add  Opportunity
-                                    </Row>}
-                            </Button>
-                        </Row>}
-                        <Row>
-                            <Table dataSource={opportunity} columns={[...columns, actionColumn]} style={{
+                                    <Button type='primary' onClick={() => {
+                                        type === '2' ? setLogModalVisible(true) :
+                                            setModalVisible(true);
+                                        setIsUpdate(false);
+                                    }} >
+                                        {type === '2' ? <Row align='middle'>
+                                            <PlusOutlined /> Login  Course
+                                        </Row> :
+                                            <Row align='middle'>
+                                                <PlusOutlined /> Add  Opportunity
+                                            </Row>}
+                                    </Button>
+                                </Row>}
+                                <Row>
+                                    <Table dataSource={opportunity} columns={[...columns, actionColumn]} style={{
+                                        width: '100%',
+                                        padding: ' 16px 0 0',
+                                        borderRadius: '7px'
+                                    }} />
+                                </Row>
+                                <AddOpportunityModal
+                                    isVisible={isModalVisible}
+                                    setVisible={setModalVisible}
+                                    addOpportunity={onFinish}
+                                    formValues={record}
+                                    updateOpportunity={updateOpportunity}
+                                    isUpdate={isUpdate}
+
+                                />
+                                <AddLoginRequestModal
+                                    isVisible={logModalVisible}
+                                    setVisible={setLogModalVisible}
+                                    addCourse={addLogRequest}
+                                    id={record?.id}
+                                />
+
+                                <Modal
+                                    title='Delete  Opportunity'
+                                    visible={isDeleteModalVisible}
+                                    onCancel={() => { setDeleteModalVisible(false); }}
+                                    onOk={() => handleDelete()}
+
+                                >
+                                    <Typography.Text strong>
+                                        Are you Sure You Want To Delete This  Opportunity ?
+                                    </Typography.Text>
+
+                                </Modal>
+                            </Spin>
+                        </Tabs.TabPane>
+                        {type === '2' ? <Tabs.TabPane tab="My Login Requests" key='login-requests'>
+                            <Table dataSource={loginRequests} columns={logColumns} style={{
                                 width: '100%',
                                 padding: ' 16px 0 0',
                                 borderRadius: '7px'
                             }} />
-                        </Row>
-                        <AddOpportunityModal
-                            isVisible={isModalVisible}
-                            setVisible={setModalVisible}
-                            addOpportunity={onFinish}
-                            formValues={record}
-                            updateOpportunity={updateOpportunity}
-                            isUpdate={isUpdate}
-
-                        />
-                        <AddLoginRequestModal
-                            isVisible={logModalVisible}
-                            setVisible={setLogModalVisible}
-                            addCourse={addLogRequest}
-                            id={record?.id}
-                        />
-
-                        <Modal
-                            title='Delete  Opportunity'
-                            visible={isDeleteModalVisible}
-                            onCancel={() => { setDeleteModalVisible(false); }}
-                            onOk={() => handleDelete()}
-
-                        >
-                            <Typography.Text strong>
-                                Are you Sure You Want To Delete This  Opportunity ?
-                            </Typography.Text>
-
-                        </Modal>
-                    </Spin>
+                        </Tabs.TabPane> : null}
+                    </Tabs>
                 </Card>
             </div>
         </>
